@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+  </head>
+
+  <body class="bg-black z-50 text-white inset-0 flex justify-center">
+    <nav
+      class="flex font-serif justify-between border-b-[1px] items-center absolute md:w-11/12 mx-auto w-[100%] h-fit md:text-2xl xl:text-3xl 2xl:text-4xl"
+    >
+      <div class="menu h-12 w-12 md:hidden">
+        <div
+          class="hamburger cursor-pointer duration-300 flex flex-col m-2 py-2"
+        >
+          <div class="lines h-0.5 w-6 m-0.5 rounded-sm bg-white"></div>
+          <div class="lines h-0.5 w-5 m-0.5 rounded-sm bg-white"></div>
+          <div class="lines h-0.5 w-4 m-0.5 rounded-sm bg-white"></div>
+        </div>
+        <div
+          class="cross cursor-pointer py-2 duration-300 -translate-y-96 mx-2 text-2xl"
+        >
+          ✕
+        </div>
+      </div>
+      <div
+        class="menu-list absolute duration-300 md:static top-12 w-[100%] bg-gray-600 md:bg-black md:w-fit -translate-x-full md:flex z-50 md:-translate-x-0 md:order-2"
+      >
+        <ul
+          class="flex flex-col md:flex-row md:text-lg lg:text-2xl items-center space-y-4 m-2 sm:space-x-1 md:space-y-0 md:flex lg:space-x-2 xl:space-x-6"
+        >
+          <li
+            class="lists py-1 hover:border hover:border-1 hover:border-gray-200 rounded-lg px-2 cursor-pointer md:hover:text-purple-300 md:border-none"
+          >
+            <a> Home </a>
+          </li>
+          <li
+            class="lists py-1 hover:border hover:border-1 hover:border-gray-200 rounded-lg px-2 cursor-pointer md:hover:text-purple-300 md:border-none"
+          >
+            <a> About </a>
+          </li>
+          <li
+            class="lists py-1 hover:border hover:border-1 hover:border-gray-200 rounded-lg px-2 cursor-pointer md:hover:text-purple-300 md:border-none"
+          >
+            <a> Skills </a>
+          </li>
+          <li
+            class="lists py-1 hover:border hover:border-1 hover:border-gray-200 rounded-lg px-2 cursor-pointer md:hover:text-purple-300 md:border-none"
+          >
+            <a> Portfolio </a>
+          </li>
+          <li
+            class="lists py-1 hover:border hover:border-1 hover:border-gray-200 rounded-lg px-2 cursor-pointer md:hover:text-purple-300 md:border-none"
+          >
+            <a> Contact </a>
+          </li>
+          <li class="py-1 hidden md:flex text-[rgb(155,73,185)]">|</li>
+        </ul>
+      </div>
+      <div class="portfolio font-bold flex m-2 md:order-1">
+        Port<span class="text-blue-700">folio</span>
+      </div>
+      <button
+        class="px-1.5 md:px-1.5 relative md:py-1 mr-2 md:order-3 h-fit text-lg md:text-xl xl:text-2xl flex justify-center items-center overflow-hidden before:z-[-1] before:inset-0 before:absolute before:rounded-lg before:bg-gradient-to-br before:from-[#43e97b] before:via-[#7a40ff] before:to-[#38f9d7] hover:before:from-[#941456] hover:before:to-[#1274c4] transition-all duration-300"
+      >
+        Hire me
+      </button>
+    </nav>
+    <main
+      class="flex flex-col md:flex-row space-y-4 md:space-x-24 z-40 absolute top-20 md:-top-8 md:w-11/12 lg:top-2 xl:top-10 justify-center items-center"
+    >
+      <div
+        class="profile flex relative md:top-20 xl:top-12 h-40 w-40 md:h-56 md:w-60 lg:h-72 lg:w-72 rounded-full justify-center items-center bg-gradient-to-br from-[#43e97b] via-[#7a40ff] to-[#38f9d7] shadow-[0_0_40px_#008cff]"
+      >
+        <img class="z-40" src="/assets/profile1-DdFGbVcT.png" alt="" />
+        <!-- rgb(146 89 193); -->
+      </div>
+      <div
+        class="details relative md:top-32 space-y-5 flex flex-col w-5/6 md:w-3/5 items-start"
+      >
+        <div>
+          <p class="text-lg md:text-base lg:text-2xl">Hello, i'm</p>
+          <h3 class="text-2xl md:text-xl lg:text-4xl font-bold">
+            Ram Kumar Yadav
+          </h3>
+          <p class="text-xl md:text-lg lg:text-3xl z-50">
+            And i'm a
+            <span class="web-dev text-blue-500 font-semibold"></span>
+          </p>
+          <p class="text-sm lg:text-xl mt-2 hidden md:block">
+            I'm a second-year Computer Science Engineering student passionate
+            about building responsive and dynamic web applications. I enjoy
+            exploring new technologies and continuously learning to improve my
+            skills in fronted and backend development. Currently focusing on
+            mastering HTML, CSS, Tailwind and JavaScript.
+          </p>
+          <p class="text-[rgb(110,255,207)] mt-2 hidden md:block">
+            Let's build something great together!
+          </p>
+          <p class="mt-2 md:hidden">
+            I'm a second-year Computer Science Engineering student passionate
+            about building responsive and dynamic web applications.
+          </p>
+          <p class="mt-2 md:hidden">
+            Currently focusing on mastering HTML, CSS, Tailwind and JavaScript.
+          </p>
+          <p class="text-lg text-[rgb(110,255,207)] mt-2 md:hidden">
+            Let's build something great together!
+          </p>
+        </div>
+        <div class="logo flex space-x-6 ml-2">
+          <a href="https://web.facebook.com/ram.yadav09" target="_blank"
+            ><img class="h-8 w-8" src="/assets/fb-HBIdLJH8.png" alt="#"
+          /></a>
+          <a href="https://www.instagram.com/ramky09/" target="_blank"
+            ><img class="h-8 w-8" src="/assets/inst-BqWq5iCH.png" alt="#"
+          /></a>
+          <a href="#" target="_blank"
+            ><img class="h-8 w-8" src="/assets/x-hHFMxvQ0.png" alt="#"
+          /></a>
+        </div>
+        <button
+          class="z-10 relative px-6 py-2 md:px-8 md:py-2 rounded-3xl h-fit text-lg md:text-xl xl:text-2xl flex justify-center items-center overflow-hidden before:z-[-1] before:inset-0 before:absolute before:rounded-full before:bg-gradient-to-br before:from-[#008cff] before:to-[#e100ff] hover:before:from-[#941456] hover:before:to-[#1274c4] transition-all duration-300"
+        >
+          Resume
+        </button>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
