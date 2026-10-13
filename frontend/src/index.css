@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Intelligence Workspace — design tokens
+   Every visual decision lives here. Tailwind v4 turns the `@theme` entries
+   into both CSS custom properties and utility classes, so `bg-surface`,
+   `text-fg-muted`, `rounded-lg` and `shadow-panel` all resolve to these values.
+   =========================================================================== */
+@theme {
+  /* --- surfaces --- */
+  --color-ink: #11152a;
+  --color-ink-deep: #0b0e1c;
+  --color-surface: #191e37;
+  --color-surface-raised: #1f2441;
+  --color-surface-inset: #151a34;
+
+  /* --- accents --- */
+  --color-violet: #a77bff;
+  --color-violet-bright: #c3a4ff;
+  --color-violet-deep: #6d4fbd;
+  --color-mint: #8de8c0;
+  --color-mint-deep: #46b98c;
+
+  /* --- text (all meet WCAG AA on --color-ink) --- */
+  --color-fg: #f4f5fc;
+  --color-fg-muted: #b8bed2;
+  --color-fg-subtle: #8b93ad;
+
+  /* --- lines, focus, states --- */
+  --color-line: #262c48;
+  --color-line-strong: #3b4470;
+  --color-focus: #8de8c0;
+  --color-positive: #8de8c0;
+  --color-caution: #ffcf8f;
+  --color-info: #a9c6ff;
+
+  /* --- typography --- */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* --- radii --- */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* --- elevation: thin borders and soft ambient light, never heavy glass --- */
+  --shadow-ambient: 0 18px 45px -28px rgb(4 6 16 / 0.9);
+  --shadow-panel:
+    0 30px 70px -40px rgb(4 6 16 / 0.95), inset 0 1px 0 0 rgb(255 255 255 / 0.04);
+  --shadow-glow: 0 24px 60px -34px rgb(167 123 255 / 0.65);
+
+  /* --- motion --- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Transition timings are plain custom properties because Tailwind has no
+   `--duration-*` namespace; components reference them from CSS below. */
+:root {
+  --duration-fast: 140ms;
+  --duration-base: 240ms;
+  --duration-slow: 460ms;
+  --header-height: 4.25rem;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-ink);
+    color-scheme: dark;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Belt and braces against accidental horizontal scroll on small screens. */
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+    color: var(--color-fg);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* One visible, high-contrast focus ring for every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: rgb(167 123 255 / 0.38);
+    color: var(--color-fg);
+  }
+
+  /* Anchored sections clear the sticky header when jumped to. */
+  [id] {
+    scroll-margin-top: calc(var(--header-height) + 1.25rem);
+  }
+
+  /* Ambient violet lighting: one fixed layer, no per-section effects. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(52rem 34rem at 6% -10%, rgb(167 123 255 / 0.18), transparent 62%),
+      radial-gradient(40rem 30rem at 102% 2%, rgb(141 232 192 / 0.09), transparent 60%),
+      radial-gradient(60rem 40rem at 50% 112%, rgb(109 79 189 / 0.14), transparent 66%);
+  }
+}
+
+@layer components {
+  /* The one shared surface treatment: hairline border, faint top light,
+     soft drop shadow. Deliberately not a blurred "glass" card. */
+  .panel {
+    position: relative;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background-color: color-mix(in oklab, var(--color-surface) 90%, var(--color-ink));
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.035), transparent 45%);
+    box-shadow: var(--shadow-panel);
+  }
+
+  .panel-flat {
+    position: relative;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    background-color: color-mix(in oklab, var(--color-surface) 72%, var(--color-ink));
+  }
+
+  /* Small uppercase monospaced label used for eyebrow text and diagram nodes. */
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-fg-subtle);
+  }
+
+  /* Faint blueprint grid, used only behind the hero. */
+  .grid-texture {
+    background-image:
+      linear-gradient(to right, rgb(148 163 214 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(148 163 214 / 0.07) 1px, transparent 1px);
+    background-size: 52px 52px;
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, #000 20%, transparent 78%);
+    mask-image: radial-gradient(70% 60% at 50% 35%, #000 20%, transparent 78%);
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-line-strong) 18%,
+      var(--color-line-strong) 82%,
+      transparent
+    );
+  }
+}
+
+/* Reduced motion: kill CSS animation and smooth scrolling. JavaScript
+   animations are gated separately via Motion's useReducedMotion(). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

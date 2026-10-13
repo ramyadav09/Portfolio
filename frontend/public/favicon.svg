@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Intelligence Workspace">
+  <rect width="32" height="32" rx="8.5" fill="#11152A" />
+  <rect x="0.7" y="0.7" width="30.6" height="30.6" rx="8" fill="none" stroke="#3b4470" stroke-width="1.2" />
+  <g stroke="#5b4a9c" stroke-width="1.6" stroke-linecap="round">
+    <path d="M16 8.6 9.4 22.6" />
+    <path d="M16 8.6 22.6 22.6" />
+    <path d="M9.4 22.6h13.2" />
+  </g>
+  <circle cx="16" cy="8.6" r="3.1" fill="#8de8c0" />
+  <circle cx="9.4" cy="22.6" r="3.1" fill="#a77bff" />
+  <circle cx="22.6" cy="22.6" r="3.1" fill="#a77bff" />
+</svg>
