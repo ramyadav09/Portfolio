@@ -84,7 +84,12 @@ export function ProjectsSection() {
           aria-label={`${selectedProject.title} — full case study`}
           className="panel mt-8 p-5 outline-none sm:p-7"
         >
-          <ProjectCaseStudy project={selectedProject} />
+          {/*
+            Keyed by project so choosing a card remounts the panel: the fade
+            replays, and the incoming case study is never waiting on the
+            previous one's exit animation to finish.
+          */}
+          <ProjectCaseStudy key={selectedProject.id} project={selectedProject} />
         </div>
       </Container>
     </Section>

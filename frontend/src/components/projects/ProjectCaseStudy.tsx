@@ -1,5 +1,6 @@
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import {
   BarChart3,
   Bot,
@@ -79,9 +80,32 @@ function Prose({ children }: { children: ReactNode }) {
 
 export function ProjectCaseStudy({ project }: { project: Project }) {
   const prefersReducedMotion = useReducedMotion()
+  const panelRef = useRef<HTMLDivElement>(null)
+  const [forceVisible, setForceVisible] = useState(false)
   const status = projectStatusMeta[project.status]
   const study = project.caseStudy
   const headingId = `case-study-${project.id}-heading`
+
+  /**
+   * Same escape hatch as `Reveal`: if the entrance animation has not resolved
+   * shortly after mount, render the panel statically instead.
+   *
+   * The previous implementation wrapped this in `AnimatePresence mode="wait"`,
+   * which does not mount the incoming project until the outgoing one finishes
+   * exiting. That made which case study you can read depend on an animation
+   * frame arriving — so when frames are throttled or dropped, the panel sat at
+   * `opacity: 0` still showing the previous project's markup.
+   */
+  useEffect(() => {
+    if (prefersReducedMotion) return
+
+    const timer = window.setTimeout(() => {
+      const node = panelRef.current
+      if (node && Number.parseFloat(getComputedStyle(node).opacity) < 1) setForceVisible(true)
+    }, 600)
+
+    return () => window.clearTimeout(timer)
+  }, [prefersReducedMotion])
 
   const content = (
     <>
@@ -408,22 +432,22 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
     </>
   )
 
-  if (prefersReducedMotion) {
+  // No `AnimatePresence` here on purpose: an exit animation must not gate which
+  // project is mounted. Callers key this component by project id, so each
+  // selection is a fresh mount and the fade still plays.
+  if (prefersReducedMotion || forceVisible) {
     return <div className="text-fg">{content}</div>
   }
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={project.id}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-        className="text-fg"
-      >
-        {content}
-      </motion.div>
-    </AnimatePresence>
+    <motion.div
+      ref={panelRef}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+      className="text-fg"
+    >
+      {content}
+    </motion.div>
   )
 }

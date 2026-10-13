@@ -96,7 +96,7 @@ export interface ArchitectureStage {
    Projects
    --------------------------------------------------------------------------- */
 
-export type ProjectStatus = 'concept' | 'in-progress' | 'live' | 'archived'
+export type ProjectStatus = 'concept' | 'in-progress' | 'built' | 'live' | 'archived'
 
 /**
  * How a project card is illustrated.
