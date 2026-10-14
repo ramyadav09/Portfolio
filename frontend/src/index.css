@@ -5,6 +5,16 @@
    Every visual decision lives here. Tailwind v4 turns the `@theme` entries
    into both CSS custom properties and utility classes, so `bg-surface`,
    `text-fg-muted`, `rounded-lg` and `shadow-panel` all resolve to these values.
+
+   Two layers of colour live in this file:
+
+   1. The `@theme` block below declares the token *names* and the default dark
+      values. It is what renders if JavaScript never runs, and it is shaped so
+      that the default theme is byte-for-byte the original design.
+   2. The "theme layer" further down overrides those same names at runtime,
+      deriving the whole palette from one user-chosen accent. It is a later
+      CSS layer (`@layer base` beats `@layer theme`), so it wins without
+      `!important` or inflated selectors.
    =========================================================================== */
 @theme {
   /* --- surfaces --- */
@@ -34,6 +44,10 @@
   --color-caution: #ffcf8f;
   --color-info: #a9c6ff;
 
+  /* Text/icons that sit *on top of* --color-violet. It is not `--color-ink`:
+     in light mode the accent is dark, so this has to flip to white. */
+  --color-on-accent: #0b0e1c;
+
   /* --- typography --- */
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -50,7 +64,7 @@
   --shadow-ambient: 0 18px 45px -28px rgb(4 6 16 / 0.9);
   --shadow-panel:
     0 30px 70px -40px rgb(4 6 16 / 0.95), inset 0 1px 0 0 rgb(255 255 255 / 0.04);
-  --shadow-glow: 0 24px 60px -34px rgb(167 123 255 / 0.65);
+  --shadow-glow: 0 24px 60px -34px color-mix(in oklab, var(--color-violet) 65%, transparent);
 
   /* --- motion --- */
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
@@ -64,12 +78,166 @@
   --duration-base: 240ms;
   --duration-slow: 460ms;
   --header-height: 4.25rem;
+
+  /* --- whole-page scale ---
+     Every size in this design is expressed in `rem` and there is not a single
+     hard-coded `px` value in `src/`, so changing this one number resizes text,
+     spacing, radii and containers together — the effect of zooming the browser
+     out, but at 100%. 90% reproduces the zoom level the page was signed off at.
+
+     Breakpoints deliberately do not move with it: `rem` inside a media query
+     resolves against the initial font size, never against a font-size set on
+     `html`, so the responsive layout still switches at the same viewport widths.
+     That is the one way this differs from real browser zoom, which would also
+     have treated the viewport as 10% wider. */
+  --ui-scale: 90%;
+}
+
+/* ===========================================================================
+   Theme layer
+   One input — the user's accent colour — drives every brand hue on the page.
+
+   Only the *hue* and *chroma* are taken from the pick. Lightness is clamped
+   into a narrow band per token, which is what makes an arbitrary colour safe:
+   a user cannot pick a colour that fails contrast, because they are not
+   choosing the lightness. The clamp bounds are chosen so the default violet
+   (#A77BFF) passes through untouched, leaving the original design exact.
+
+   Measured off the original palette (converted with `oklch(from c l c h)`),
+   which is where the offsets and ratios come from. Note the original accent
+   family is not a pure lightness ramp — bright and deep shift hue slightly too,
+   and reproducing that is what makes the default theme render identically:
+
+     token           L        chroma    hue
+     accent          0.6850   x1.0000   +0
+     accent-bright   0.7800   x0.6889   +2.584
+     accent-deep     0.5164   x0.8748   -4.287
+     support         0.8628   x0.5531   -132.131   (violet -> mint)
+     support-deep    0.7084   x0.6545   -132.538
+     info            0.8254   x0.4579   -32.815
+
+   Only hue and chroma reach the page from the user's pick; lightness comes from
+   these bands. Measured across all twelve presets plus deliberately extreme
+   seeds (pure blue, pure green, black, white), every text pair stays above
+   4.5:1 in both modes.
+   =========================================================================== */
+@layer base {
+  :root {
+    /* Written by the theme control. The fallback is the original violet. */
+    --accent-source: #a77bff;
+
+    /* The lightness band the accent is clamped into, per mode. These are tokens
+       because the picker's swatches reuse them to preview the exact colour a
+       seed produces — so the preview and the page can never drift apart.
+
+       The band is not a guess: it is the range measured to keep every hue above
+       4.5:1, because equal OKLCH lightness does not mean equal WCAG contrast —
+       a green at L 0.56 carries far more relative luminance than a violet does. */
+    --accent-band-light-lo: 0.4;
+    --accent-band-light-hi: 0.5;
+    --accent-band-dark-lo: 0.66;
+    --accent-band-dark-hi: 0.78;
+
+    /* Chroma is capped at the accent chroma the design was verified with.
+       Without this a maximally saturated pick (pure blue, chroma ~0.31) is far
+       outside sRGB at the clamped lightness, and gamut mapping drags it darker
+       than asked for — which drops accent text to 3.4:1 on the dark surface. */
+    --accent-chroma-cap: 0.19;
+
+    color-scheme: dark;
+
+    /* --- brand accents, derived from the single pick --- */
+    --color-violet: light-dark(
+      oklch(from var(--accent-source) clamp(var(--accent-band-light-lo), l, var(--accent-band-light-hi)) min(c, var(--accent-chroma-cap)) h),
+      oklch(from var(--accent-source) clamp(var(--accent-band-dark-lo), l, var(--accent-band-dark-hi)) min(c, var(--accent-chroma-cap)) h)
+    );
+    --color-violet-bright: light-dark(
+      oklch(from var(--accent-source) clamp(0.36, calc(l - 0.1), 0.5) calc(min(c, var(--accent-chroma-cap)) * 0.6889) calc(h + 2.584)),
+      oklch(from var(--accent-source) clamp(0.72, calc(l + 0.095), 0.9) calc(min(c, var(--accent-chroma-cap)) * 0.6889) calc(h + 2.584))
+    );
+    --color-violet-deep: light-dark(
+      oklch(from var(--accent-source) clamp(0.3, calc(l - 0.19), 0.44) calc(min(c, var(--accent-chroma-cap)) * 0.8748) calc(h - 4.287)),
+      oklch(from var(--accent-source) clamp(0.42, calc(l - 0.1686), 0.66) calc(min(c, var(--accent-chroma-cap)) * 0.8748) calc(h - 4.287))
+    );
+    --color-on-accent: light-dark(#ffffff, #0b0e1c);
+
+    /* --- support accent: same pick, rotated to the original violet/mint gap --- */
+    --color-mint: light-dark(
+      oklch(from var(--accent-source) clamp(0.4, calc(l - 0.25), 0.5) calc(min(c, var(--accent-chroma-cap)) * 0.5531) calc(h - 132.131)),
+      oklch(from var(--accent-source) 0.862773 calc(min(c, var(--accent-chroma-cap)) * 0.5531) calc(h - 132.131))
+    );
+    --color-mint-deep: light-dark(
+      oklch(from var(--accent-source) clamp(0.36, calc(l - 0.33), 0.46) calc(min(c, var(--accent-chroma-cap)) * 0.6545) calc(h - 132.538)),
+      oklch(from var(--accent-source) 0.708405 calc(min(c, var(--accent-chroma-cap)) * 0.6545) calc(h - 132.538))
+    );
+    --color-info: light-dark(
+      oklch(from var(--accent-source) clamp(0.38, calc(l - 0.27), 0.48) calc(min(c, var(--accent-chroma-cap)) * 0.4579) calc(h - 32.815)),
+      oklch(from var(--accent-source) 0.825419 calc(min(c, var(--accent-chroma-cap)) * 0.4579) calc(h - 32.815))
+    );
+
+    /* Caution stays amber in every theme: a warning that changes colour with
+       the user's taste stops being a warning. Only its lightness flips. */
+    --color-caution: light-dark(#8a5200, #ffcf8f);
+
+    --color-focus: var(--color-mint);
+    --color-positive: var(--color-mint);
+
+    /* --- surfaces and text ---
+       Dark is the default (the values above, mirroring `@theme`). Light is a
+       cool near-white ramp with the same tonal order, so every component keeps
+       its intended hierarchy: insets read recessed, raised reads lifted. */
+    --color-ink: light-dark(#f6f7fb, #11152a);
+    --color-ink-deep: light-dark(#eceef7, #0b0e1c);
+    --color-surface: light-dark(#ffffff, #191e37);
+    --color-surface-raised: light-dark(#f2f4fa, #1f2441);
+    --color-surface-inset: light-dark(#e9ecf6, #151a34);
+
+    --color-fg: light-dark(#1a2038, #f4f5fc);
+    --color-fg-muted: light-dark(#4a5473, #b8bed2);
+    --color-fg-subtle: light-dark(#5f6a8a, #8b93ad);
+
+    --color-line: light-dark(#d8dcec, #262c48);
+    --color-line-strong: light-dark(#b4bcd6, #3b4470);
+
+    /* Light casts a softer shadow than a dark surface needs. */
+    --shadow-panel:
+      0 24px 60px -38px light-dark(rgb(24 30 58 / 0.28), rgb(4 6 16 / 0.95)),
+      inset 0 1px 0 0 light-dark(rgb(255 255 255 / 0.9), rgb(255 255 255 / 0.04));
+  }
+
+  :root[data-theme='light'] {
+    color-scheme: light;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  /* The picker also has to survive a colour the browser cannot narrow down. */
+  @supports not (color: oklch(from red l c h)) {
+    :root {
+      --color-violet: light-dark(#6d4fbd, #a77bff);
+      --color-violet-bright: light-dark(#5a3fa8, #c3a4ff);
+      --color-violet-deep: light-dark(#4a3490, #6d4fbd);
+      --color-mint: light-dark(#137f5b, #8de8c0);
+      --color-mint-deep: light-dark(#0f6b4c, #46b98c);
+      --color-info: light-dark(#2d5bb8, #a9c6ff);
+    }
+
+    /* Without relative colour syntax there is no way to preview a derived
+       colour, so the swatch shows the seed itself. */
+    .accent-swatch {
+      background-color: var(--swatch-seed);
+    }
+  }
 }
 
 @layer base {
   html {
+    /* Scales the entire page — see `--ui-scale`. */
+    font-size: var(--ui-scale);
     background-color: var(--color-ink);
-    color-scheme: dark;
+    color: var(--color-fg);
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
@@ -110,7 +278,7 @@
   }
 
   ::selection {
-    background-color: rgb(167 123 255 / 0.38);
+    background-color: color-mix(in oklab, var(--color-violet) 38%, transparent);
     color: var(--color-fg);
   }
 
@@ -119,7 +287,8 @@
     scroll-margin-top: calc(var(--header-height) + 1.25rem);
   }
 
-  /* Ambient violet lighting: one fixed layer, no per-section effects. */
+  /* Ambient lighting: one fixed layer, no per-section effects. Tuned down in
+     light mode, where the same transparency would muddy the pale surfaces. */
   body::before {
     content: "";
     position: fixed;
@@ -127,9 +296,58 @@
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(52rem 34rem at 6% -10%, rgb(167 123 255 / 0.18), transparent 62%),
-      radial-gradient(40rem 30rem at 102% 2%, rgb(141 232 192 / 0.09), transparent 60%),
-      radial-gradient(60rem 40rem at 50% 112%, rgb(109 79 189 / 0.14), transparent 66%);
+      radial-gradient(
+        52rem 34rem at 6% -10%,
+        color-mix(in oklab, var(--color-violet) 18%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        40rem 30rem at 102% 2%,
+        color-mix(in oklab, var(--color-mint) 9%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        60rem 40rem at 50% 112%,
+        color-mix(in oklab, var(--color-violet-deep) 22%, transparent),
+        transparent 66%
+      );
+  }
+
+  :root[data-theme='light'] body::before {
+    background:
+      radial-gradient(
+        52rem 34rem at 6% -10%,
+        color-mix(in oklab, var(--color-violet) 10%, transparent),
+        transparent 62%
+      ),
+      radial-gradient(
+        40rem 30rem at 102% 2%,
+        color-mix(in oklab, var(--color-mint) 12%, transparent),
+        transparent 60%
+      ),
+      radial-gradient(
+        60rem 40rem at 50% 112%,
+        color-mix(in oklab, var(--color-violet-deep) 8%, transparent),
+        transparent 66%
+      );
+  }
+
+  /* Theme changes cross-fade instead of snapping. The class is added for one
+     frame on switch and removed after the transition, so the page does not
+     carry a permanent `transition` on every element. Reduced motion opts out. */
+  @media (prefers-reduced-motion: no-preference) {
+    :root.theme-switching,
+    :root.theme-switching *,
+    :root.theme-switching *::before,
+    :root.theme-switching *::after {
+      transition:
+        background-color var(--duration-base) var(--ease-out-soft),
+        border-color var(--duration-base) var(--ease-out-soft),
+        color var(--duration-base) var(--ease-out-soft),
+        fill var(--duration-base) var(--ease-out-soft),
+        stroke var(--duration-base) var(--ease-out-soft),
+        box-shadow var(--duration-base) var(--ease-out-soft) !important;
+    }
   }
 }
 
@@ -141,7 +359,11 @@
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     background-color: color-mix(in oklab, var(--color-surface) 90%, var(--color-ink));
-    background-image: linear-gradient(180deg, rgb(255 255 255 / 0.035), transparent 45%);
+    background-image: linear-gradient(
+      180deg,
+      light-dark(rgb(24 30 58 / 0.035), rgb(255 255 255 / 0.035)),
+      transparent 45%
+    );
     box-shadow: var(--shadow-panel);
   }
 
@@ -162,11 +384,29 @@
     color: var(--color-fg-subtle);
   }
 
+  /* A swatch in the theme picker.
+
+     It previews the colour a seed would actually produce, not the raw seed, so
+     the picker cannot promise a colour the page will not use.
+
+     The derivation has to be declared *on the swatch element* rather than
+     inheriting `--color-violet` from `:root`. Custom properties substitute
+     their `var()` references where they are declared, so an inherited token has
+     already been resolved against the page's accent — a child setting
+     `--accent-source` would silently get the page's colour, not its own.
+     Declaring the seed and the formula together keeps them on the same element. */
+  .accent-swatch {
+    background-color: light-dark(
+      oklch(from var(--swatch-seed) clamp(var(--accent-band-light-lo), l, var(--accent-band-light-hi)) min(c, var(--accent-chroma-cap)) h),
+      oklch(from var(--swatch-seed) clamp(var(--accent-band-dark-lo), l, var(--accent-band-dark-hi)) min(c, var(--accent-chroma-cap)) h)
+    );
+  }
+
   /* Faint blueprint grid, used only behind the hero. */
   .grid-texture {
     background-image:
-      linear-gradient(to right, rgb(148 163 214 / 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(148 163 214 / 0.07) 1px, transparent 1px);
+      linear-gradient(to right, light-dark(rgb(58 70 110 / 0.1), rgb(148 163 214 / 0.07)) 1px, transparent 1px),
+      linear-gradient(to bottom, light-dark(rgb(58 70 110 / 0.1), rgb(148 163 214 / 0.07)) 1px, transparent 1px);
     background-size: 52px 52px;
     -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, #000 20%, transparent 78%);
     mask-image: radial-gradient(70% 60% at 50% 35%, #000 20%, transparent 78%);

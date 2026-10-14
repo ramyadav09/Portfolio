@@ -11,7 +11,45 @@
     />
     <meta name="author" content="Ram" />
     <meta name="theme-color" content="#11152A" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!--
+      Theme boot. Runs before first paint so a returning visitor never sees the
+      default colours flash before their own theme is applied.
+
+      This deliberately duplicates the read/validate/resolve logic in
+      src/lib/theme.ts — it has to run before any module loads, so it cannot
+      import it. Keep the two in step: the storage key, the default accent and
+      the shape of the stored value all have to agree. The stored value is
+      treated as untrusted here as well, because storage is user-writable.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = JSON.parse(localStorage.getItem('iw-theme') || 'null') || {}
+          var mode =
+            stored.mode === 'light' || stored.mode === 'dark' || stored.mode === 'system'
+              ? stored.mode
+              : 'dark'
+          var accent = /^#[0-9a-f]{6}$/i.test(stored.accent) ? stored.accent : '#a77bff'
+          var resolved =
+            mode === 'system'
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : mode
+
+          var root = document.documentElement
+          root.style.setProperty('--accent-source', accent)
+          root.setAttribute('data-theme', resolved)
+
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (meta) meta.setAttribute('content', resolved === 'light' ? '#f6f7fb' : '#11152a')
+        } catch (error) {
+          /* Blocked storage or a malformed value: the CSS defaults are correct. */
+        }
+      })()
+    </script>
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />

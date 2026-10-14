@@ -30,7 +30,7 @@ export const profile: Profile = {
   email: 'rkramyadav2063@gmail.com',
   github: { label: 'GitHub', href: 'https://github.com/ramyadav09' },
   linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ram-kumar-yadav09' },
-  resume: { label: 'Résumé', href: null },
+  resume: { label: 'Résumé', href: 'https://drive.google.com/file/d/1dTq94OQFRtlQ9jmDd07Wkr-mqmb8fv-W/view?usp=drive_link' },
 
   /**
    * The availability pill is hidden while this is null. Only enable it with

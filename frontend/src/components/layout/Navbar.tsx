@@ -6,6 +6,7 @@ import { profile } from '../../data/profile'
 import { useActiveSection } from '../../hooks/useActiveSection'
 import { BASE } from '../../lib/motion'
 import { cn } from '../../lib/utils'
+import { ThemeMenu } from '../theme/ThemeMenu'
 import { BrandMark } from '../ui/BrandMark'
 import { Container } from '../ui/Container'
 import { LinkChip } from '../ui/LinkChip'
@@ -71,7 +72,13 @@ export function Navbar() {
       )}
     >
       <Container>
-        <div className="flex h-[var(--header-height)] items-center gap-4">
+        {/*
+          `relative` here is load-bearing: the theme panel is absolutely
+          positioned against this row rather than against the button that opens
+          it. The button sits mid-cluster, so anchoring a 21rem panel to it runs
+          off the left edge of a 320px viewport.
+        */}
+        <div className="relative flex h-[var(--header-height)] items-center gap-4">
           <a
             href="#top"
             className="group flex min-w-0 items-center gap-2.5 rounded-md py-1"
@@ -120,6 +127,8 @@ export function Navbar() {
           </nav>
 
           <div className="ml-auto flex items-center gap-2 lg:ml-3">
+            <ThemeMenu />
+
             {/*
               Wrapped rather than handed a display utility directly. LinkChip sets
               its own `inline-flex`, and `cn` deliberately does not merge conflicting

@@ -9,12 +9,17 @@ export interface ButtonStyleProps {
 }
 
 /**
- * `primary` is bright violet with near-black text rather than white text:
+ * `primary` is the bright accent with dark text rather than white text:
  * #F4F5FC on #A77BFF is only 2.7:1, while #11152A on #A77BFF is 6.3:1.
+ *
+ * The label colour is `--color-on-accent`, not `--color-ink`: in light mode the
+ * accent is dark instead of bright, so the on-accent colour flips to white.
+ * The hover glow is mixed from the live accent rather than a fixed violet, so
+ * it follows the theme instead of staying purple.
  */
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    'bg-violet text-ink hover:bg-violet-bright shadow-[var(--shadow-glow)] hover:shadow-[0_28px_70px_-30px_rgb(167_123_255/0.85)]',
+    'bg-violet text-on-accent hover:bg-violet-bright shadow-[var(--shadow-glow)] hover:shadow-[0_28px_70px_-30px_color-mix(in_oklab,var(--color-violet)_85%,transparent)]',
   secondary:
     'border border-line-strong bg-surface/70 text-fg hover:border-violet/70 hover:bg-surface-raised',
   ghost: 'text-fg-muted hover:bg-surface/70 hover:text-fg',
