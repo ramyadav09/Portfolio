@@ -41,10 +41,10 @@ interface SubPanelProps {
 function SubPanel({ id, title, icon: Icon, accent = 'text-violet', children, className }: SubPanelProps) {
   return (
     <section aria-labelledby={id} className={cn('panel-flat p-5', className)}>
-      <h4 id={id} className="flex items-center gap-2.5 font-display text-[0.9375rem] font-semibold">
+      <h2 id={id} className="flex items-center gap-2.5 font-display text-[0.9375rem] font-semibold">
         <Icon aria-hidden="true" className={cn('size-4 shrink-0', accent)} />
         {title}
-      </h4>
+      </h2>
       <div className="mt-3.5">{children}</div>
     </section>
   )
@@ -55,9 +55,11 @@ function BulletGroup({ title, items }: { title: string; items: string[] }) {
 
   return (
     <section aria-labelledby={`quality-${title}`}>
-      <h4 id={`quality-${title}`} className="mono-label">
+      {/* h3, not h2: this group sits inside a `SubPanel` section, so it is
+          already one level below the panel heading. */}
+      <h3 id={`quality-${title}`} className="mono-label">
         {title}
-      </h4>
+      </h3>
       <ul className="mt-2.5 flex flex-col gap-2">
         {items.map((item) => (
           <li key={item} className="flex gap-2.5 text-sm text-fg-muted">
@@ -117,13 +119,13 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3
+          <h1
             id={headingId}
             className="text-[clamp(1.45rem,3vw,2rem)] font-semibold"
           >
             {project.title}
             <span className="sr-only"> — case study</span>
-          </h3>
+          </h1>
           <p className="max-w-[72ch] text-[0.9375rem] text-violet-bright/90">{project.tagline}</p>
         </div>
 
@@ -190,7 +192,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
                     {index + 1}
                   </span>
                   <div className="min-w-0">
-                    <h5 className="font-display text-sm font-semibold text-fg">{step.label}</h5>
+                    <h3 className="font-display text-sm font-semibold text-fg">{step.label}</h3>
                     <p className="mt-1 max-w-[80ch] text-sm text-fg-muted">{step.detail}</p>
                   </div>
                 </li>
@@ -206,7 +208,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {study.stack.map((group) => (
                 <div key={group.label}>
-                  <h5 className="mono-label">{group.label}</h5>
+                  <h3 className="mono-label">{group.label}</h3>
                   <ul className="mt-2.5 flex flex-col gap-2">
                     {group.items.map((item) => (
                       <li key={item} className="flex gap-2.5 text-sm text-fg-muted">
@@ -240,7 +242,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
               {study.ai.model}
             </p>
 
-            <h5 className="mono-label mt-5">Pipeline</h5>
+            <h3 className="mono-label mt-5">Pipeline</h3>
             <ol className="mt-2.5 flex flex-col gap-3">
               {study.ai.pipeline.map((step, index) => (
                 <li key={step.label} className="flex gap-3 text-sm">
@@ -268,7 +270,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
           >
             <Prose>{study.agentic.summary}</Prose>
 
-            <h5 className="mono-label mt-5">Tools</h5>
+            <h3 className="mono-label mt-5">Tools</h3>
             <ul className="mt-2.5 flex flex-col gap-2">
               {study.agentic.tools.map((tool) => (
                 <li key={tool.name} className="flex flex-col gap-0.5 text-sm sm:flex-row sm:gap-2">
@@ -278,10 +280,10 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
               ))}
             </ul>
 
-            <h5 className="mono-label mt-5">State</h5>
+            <h3 className="mono-label mt-5">State</h3>
             <p className="mt-2 text-sm text-fg-muted">{study.agentic.stateManagement}</p>
 
-            <h5 className="mono-label mt-5">Execution flow</h5>
+            <h3 className="mono-label mt-5">Execution flow</h3>
             <ol className="mt-2.5 flex flex-col gap-2">
               {study.agentic.executionFlow.map((step, index) => (
                 <li key={step} className="flex gap-3 text-sm text-fg-muted">
@@ -295,10 +297,10 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
 
             <div className="mt-5 grid gap-5 sm:grid-cols-2">
               <div>
-                <h5 className="flex items-center gap-2 mono-label">
+                <h3 className="flex items-center gap-2 mono-label">
                   <ShieldCheck aria-hidden="true" className="size-3.5 text-info" />
                   Permissions
-                </h5>
+                </h3>
                 <ul className="mt-2.5 flex flex-col gap-2">
                   {study.agentic.permissions.map((item) => (
                     <li key={item} className="flex gap-2.5 text-sm text-fg-muted">
@@ -313,10 +315,10 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
               </div>
 
               <div>
-                <h5 className="flex items-center gap-2 mono-label">
+                <h3 className="flex items-center gap-2 mono-label">
                   <UserCheck aria-hidden="true" className="size-3.5 text-caution" />
                   Human approval points
-                </h5>
+                </h3>
                 <ul className="mt-2.5 flex flex-col gap-2">
                   {study.agentic.humanApproval.map((item) => (
                     <li key={item} className="flex gap-2.5 text-sm text-fg-muted">
@@ -374,7 +376,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
             <ul className="grid gap-4 md:grid-cols-2">
               {study.tradeoffs.map((tradeoff) => (
                 <li key={tradeoff.decision} className="border-l border-line-strong pl-4">
-                  <h5 className="font-display text-sm font-semibold text-fg">{tradeoff.decision}</h5>
+                  <h3 className="font-display text-sm font-semibold text-fg">{tradeoff.decision}</h3>
                   <p className="mt-1 text-sm text-fg-muted">{tradeoff.rationale}</p>
                 </li>
               ))}
@@ -433,8 +435,8 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
   )
 
   // No `AnimatePresence` here on purpose: an exit animation must not gate which
-  // project is mounted. Callers key this component by project id, so each
-  // selection is a fresh mount and the fade still plays.
+  // project is mounted. The caller keys this component by project id, so
+  // arriving from another case study is a fresh mount and the fade still plays.
   if (prefersReducedMotion || forceVisible) {
     return <div className="text-fg">{content}</div>
   }

@@ -31,9 +31,11 @@ Requires Node.js 20+ (developed on Node 24).
 | Theme + accent picker | `src/components/theme/ThemeMenu.tsx` | Header popover: twelve accents, a free colour input, Dark / Light / System |
 | Hero | `src/components/hero/Hero.tsx` | Headline, intro, CTAs, social links |
 | System overview panel | `src/components/hero/SystemOverview.tsx` | Build / Integrate / Orchestrate — a map, not a dashboard |
-| Projects grid | `src/components/projects/ProjectsSection.tsx` | One featured card + the rest in a two-column grid |
-| Project card | `src/components/projects/ProjectCard.tsx` | Status, stack, links, case-study trigger |
-| Case study | `src/components/projects/ProjectCaseStudy.tsx` | Problem → solution → flow → AI → agentic → quality → trade-offs → results |
+| Projects grid | `src/components/projects/ProjectsSection.tsx` | An index of seven equally sized cards, three across at desktop |
+| Project card | `src/components/projects/ProjectCard.tsx` | Status pill, title, tagline, one way in — nothing else |
+| Case-study page | `src/components/projects/CaseStudyPage.tsx` | One project at `#/work/:id`, with previous/next and a way back |
+| Case study body | `src/components/projects/ProjectCaseStudy.tsx` | Problem → who it is for → solution → flow → AI → agentic → quality → trade-offs → results |
+| Router | `src/lib/router.ts`, `src/hooks/useRoute.ts` | Hand-written hash router; no dependency, no server routes needed |
 | Architecture | `src/components/architecture/ArchitectureDiagram.tsx` | Interface → Service → Persistence, with AI as a branch |
 | Technical toolkit | `src/components/sections/TechStack.tsx` | Grouped by discipline, labelled by how much is claimed |
 | About | `src/components/sections/About.tsx` | Prose plus "currently exploring" |
@@ -48,15 +50,44 @@ src/
     architecture/ArchitectureDiagram.tsx
     hero/{Hero,SystemOverview}.tsx
     layout/{Navbar,Footer,ContentStatusNotice}.tsx
-    projects/{ProjectsSection,ProjectCard,ProjectCaseStudy,ProjectPreviewFrame}.tsx
+    projects/{ProjectsSection,ProjectCard,CaseStudyPage,ProjectCaseStudy,ProjectPreviewFrame}.tsx
     sections/{TechStack,About,Contact}.tsx
     theme/ThemeMenu.tsx
     ui/{Button,buttonVariants,BrandGlyphs,BrandMark,Container,LinkChip,Pill,Reveal,Section,SectionHeading,Stagger}.tsx
   data/{types,profile,projects,skills,architecture,navigation,theme}.ts
-  hooks/{useActiveSection,useTheme}.ts
-  lib/{motion,icons,projectStatus,theme,utils}.ts
+  hooks/{useActiveSection,useRoute,useTheme}.ts
+  lib/{motion,icons,projectStatus,router,theme,utils}.ts
   styles → src/index.css   (design tokens and the theme layer live here)
 ```
+
+### Routing
+
+Two kinds of destination share the URL fragment, told apart by a leading slash:
+
+| URL | Renders |
+| --- | --- |
+| `/`, or no fragment | Home, top of page |
+| `#work`, `#stack`, `#contact`, … | Home, scrolled to that section |
+| `#/work/smartfind` | The SmartFind case study, as its own page |
+
+Hash routes rather than real paths, deliberately: the site is static with no server routes, so a
+path-based URL would 404 when refreshed or shared unless the host rewrites unknown paths to
+`index.html`. `#/work/:id` is a real, refreshable, shareable link on any static host, and the
+router costs nothing — `src/lib/router.ts` is a pure parse plus an href helper, and
+`src/hooks/useRoute.ts` reads the hash through `useSyncExternalStore`, so back, forward and a
+pasted URL all work without rendering a frame of the wrong route.
+
+An id that matches no project renders an explanation and a link back rather than a blank page,
+because the id is editable by hand in the address bar.
+
+Two details the routing had to respect:
+
+- **The skip link.** `#main` is a bare fragment, and bare fragments are home-page section
+  anchors — so following it from a case study would navigate home instead of skipping the
+  navigation. It moves focus directly and leaves the route alone; the `href` stays for the
+  no-JavaScript case.
+- **The active nav item.** No home section is in view on a case-study route, so the nav would go
+  completely unhighlighted. It keeps **Work** current there, because that is where the reader is.
 
 ---
 
@@ -71,8 +102,9 @@ src/
    GitHub repositories; two (Job Portal, Real Estate Platform) are private and were written up
    from their local source trees. Every entry's stack and features come from the code and
    manifests, not from the project's own README, which had drifted in both private repos.
-   `featured: true` marks the lead card; everything else flows into the grid, so adding or
-   removing a project needs no component change.
+   `featured: true` marks which project leads the grid; since every card is the same shape now,
+   that only affects order. Adding or removing a project needs no component change, and its case
+   study appears at `#/work/<id>` with no route to register.
 3. **`src/data/skills.ts`** — the toolkit. Labels are `primary` / `working` / `exploring`;
    there are deliberately no percentages or progress bars.
 4. **`src/data/architecture.ts`** — the "How I build" stages.
@@ -88,6 +120,11 @@ src/
   is empty, the case study says so in plain words instead of showing a number.
 - **No fake screenshots.** `ProjectPreview` is either a real `image` with `alt` and
   dimensions, or a labelled placeholder. Nothing draws a mock UI.
+- **No case study without a problem and a solution.** `caseStudy.problem`,
+  `caseStudy.intendedUsers` and `caseStudy.solution` are required, non-optional strings, so a
+  project cannot be added with a title and a pitch and nothing underneath. All seven render the
+  same order; only the AI and agentic panels are optional, and they are `null` on exactly the
+  projects that do not have one.
 
 The notice under the navbar lists exactly what is still placeholder and disappears on its own.
 It tracks the profile (`profile.isSampleContent`) and the projects (`project.isPlaceholder`)
@@ -289,12 +326,17 @@ quoted.
 | --- | --- | --- |
 | `dist/index.html` | 3.9 kB | 1.7 kB |
 | `dist/assets/style-*.css` | ≈50 kB | ≈9.2 kB |
-| `dist/assets/index-*.js` | 499.4 kB | 157.4 kB |
+| `dist/assets/index-*.js` | 500.2 kB | 157.7 kB |
 
 The CSS figure is deliberately approximate: Tailwind v4 scans every non-ignored file for
 candidate class names, and this README counts — rewriting a sentence that mentions a utility
 shifts the stylesheet by a few hundred bytes. Watch the build output rather than this table if
 you need the exact number.
+
+The build also prints Vite's "some chunks are larger than 500 kB" notice, because the one JS
+chunk now sits a few hundred bytes over that default threshold. It is a heuristic rather than an
+error, and code-splitting the case-study route is the obvious way to clear it — worth doing when
+the bundle is next touched, since a case study is only ever requested on its own URL.
 
 The JS is a single chunk holding React, Motion for React, lucide-react and the app code. An
 earlier per-chunk analysis put Motion at roughly 132 kB raw / 43 kB gzip, the largest avoidable
@@ -310,7 +352,7 @@ straightforward API deliberately; revisit if the budget tightens.
 Everything below was executed, not assumed:
 
 - `npm run build` — TypeScript 6 (`tsc -b`) clean, Vite production build succeeds.
-- `npm run lint` (`oxlint`, 116 rules over 42 files) — **0 warnings, 0 errors**.
+- `npm run lint` (`oxlint`, 116 rules over 45 files) — **0 warnings, 0 errors**.
 - Browser, via the dev server at 1440 / 768 / 390 / 320 px:
   - **No console errors** or failed requests.
   - **No horizontal overflow** at any of those widths (measured against
@@ -328,8 +370,28 @@ Everything below was executed, not assumed:
     the first link, closes on <kbd>Esc</kbd> and returns focus to the toggle. Toggle measures
     39.6×39.6 px at the 90% page scale (44×44 px before it), so it still clears the 24 px
     minimum but no longer meets the 44 px enhanced target.
-  - Case-study switching: `aria-expanded` correct per card, focus moves to the region, and
-    the non-AI project correctly omits the AI and agentic panels.
+  - **Routing driven for real.** Clicking a card's "Read the case study" changed the URL to
+    `#/work/smartfind` and replaced the page: one `h1`, the home sections gone from the DOM,
+    Work shown as the current nav item, and the page at `scrollY 0`. Back returned to the
+    previous route.
+  - **Deep links survive a refresh**, in the production build of `dist/`, not just the dev
+    server: `#/work/codeguard-ai` loaded cold and rendered its case study with no home sections
+    and no console errors.
+  - **An unknown id is handled**: `#/work/does-not-exist` rendered "No case study at this
+    address" with a working way back and no prev/next, instead of a blank page.
+  - **Prev/next wraps.** From SmartFind, Previous is the last project and Next is the second —
+    the set is a loop, not a dead end at either end.
+  - **Nav links work from a case study**: `#work` returned home and landed on the section, its
+    top at 80 px, below the sticky header.
+  - **The skip link does not navigate.** On a case-study route, <kbd>Tab</kbd> then
+    <kbd>Enter</kbd> moved focus to `main#main`, left the hash at `#/work/smartfind` and kept the
+    case study mounted — following the `href` would have sent the reader home instead.
+  - **The grid is uniform.** All seven cards measured identically — 389 × 343 px at 1440 (three
+    columns, three rows, no overflow), 342 × 267 px at 320 (one column, all at `left 18`) — with
+    two links each, and no case-study markup anywhere in the grid. Nothing on the main page is
+    larger than anything else.
+  - **A case study's heading outline has no skipped levels** (`h1 → h2 → h3`) — rechecked after
+    the panel headings were re-mapped from `h3`/`h4` to `h1`/`h2`/`h3`.
   - Contrast ratios computed for every token pair (table above).
   - WCAG 2.2 SC 2.5.8 target sizes: footer links and the "back to top" control were
     undersized at 17–20 px and were fixed to clear 24 px. Re-measured after the page scale
@@ -337,16 +399,18 @@ Everything below was executed, not assumed:
     28.8 px — all still above the floor, and a sweep of every anchor and button found only the
     deliberately 1×1 visually-hidden skip link below it.
   - No empty, `#`, or placeholder `href` anywhere; every anchor and button has an accessible
-    name; all 10 not-yet-available links are `aria-disabled` and announce their state in text —
-    8 demo chips (one per project card plus the open case study) and the 2 private-repository
-    chips. Re-measured at 10 after `resume.href` was filled in; it was 15 while the résumé was
-    still `null` and its five chips rendered disabled.
+    name; all nine not-yet-available links are `aria-disabled` and announce their state in text —
+    7 live-demo chips, one inside each case study, and the 2 private-repository chips on Job
+    Portal and Real Estate Platform. **Zero are on the main page**, which is a change: the cards
+    used to repeat every project's demo chip. Re-measured in the browser per route after the
+    cards were reduced; the count was 10 while the cards carried those chips.
   - `public/og-image.png` (1200×630) was generated from `public/og-image.svg` and visually
     confirmed to render its text correctly.
-  - All seven project case studies were switched through and asserted: the panel's
-    `aria-label`, its rendered heading and its body text all agree with the selected project,
-    the AI panel renders on the five projects that describe one, the agentic panel renders on
-    CodeGuard AI only, and every case study states that no measured results are recorded.
+  - All seven case studies were opened on their own route and asserted one by one: the `h1`
+    names the project, a problem and a solution are present with real body text (250–486 and
+    411–1026 characters respectively), each renders 11–13 `h2` panels, the AI panel appears on
+    the five projects that describe one, the agentic panel on CodeGuard AI only, and every case
+    study states that no measured results are recorded.
   - **Theme: contrast audited, not eyeballed.** 14 text pairs × 25 accent seeds × 2 modes
     (350 checks each), computing WCAG contrast from sRGB pixels read back through a canvas
     rather than from the `oklch()` strings the browser reports. Zero failures; worst 5.32:1

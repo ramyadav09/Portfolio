@@ -1,6 +1,7 @@
 import { ArrowUp, FileText, Mail } from 'lucide-react'
 import { navItems } from '../../data/navigation'
 import { profile } from '../../data/profile'
+import { sectionHref } from '../../lib/router'
 import { BrandMark } from '../ui/BrandMark'
 import { GithubGlyph, LinkedinGlyph } from '../ui/BrandGlyphs'
 import { Container } from '../ui/Container'
@@ -36,7 +37,7 @@ export function Footer() {
               {navItems.map((item) => (
                 <li key={item.id}>
                   <a
-                    href={`#${item.id}`}
+                    href={sectionHref(item.id)}
                     className="block py-1.5 text-sm text-fg-muted transition-colors duration-[var(--duration-fast)] hover:text-violet-bright"
                   >
                     {item.label}

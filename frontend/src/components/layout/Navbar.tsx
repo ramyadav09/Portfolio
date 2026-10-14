@@ -4,7 +4,9 @@ import { FileText, Menu, X } from 'lucide-react'
 import { navItems, sectionIds } from '../../data/navigation'
 import { profile } from '../../data/profile'
 import { useActiveSection } from '../../hooks/useActiveSection'
+import { useRoute } from '../../hooks/useRoute'
 import { BASE } from '../../lib/motion'
+import { sectionHref } from '../../lib/router'
 import { cn } from '../../lib/utils'
 import { ThemeMenu } from '../theme/ThemeMenu'
 import { BrandMark } from '../ui/BrandMark'
@@ -14,7 +16,15 @@ import { LinkChip } from '../ui/LinkChip'
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const activeId = useActiveSection(sectionIds)
+  const route = useRoute()
+  const sectionId = useActiveSection(sectionIds)
+
+  /**
+   * A case study is part of the work section even though no section is in view
+   * on its own route, so the nav keeps showing where the reader is. Without
+   * this the whole nav goes unhighlighted the moment a card is opened.
+   */
+  const activeId = route.name === 'case-study' ? 'work' : sectionId
 
   const toggleRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
@@ -101,7 +111,7 @@ export function Navbar() {
                 return (
                   <li key={item.id}>
                     <a
-                      href={`#${item.id}`}
+                      href={sectionHref(item.id)}
                       aria-current={isActive ? 'true' : undefined}
                       className={cn(
                         'relative block rounded-md px-3 py-2 text-sm transition-colors',
@@ -185,7 +195,7 @@ export function Navbar() {
                     return (
                       <li key={item.id} className="border-b border-line/70 last:border-b-0">
                         <a
-                          href={`#${item.id}`}
+                          href={sectionHref(item.id)}
                           aria-current={isActive ? 'true' : undefined}
                           onClick={() => setMenuOpen(false)}
                           className={cn(

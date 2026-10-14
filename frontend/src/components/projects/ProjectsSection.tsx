@@ -1,40 +1,27 @@
-import { useEffect, useRef, useState } from 'react'
-import { useReducedMotion } from 'motion/react'
 import { featuredProject, projects } from '../../data/projects'
 import { Container } from '../ui/Container'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 import { SectionHeading } from '../ui/SectionHeading'
-import { CASE_STUDY_PANEL_ID, ProjectCard } from './ProjectCard'
-import { ProjectCaseStudy } from './ProjectCaseStudy'
+import { ProjectCard } from './ProjectCard'
 
-const supportingProjects = projects.filter((project) => project.id !== featuredProject?.id)
+/**
+ * The project index.
+ *
+ * This section used to double as the case-study reader: selecting a card
+ * swapped a long panel in below the grid, which made the page carry every
+ * project's full write-up at once and left one card privileged over the others.
+ * Case studies now live on their own route (`#/work/:id`), so this is only ever
+ * an index — no selected state, no focus juggling, no panel.
+ *
+ * The featured project still leads, because that ordering is a judgement about
+ * which one to read first; it no longer gets a different card for it.
+ */
+const orderedProjects = featuredProject
+  ? [featuredProject, ...projects.filter((project) => project.id !== featuredProject.id)]
+  : [...projects]
 
 export function ProjectsSection() {
-  const [selectedId, setSelectedId] = useState(featuredProject?.id ?? '')
-  // Bumped on every selection so re-clicking an open card still moves focus.
-  const [focusRequest, setFocusRequest] = useState(0)
-  const prefersReducedMotion = useReducedMotion()
-  const panelRef = useRef<HTMLDivElement>(null)
-
-  const selectedProject = projects.find((project) => project.id === selectedId) ?? featuredProject
-
-  useEffect(() => {
-    if (focusRequest === 0) return
-
-    const node = panelRef.current
-    if (!node) return
-
-    // Focus first without scrolling, then scroll once — avoids a double jump.
-    node.focus({ preventScroll: true })
-    node.scrollIntoView({
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      block: 'start',
-    })
-  }, [focusRequest, prefersReducedMotion])
-
-  if (!selectedProject) return null
-
   return (
     <Section id="work" labelledBy="work-heading">
       <Container>
@@ -42,55 +29,20 @@ export function ProjectsSection() {
           <SectionHeading
             eyebrow="Selected work"
             title="Projects, with the reasoning attached."
-            lead="Each project below opens into the full case study: the problem, the architecture, the trade-offs I would defend in a review, and the security and failure behaviour that usually gets left out of a portfolio."
+            lead="Each project opens into a full case study: the problem, the architecture, the trade-offs I would defend in a review, and the security and failure behaviour that usually gets left out of a portfolio."
             titleId="work-heading"
           />
         </Reveal>
 
         <Reveal delay={0.04} className="mt-10">
-          <div className="grid gap-6 lg:grid-cols-2">
-            {featuredProject ? (
-              <div className="lg:col-span-2">
-                <ProjectCard
-                  project={featuredProject}
-                  isSelected={selectedProject.id === featuredProject.id}
-                  onSelect={(id) => {
-                    setSelectedId(id)
-                    setFocusRequest((value) => value + 1)
-                  }}
-                />
-              </div>
-            ) : null}
-
-            {supportingProjects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                isSelected={selectedProject.id === project.id}
-                onSelect={(id) => {
-                  setSelectedId(id)
-                  setFocusRequest((value) => value + 1)
-                }}
-              />
+          <ul className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {orderedProjects.map((project) => (
+              <li key={project.id} className="h-full">
+                <ProjectCard project={project} />
+              </li>
             ))}
-          </div>
+          </ul>
         </Reveal>
-
-        <div
-          id={CASE_STUDY_PANEL_ID}
-          ref={panelRef}
-          tabIndex={-1}
-          role="region"
-          aria-label={`${selectedProject.title} — full case study`}
-          className="panel mt-8 p-5 outline-none sm:p-7"
-        >
-          {/*
-            Keyed by project so choosing a card remounts the panel: the fade
-            replays, and the incoming case study is never waiting on the
-            previous one's exit animation to finish.
-          */}
-          <ProjectCaseStudy key={selectedProject.id} project={selectedProject} />
-        </div>
       </Container>
     </Section>
   )
