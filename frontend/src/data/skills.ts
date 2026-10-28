@@ -75,32 +75,34 @@ export const skillCategories: SkillCategory[] = [
       { name: 'SQL & query design', level: 'working' },
     ],
   },
+  /* Generative AI and agentic AI are separate categories rather than one, so
+     the thing LangChain is mostly used for read against the thing LangGraph is
+     used for. A recruiter hiring for agentic work otherwise has to guess which
+     half of a combined list applies to them. */
   {
-    id: 'mobile',
-    title: 'Mobile',
-    blurb: 'One codebase, shipped to both phone platforms.',
-    icon: 'mobile',
-    items: [
-      { name: 'React Native', level: 'primary' },
-      { name: 'Cross-platform app structure', level: 'working' },
-      { name: 'Consuming REST APIs from a client', level: 'working' },
-    ],
-  },
-  {
-    id: 'ai',
-    title: 'Generative & agentic AI',
-    blurb: 'Retrieval and orchestration around a model — not prompt tricks.',
+    id: 'genai',
+    title: 'Generative AI & LLMs',
+    blurb: 'Retrieval and grounding around a model — not prompt tricks.',
     icon: 'brain',
     items: [
       { name: 'LangChain', level: 'primary' },
-      { name: 'LangGraph', level: 'primary' },
       { name: 'LLM integration', level: 'working' },
       { name: 'RAG', level: 'working' },
-      { name: 'AI agents', level: 'working' },
-      { name: 'Agentic workflows', level: 'working' },
       { name: 'Prompt design & grounding', level: 'working' },
       { name: 'Vector search & embeddings', level: 'working' },
       { name: 'Retrieval quality evaluation', level: 'exploring' },
+    ],
+  },
+  {
+    id: 'agentic',
+    title: 'Agentic AI & orchestration',
+    blurb: 'Tools, durable state and approval steps wrapped around a model.',
+    icon: 'workflow',
+    items: [
+      { name: 'LangGraph', level: 'primary' },
+      { name: 'AI agents', level: 'working' },
+      { name: 'Agentic workflows', level: 'working' },
+      { name: 'Human-in-the-loop checkpoints', level: 'working' },
       { name: 'Multi-agent coordination', level: 'exploring' },
       { name: 'Background jobs for AI workloads', level: 'exploring' },
     ],

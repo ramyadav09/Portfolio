@@ -1,5 +1,6 @@
-import { FileText, Mail } from 'lucide-react'
+import { FileText, Mail, MapPin } from 'lucide-react'
 import { profile } from '../../data/profile'
+import { formatLocation } from '../../lib/identity'
 import { GithubGlyph, LinkedinGlyph } from '../ui/BrandGlyphs'
 import { Container } from '../ui/Container'
 import { LinkChip } from '../ui/LinkChip'
@@ -8,6 +9,8 @@ import { Section } from '../ui/Section'
 import { SectionHeading } from '../ui/SectionHeading'
 
 export function ContactSection() {
+  const location = formatLocation(profile.location)
+
   return (
     <Section id="contact" labelledBy="contact-heading" className="border-t border-line/60">
       <Container>
@@ -19,6 +22,15 @@ export function ContactSection() {
               lead="I am most useful on work that needs both sides of the stack: a product surface people actually use, backed by an API and a data model that will still make sense in a year. Send the problem, not a polished brief — I am happy to talk through scope."
               titleId="contact-heading"
             />
+
+            {/* Where the reader would be hiring: the one piece of the profile
+                that belongs in a contact block rather than in About. */}
+            {location ? (
+              <p className="mt-5 flex items-center gap-1.5 text-sm text-fg-muted">
+                <MapPin aria-hidden="true" className="size-4 shrink-0 text-violet-bright/80" />
+                Based in {location}
+              </p>
+            ) : null}
 
             <div className="mt-8 flex flex-wrap gap-2.5">
               <LinkChip

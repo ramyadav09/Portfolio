@@ -35,9 +35,13 @@ export function ProjectsSection() {
         </Reveal>
 
         <Reveal delay={0.04} className="mt-10">
+          {/* `min-w-0` on each item is load-bearing: a grid item's automatic
+              minimum size is its content, and the card's nowrap stack line would
+              otherwise widen the item past its column and push the page into
+              horizontal overflow at narrow widths. */}
           <ul className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {orderedProjects.map((project) => (
-              <li key={project.id} className="h-full">
+              <li key={project.id} className="h-full min-w-0">
                 <ProjectCard project={project} />
               </li>
             ))}

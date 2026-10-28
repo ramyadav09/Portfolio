@@ -25,22 +25,25 @@ Requires Node.js 20+ (developed on Node 24).
 
 ## What is actually in here
 
-| Section | File | Notes |
-| --- | --- | --- |
-| Navigation | `src/components/layout/Navbar.tsx` | Sticky, section-aware active state, accessible mobile menu |
-| Theme + accent picker | `src/components/theme/ThemeMenu.tsx` | Header popover: twelve accents, a free colour input, Dark / Light / System |
-| Hero | `src/components/hero/Hero.tsx` | Headline, intro, CTAs, social links |
-| System overview panel | `src/components/hero/SystemOverview.tsx` | Build / Integrate / Orchestrate — a map, not a dashboard |
-| Projects grid | `src/components/projects/ProjectsSection.tsx` | An index of seven equally sized cards, three across at desktop |
-| Project card | `src/components/projects/ProjectCard.tsx` | Status pill, title, tagline, one way in — nothing else |
-| Case-study page | `src/components/projects/CaseStudyPage.tsx` | One project at `#/work/:id`, with previous/next and a way back |
-| Case study body | `src/components/projects/ProjectCaseStudy.tsx` | Problem → who it is for → solution → flow → AI → agentic → quality → trade-offs → results |
-| Router | `src/lib/router.ts`, `src/hooks/useRoute.ts` | Hand-written hash router; no dependency, no server routes needed |
-| Architecture | `src/components/architecture/ArchitectureDiagram.tsx` | Interface → Service → Persistence, with AI as a branch |
-| Technical toolkit | `src/components/sections/TechStack.tsx` | Grouped by discipline, labelled by how much is claimed |
-| About | `src/components/sections/About.tsx` | Prose plus "currently exploring" |
-| Contact + footer | `src/components/sections/Contact.tsx`, `src/components/layout/Footer.tsx` | Real links only; no form that cannot deliver |
-| Sample-content notice | `src/components/layout/ContentStatusNotice.tsx` | Self-clearing build-time honesty marker |
+| Section               | File                                                                      | Notes                                                                                                                 |
+| --------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Navigation            | `src/components/layout/Navbar.tsx`                                        | Sticky, section-aware active state, accessible mobile menu                                                            |
+| Theme + accent picker | `src/components/theme/ThemeMenu.tsx`                                      | Header popover: twelve accents, a free colour input, Dark / Light / System                                            |
+| Hero                  | `src/components/hero/Hero.tsx`                                            | Portrait, full name and city, role pill, headline, one supporting line, two CTAs, social links                        |
+| Portrait              | `src/components/ui/Avatar.tsx`                                            | Headshot when `photoUrl` is set, a monogram built from the name when it is not                                        |
+| Identity helpers      | `src/lib/identity.ts`                                                     | Formats the location and derives initials — one implementation, not three                                             |
+| System overview panel | `src/components/hero/SystemOverview.tsx`                                  | Build / Integrate / Orchestrate — a map, not a dashboard                                                              |
+| Projects grid         | `src/components/projects/ProjectsSection.tsx`                             | An index of seven equally sized cards, three across at desktop                                                        |
+| Project card          | `src/components/projects/ProjectCard.tsx`                                 | Status pill, title, tagline, one line of stack, case-study link, repository link when public                          |
+| Case-study page       | `src/components/projects/CaseStudyPage.tsx`                               | One project at `#/work/:id`, with previous/next and a way back                                                        |
+| Case study body       | `src/components/projects/ProjectCaseStudy.tsx`                            | Problem → who it is for → solution → flow → AI → agentic → quality → trade-offs → results                             |
+| Router                | `src/lib/router.ts`, `src/hooks/useRoute.ts`                              | Hand-written hash router; no dependency, no server routes needed                                                      |
+| Document metadata     | `src/lib/documentMeta.ts`                                                 | Per-route tab title and meta description, restored on leaving the route                                               |
+| Architecture          | `src/components/architecture/ArchitectureDiagram.tsx`                     | Interface → Service → Persistence, with AI as a branch                                                                |
+| Technical toolkit     | `src/components/sections/TechStack.tsx`                                   | Eight disciplines, labelled by how much is claimed                                                                    |
+| About                 | `src/components/sections/About.tsx`                                       | `profile.intro` as the lead, location, career interests, education and experience when supplied, plus a résumé action |
+| Contact + footer      | `src/components/sections/Contact.tsx`, `src/components/layout/Footer.tsx` | Real links only; no form that cannot deliver                                                                          |
+| Sample-content notice | `src/components/layout/ContentStatusNotice.tsx`                           | Self-clearing build-time honesty marker                                                                               |
 
 ### Component structure
 
@@ -53,10 +56,10 @@ src/
     projects/{ProjectsSection,ProjectCard,CaseStudyPage,ProjectCaseStudy,ProjectPreviewFrame}.tsx
     sections/{TechStack,About,Contact}.tsx
     theme/ThemeMenu.tsx
-    ui/{Button,buttonVariants,BrandGlyphs,BrandMark,Container,LinkChip,Pill,Reveal,Section,SectionHeading,Stagger}.tsx
+    ui/{Avatar,Button,buttonVariants,BrandGlyphs,BrandMark,Container,LinkChip,Pill,Reveal,Section,SectionHeading,Stagger}.tsx
   data/{types,profile,projects,skills,architecture,navigation,theme}.ts
   hooks/{useActiveSection,useRoute,useTheme}.ts
-  lib/{motion,icons,projectStatus,router,theme,utils}.ts
+  lib/{documentMeta,identity,motion,icons,projectStatus,router,theme,utils}.ts
   styles → src/index.css   (design tokens and the theme layer live here)
 ```
 
@@ -64,11 +67,11 @@ src/
 
 Two kinds of destination share the URL fragment, told apart by a leading slash:
 
-| URL | Renders |
-| --- | --- |
-| `/`, or no fragment | Home, top of page |
-| `#work`, `#stack`, `#contact`, … | Home, scrolled to that section |
-| `#/work/smartfind` | The SmartFind case study, as its own page |
+| URL                              | Renders                                   |
+| -------------------------------- | ----------------------------------------- |
+| `/`, or no fragment              | Home, top of page                         |
+| `#work`, `#stack`, `#contact`, … | Home, scrolled to that section            |
+| `#/work/smartfind`               | The SmartFind case study, as its own page |
 
 Hash routes rather than real paths, deliberately: the site is static with no server routes, so a
 path-based URL would 404 when refreshed or shared unless the host rewrites unknown paths to
@@ -95,11 +98,15 @@ Two details the routing had to respect:
 
 **Everything you need to change is a `.ts` file in `src/data/` — no component edits required.**
 
-1. **`src/data/profile.ts`** — name, role, headline, intro, about paragraphs, links,
-   `isSampleContent`. This is already `false`: the profile describes the owner, so the notice
-   now tracks the outstanding projects only.
+1. **`src/data/profile.ts`** — every personal fact on the site. `fullName`, the short `name`
+   used by the navbar, `role`, `photoUrl`, `location`, `headline`, `subheadline`, `intro`,
+   `about`, `careerInterests`, `education`, `experience`, `exploring`, the four links and
+   `availability`. Editing a name, a city or a résumé URL is a one-line change here; nothing is
+   repeated in a component. `intro` renders as the **lead of the About section**, not in the
+   hero. `isSampleContent` is already `false`: the profile describes the owner, so the notice
+   tracks only outstanding projects.
 2. **`src/data/projects.ts`** — the seven projects, all `isPlaceholder: false`. Five are public
-   GitHub repositories; two (Job Portal, Real Estate Platform) are private and were written up
+   GitHub repositories; two (Seagol Jobs, Real Estate Platform) are private and were written up
    from their local source trees. Every entry's stack and features come from the code and
    manifests, not from the project's own README, which had drifted in both private repos.
    `featured: true` marks which project leads the grid; since every card is the same shape now,
@@ -139,18 +146,18 @@ All tokens are declared once in `src/index.css` inside Tailwind v4's `@theme` bl
 turns them into both CSS variables and utility classes (`bg-ink`, `text-fg-muted`,
 `border-line`, `font-display`, `shadow-panel`, and so on).
 
-| Token group | Values |
-| --- | --- |
-| Surfaces | `--color-ink` `#11152A`, `--color-surface` `#191E37`, `--color-surface-raised` `#1F2441`, `--color-surface-inset` `#151A34` |
+| Token group       | Values                                                                                                                                                         |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Surfaces          | `--color-ink` `#11152A`, `--color-surface` `#191E37`, `--color-surface-raised` `#1F2441`, `--color-surface-inset` `#151A34`                                    |
 | Accents (derived) | `--color-violet` `#A77BFF`, `--color-mint` `#8DE8C0`, `--color-info` `#A9C6FF`, `--color-on-accent` `#0B0E1C` — all computed from the user's pick, see Theming |
-| Semantic | `--color-caution` `#FFCF8F` — fixed amber in every theme, never derived |
-| Text | `--color-fg` `#F4F5FC`, `--color-fg-muted` `#B8BED2`, `--color-fg-subtle` `#8B93AD` |
-| Lines | `--color-line` `#262C48`, `--color-line-strong` `#3B4470`, `--color-focus` `#8DE8C0` |
-| Type | Space Grotesk (display), Inter (body), system monospace (labels) |
-| Radii | `--radius-xs`, `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl` |
-| Shadow | `--shadow-ambient`, `--shadow-panel`, `--shadow-glow` |
-| Motion | `--ease-out-soft`, `--ease-in-out-soft`, `--duration-fast`, `--duration-base`, `--duration-slow` |
-| Page scale | `--ui-scale` `90%` — applied as `font-size` on `html`; rescales the whole page |
+| Semantic          | `--color-caution` `#FFCF8F` — fixed amber in every theme, never derived                                                                                        |
+| Text              | `--color-fg` `#F4F5FC`, `--color-fg-muted` `#B8BED2`, `--color-fg-subtle` `#8B93AD`                                                                            |
+| Lines             | `--color-line` `#262C48`, `--color-line-strong` `#3B4470`, `--color-focus` `#8DE8C0`                                                                           |
+| Type              | Space Grotesk (display), Inter (body), system monospace (labels)                                                                                               |
+| Radii             | `--radius-xs`, `--radius-sm`, `--radius-md`, `--radius-lg`, `--radius-xl`                                                                                      |
+| Shadow            | `--shadow-ambient`, `--shadow-panel`, `--shadow-glow`                                                                                                          |
+| Motion            | `--ease-out-soft`, `--ease-in-out-soft`, `--duration-fast`, `--duration-base`, `--duration-slow`                                                               |
+| Page scale        | `--ui-scale` `90%` — applied as `font-size` on `html`; rescales the whole page                                                                                 |
 
 ### Page scale
 
@@ -163,7 +170,7 @@ re-scale the entire design.
 Two consequences are worth knowing:
 
 - **Breakpoints deliberately do not move with it.** `rem` inside a media query resolves against
-  the *initial* font size, never against a `font-size` set on `html`, so the responsive layout
+  the _initial_ font size, never against a `font-size` set on `html`, so the responsive layout
   still switches at the original viewport widths. Verified rather than assumed: at a 980 px
   viewport `(width >= 64rem)` is **false** while `(width >= 922px)` is **true**, i.e. `64rem`
   still resolves to 1024 px. Real browser zoom would additionally have treated the viewport as
@@ -188,7 +195,7 @@ painting are in `src/lib/theme.ts`.
 `--accent-chroma-cap`, the accent chroma the design was built with. That is what makes an
 arbitrary colour safe: the user chooses the hue, not the contrast. Two supporting hues are
 rotated off the same pick by the offsets the original palette used (support at −132°, info at
-−33°), so a theme stays internally consistent. `--color-caution` is deliberately *not* derived:
+−33°), so a theme stays internally consistent. `--color-caution` is deliberately _not_ derived:
 a warning that changes colour with someone's taste stops being a warning.
 
 **The default is exact.** The original violet measures `oklch(0.68496 0.189227 296.46)`, which
@@ -218,23 +225,23 @@ Stored values are treated as untrusted in both places: a mode of `neon` or an ac
 Two implementation notes that are easy to get wrong:
 
 - **Swatch previews are derived per element, not inherited.** Custom properties substitute
-  their `var()` references where they are *declared*, so a swatch that merely set
-  `--accent-source` would preview the *page's* accent, not its own. `.accent-swatch` therefore
+  their `var()` references where they are _declared_, so a swatch that merely set
+  `--accent-source` would preview the _page's_ accent, not its own. `.accent-swatch` therefore
   declares the seed and the formula together on the element.
 - **The panel is anchored to the header row, not to the button.** The button sits mid-cluster,
-  so a 21rem panel anchored to it ran off the *left* edge at 320 px. Anchoring to the row and
+  so a 21rem panel anchored to it ran off the _left_ edge at 320 px. Anchoring to the row and
   clamping to `100%` keeps it on screen at every width.
 
 ### Contrast (measured, WCAG 2.1)
 
-| Pair | Ratio | Level |
-| --- | --- | --- |
-| `#F4F5FC` on `#11152A` | 16.58:1 | AAA |
-| `#B8BED2` on `#11152A` | 9.73:1 | AAA |
-| `#8B93AD` on `#11152A` | 5.90:1 | AA |
-| `#A77BFF` on `#11152A` | 5.94:1 | AA |
-| `#8DE8C0` on `#11152A` | 12.40:1 | AAA |
-| `#11152A` on `#A77BFF` (primary button) | 5.94:1 | AA |
+| Pair                                    | Ratio   | Level |
+| --------------------------------------- | ------- | ----- |
+| `#F4F5FC` on `#11152A`                  | 16.58:1 | AAA   |
+| `#B8BED2` on `#11152A`                  | 9.73:1  | AAA   |
+| `#8B93AD` on `#11152A`                  | 5.90:1  | AA    |
+| `#A77BFF` on `#11152A`                  | 5.94:1  | AA    |
+| `#8DE8C0` on `#11152A`                  | 12.40:1 | AAA   |
+| `#11152A` on `#A77BFF` (primary button) | 5.94:1  | AA    |
 
 White text on the violet accent would only reach **2.79:1**, which is why the primary button
 uses near-black text (`--color-on-accent`) on the bright accent rather than the more obvious
@@ -293,7 +300,7 @@ present mid-swap and gone afterwards.
   its own `display`, because both classes land on the element and stylesheet order — not your
   intent — decides the winner. Wrap the component in an element that carries the display
   utility instead. This is exactly what went wrong with the header résumé chip: `hidden
-  lg:inline-flex` lost to `LinkChip`'s own `inline-flex`, so the chip stayed visible on mobile
+lg:inline-flex` lost to `LinkChip`'s own `inline-flex`, so the chip stayed visible on mobile
   and squeezed the brand name down to an ellipsis.
 - **No contact form.** There is no backend and no email service, so a form could not deliver
   anything. The links are the mechanism, and the section says so.
@@ -305,15 +312,44 @@ present mid-swap and gone afterwards.
 - **`status: 'built'` was added for the in-between case.** The original four statuses had no
   honest label for finished code that is not hosted: `live` would overclaim, `in-progress`
   would undersell completed work, and `concept` would be false. Six of the seven projects are
-  `built`; Job Portal is `in-progress`. Nothing is `live`.
+  `built`; Seagol Jobs is `in-progress`. Nothing is `live`.
 - **The case study is not wrapped in `AnimatePresence`.** It previously used
   `mode="wait"`, which does not mount the incoming project until the outgoing one finishes
-  exiting — so *which* case study you could read depended on an animation frame arriving. When
+  exiting — so _which_ case study you could read depended on an animation frame arriving. When
   frames are dropped or throttled the panel sat at `opacity: 0` still showing the previous
   project's markup. The component is now keyed by project id at the call site, so selection is
   an immediate remount with a fade, and an escape hatch renders it statically if the entrance
   animation has not resolved. Same rule as `Reveal`: an animation must never be the reason
   content is missing.
+- **The hero is one line shorter than it was.** It used to carry a third paragraph describing
+  the stack, which pushed both calls to action below the fold on a 1440×900 laptop and repeated
+  what About and Stack already say. That paragraph (`profile.intro`) is now the lead of the
+  About section, and the About paragraphs beneath it were cut to leave only what the intro does
+  not already say. The hero is the identity block, the role pill, headline, one supporting line,
+  the two actions and the social chips.
+- **The portrait falls back to a monogram, and that is deliberate.** `photoUrl` currently
+  points at the real headshot, which `src/data/profile.ts` imports from `src/assets/` so Vite
+  fingerprints and copies it like any other build asset. When it is `null`, `Avatar` instead
+  draws initials derived from `fullName` in the same frame, grid texture and accent gradient the
+  brand mark uses. The fallback exists because the alternative — a stock portrait, or a
+  generated one — would be a lie about who is on the page, which is worse than an obviously
+  designed placeholder.
+- **Education and experience are absent from the published UI, not empty.** Both fields are
+  typed and documented with worked examples in `src/data/profile.ts`, but `education` is `null`
+  and `experience` is `[]`, and the About panel renders those blocks only when there is
+  something in them. A degree and an employer are facts only the owner can state, and an empty
+  "Education" heading tells a reader less than saying nothing.
+- **The cards gained their stack line and repository link back.** An earlier pass left only a
+  status pill, a title, a tagline and one way in, which removed the only engineering evidence a
+  reader could scan without opening a case study. They now carry one line of real stack —
+  sliced at four entries and never wrapped, so it occupies exactly one line in every card — plus
+  a repository link when one is public. The two private projects omit the link entirely rather
+  than offering a dead one. The problem, the solution, the architecture and the trade-offs still
+  live only on `#/work/:id`.
+- **Generative AI and agentic AI are separate toolkit categories.** They were one list, which
+  left a reader hiring for agentic work guessing which half applied to them. LangChain sits
+  with retrieval and grounding, LangGraph with tools, state and approval steps — the split the
+  two target roles actually differ on.
 - **No analytics, no tracking, no cookies.**
 
 ### Bundle (production, measured)
@@ -322,11 +358,12 @@ These are the figures `npm run build` prints, restated as its three artefacts ra
 per-chunk split, because the previous table's per-chunk rows no longer summed to the total it
 quoted.
 
-| Artefact | Raw | Gzip |
-| --- | --- | --- |
-| `dist/index.html` | 3.9 kB | 1.7 kB |
-| `dist/assets/style-*.css` | ≈50 kB | ≈9.2 kB |
-| `dist/assets/index-*.js` | 500.2 kB | 157.7 kB |
+| Artefact                     | Raw       | Gzip      |
+| ---------------------------- | --------- | --------- |
+| `dist/index.html`            | 3.94 kB   | 1.65 kB   |
+| `dist/assets/style-*.css`    | ≈50 kB    | ≈9.2 kB   |
+| `dist/assets/index-*.js`     | 506.35 kB | 159.37 kB |
+| `dist/assets/Profile-*.jpeg` | 48.69 kB  | — (image) |
 
 The CSS figure is deliberately approximate: Tailwind v4 scans every non-ignored file for
 candidate class names, and this README counts — rewriting a sentence that mentions a utility
@@ -352,7 +389,7 @@ straightforward API deliberately; revisit if the budget tightens.
 Everything below was executed, not assumed:
 
 - `npm run build` — TypeScript 6 (`tsc -b`) clean, Vite production build succeeds.
-- `npm run lint` (`oxlint`, 116 rules over 45 files) — **0 warnings, 0 errors**.
+- `npm run lint` (`oxlint`, 116 rules over 46 files) — **0 warnings, 0 errors**.
 - Browser, via the dev server at 1440 / 768 / 390 / 320 px:
   - **No console errors** or failed requests.
   - **No horizontal overflow** at any of those widths (measured against
@@ -386,10 +423,57 @@ Everything below was executed, not assumed:
   - **The skip link does not navigate.** On a case-study route, <kbd>Tab</kbd> then
     <kbd>Enter</kbd> moved focus to `main#main`, left the hash at `#/work/smartfind` and kept the
     case study mounted — following the `href` would have sent the reader home instead.
-  - **The grid is uniform.** All seven cards measured identically — 389 × 343 px at 1440 (three
-    columns, three rows, no overflow), 342 × 267 px at 320 (one column, all at `left 18`) — with
-    two links each, and no case-study markup anywhere in the grid. Nothing on the main page is
-    larger than anything else.
+  - **The grid is uniform, with the stack line and repository link.** All seven cards measured
+    identically at every width — 343 × 420 px at 1440 and 1920 (three columns), 295 × 390 px at
+    1024 (three columns), 338 × 416 px at 768 (two columns), 323 × 407 px at 375 (one column),
+    267 × 412 px at 320 (one column) — with the stack occupying exactly one line in every card,
+    and no case-study markup anywhere in the grid. Five cards carry a repository link; the two
+    private projects carry two links rather than three, and no dead control.
+  - **A regression the stack line introduced, caught and fixed.** `truncate` is
+    `white-space: nowrap`, and a grid item's automatic minimum size is its content — so the
+    one-line stack gave each card a min-content width of about 357 px. That overflowed its
+    267 px column at 320 and pushed the whole page into horizontal overflow (114 elements past
+    the right edge). Fixed with `min-w-0` on the grid item and on the truncating span; the
+    reason is recorded in the component rather than left as a mystery class. Re-measured after
+    the fix: zero overflowing elements at 320, 375, 768, 1024, 1440 and 1920.
+  - **The `+N` stack summary is always readable.** It sits outside the truncating span, so a
+    long first four entries can clip the names without clipping how much is not shown — Job
+    Portal's first four are the longest of the seven and were the case that exposed this.
+    Verified inside its row's bounds on all seven cards at every width.
+  - **The hero fits a laptop screen.** With the identity block added, at 1440 × 900 the hero is
+    655 px tall and the primary CTA's bottom edge sits at 576 px, so nothing needs scrolling to
+    reach it. At 1024 × 768 the hero is 715 px and the CTA bottom is at 637 px — still on the
+    first screen. The third paragraph that used to sit here is gone from the DOM, not merely
+    hidden.
+  - **The identity block renders and scales.** The full name occupies one unclipped line at
+    320 px, and the formatted location renders beside a map pin in the hero, About and Contact.
+    The portrait frame measures 58 × 58 px at 320 and 65 × 65 px at 1024 and above.
+  - **The headshot actually loads, in the production build.** The `<img>` resolves to the
+    fingerprinted `/assets/Profile-*.jpeg`, reports `complete` with `naturalWidth` 864 (the
+    source is 864 × 1184), and crops to the square frame through `object-cover`. It is not a
+    broken reference that merely looks fine in dev.
+  - **The monogram fallback was verified too**, before the photo was added: with `photoUrl:
+null`, the frame rendered `RY` at 320, 1440 and 1920 px. Both branches of `Avatar` have been
+    seen rendering, not just the one currently in use.
+  - **The keyboard reaches every identity control.** Real <kbd>Tab</kbd> presses moved focus
+    through Explore my work → View résumé → the GitHub and LinkedIn chips, each matching
+    `:focus-visible` and painting a 2 px ring at a 2 px offset. Every link in the hero, About and
+    Contact is a real anchor with a valid `href` — none empty, none `#` — and none excluded from
+    the tab order. One caveat worth recording: the ring only measured while the document held
+    focus, so an automated probe run without a preceding real key press reports no outline at
+    all. That is a property of the harness, not of the page, and it initially looked like a
+    failure.
+  - **Every project placeholder is uniform and names its project.** All seven measure 342 × 213
+    px at 1440, and each `role="img"` label names the project before stating the state, e.g.
+    `SmartFind: screenshot pending. Capture the item detail view…`.
+  - **Two placeholder defects fixed.** The visible chip and the caption both read "Screenshot
+    pending", and the accessible label said it a third time. The chip now carries the state
+    while the captions (edited in `src/data/projects.ts`) say what to capture.
+  - **The tab names the page.** A cold load of `#/work/job-portal` in the production build sets
+    the title to `Seagol Jobs — case study · Intelligence Workspace` and the description to that
+    project's tagline; leaving the route restores both to the home values.
+  - **All eight toolkit categories render**, including the split that now separates
+    `Generative AI & LLMs` from `Agentic AI & orchestration`, with no repeated entries.
   - **A case study's heading outline has no skipped levels** (`h1 → h2 → h3`) — rechecked after
     the panel headings were re-mapped from `h3`/`h4` to `h1`/`h2`/`h3`.
   - Contrast ratios computed for every token pair (table above).
@@ -434,10 +518,13 @@ Everything below was executed, not assumed:
     the bug the original right-edge-only sweep missed.
   - **Theme: works in the production build**, not just the dev server — 12 distinct swatches,
     a working selection, and no console errors from a `vite preview` of `dist/`.
-  - All five public repository links were requested and returned **HTTP 200** — no dead links.
-    The two private repositories were confirmed to return **404** anonymously, which is why they
-    carry a disabled chip rather than a link.
-  - Job Portal and Real Estate Platform case studies were opened and asserted: no AI or agentic
+  - All five public repository links were requested and returned **HTTP 200** — no dead links,
+    re-checked after the cards started carrying them. The two private repositories were confirmed
+    to return **404** anonymously, which is why they carry a disabled chip rather than a link.
+    The résumé's Drive link also returned **HTTP 200**. LinkedIn answers a scripted request with
+    **999**, which is LinkedIn refusing non-browser clients rather than a broken link — it was not
+    counted as verified.
+  - Seagol Jobs and Real Estate Platform case studies were opened and asserted: no AI or agentic
     panel renders where `ai` and `agentic` are `null`, rather than an empty panel appearing.
   - `LangGraph` was checked while sourcing projects and is an empty repository, so it was left
     out rather than written up as work that does not exist.
@@ -449,7 +536,7 @@ Everything below was executed, not assumed:
   but this environment had no way to emulate the OS setting, so the rendered reduced-motion
   state was not observed in a browser. The theme cross-fade's reduced-motion branch
   (`applyTheme` skipping the transition class) falls under the same gap — the class was
-  confirmed to be applied and then removed under normal motion, but never observed *not* being
+  confirmed to be applied and then removed under normal motion, but never observed _not_ being
   applied.
 - **Animated smooth scrolling, and any motion-driven unmount, in the preview browser.** The
   embedded preview's compositor wedged partway through the session and never recovered;
@@ -460,7 +547,13 @@ Everything below was executed, not assumed:
   watching the panel finish animating out. Smooth scrolling is plain CSS
   (`scroll-behavior: smooth`) with `scroll-margin-top` on every anchor, and is verified by
   code, not by observation.
-- **Lighthouse / real device testing.** Not run.
+- **Lighthouse / real device testing.** Not run. The responsive checks above are Chromium
+  viewport measurements, which are not the same as a real 320 px phone: touch behaviour, dynamic
+  viewport units during browser-chrome collapse and real font metrics were not exercised.
+- **Per-case-study link previews.** A hash route is the same document to a social crawler, so
+  every shared URL shows the site-level `og:` tags. Per-project previews would need either real
+  server-rewritten paths (which a static host cannot do without configuration) or a crawler-facing
+  page per project.
 
 ---
 
@@ -471,7 +564,7 @@ supply it.
 
 1. **Confirm your contribution on each project** — `src/data/projects.ts` describes each
    repository's scope, taken from its README and source tree. That is not the same as saying
-   which parts *you* wrote. If any of these were team or hackathon builds, narrow the
+   which parts _you_ wrote. If any of these were team or hackathon builds, narrow the
    `contribution` field on each to your own part. This is the one claim on the page a reader
    cannot check, so it is the one worth getting exactly right.
 2. ~~**Résumé**~~ — **done.** `resume.href` now points at a Google Drive file, so all five
@@ -480,12 +573,13 @@ supply it.
    "anyone with the link" sends visitors to a Google sign-in wall instead of the file, and it
    exposes the file id in the URL. A PDF in `public/` pointed at `/resume.pdf` has neither
    problem and costs nothing to host here.
-3. **Screenshots** — every project still uses the labelled placeholder. Export 1600×900 PNG
-   or WebP, drop them in `public/`, then switch `preview` to
-   `{ kind: 'image', src, alt, width, height }`. SmartFind's README lists the four screens
-   worth capturing.
+3. **Screenshots** — the largest remaining gap. All seven cards show the labelled "Screenshot
+   pending" frame, because none was supplied. (The case-study pages do not render a preview
+   panel at all, so the placeholder appears in one place.) Export 1600×900 PNG or WebP, drop
+   them in `public/`, then switch `preview` to `{ kind: 'image', src, alt, width, height }`.
+   Each placeholder's caption already names the screen worth capturing.
 4. **Demos, if you deploy any** — six of the seven projects are `status: 'built'`, which means
-   the code runs but nothing is hosted, and Job Portal is `in-progress`. Nothing is `live`, and
+   the code runs but nothing is hosted, and Seagol Jobs is `in-progress`. Nothing is `live`, and
    every `demo.href` is `null`. If you deploy one, set the URL and move its status to `live` —
    that is the only status that reads as a shipped achievement.
 5. **Verified results** — `caseStudy.results` is empty on all seven projects, and each case
@@ -499,10 +593,29 @@ supply it.
 8. **Read the copy as a claim** — the `intro`, `about` paragraphs and `exploring` list in
    `src/data/profile.ts` are written in the first person from the details you supplied.
    Reword anything that does not sound like you.
-9. **Decide the default appearance.** `DEFAULT_THEME` in `src/data/theme.ts` ships as
-   `mode: 'dark'` with the original violet, so a first-time visitor sees the design that was
-   signed off. Retarget that one line to `'system'` if you would rather light-OS visitors land
-   in light mode — the rest of the system already handles it.
+9. ~~**A headshot**~~ — **done.** `src/assets/Profile.jpeg` (864 × 1184) is imported by
+   `src/data/profile.ts` and crops to the square frame. Two optional follow-ups: the file is
+   ~49 kB and renders at 65 px, so a 200 × 200 square export would cut most of that, and if the
+   centre crop ever lands badly on a replacement photo, adjust `object-position` in `Avatar`.
+10. **Education and experience** — both are wired up and deliberately unpublished.
+    `education` is `null` and `experience` is `[]` in `src/data/profile.ts`, each with a worked
+    example in the comment above it. Fill either one in and the corresponding block appears in
+    the About panel with no component change. Nothing was guessed on your behalf: a degree, an
+    institution, a year and an employer are exactly the claims a reader cannot check.
+11. **Confirm the identity I published for you.** You chose these, but they are now live on the
+    page, so they are worth one last look: `fullName: 'Ram Kumar Yadav'`, the short `name:
+'Ram'` in the navbar, and `location: { city: 'Bhubaneswar', state: 'Odisha' }`, which you
+    set directly. `src/lib/identity.ts` formats `Location` as `city, state, country` — every
+    part optional, trimmed, and any part that merely repeats an earlier one dropped, so
+    "Nepal, Nepal" cannot happen. Adding `country: 'India'` renders
+    `Bhubaneswar, Odisha, India` in all three places with no component change; it is left unset
+    because it is not a fact stated in this project.
+    `careerInterests` and the rewritten `subheadline` ("An entry-level developer…") are also
+    first-person claims drawn from this brief; reword anything that does not sound like you.
+12. **Decide the default appearance.** `DEFAULT_THEME` in `src/data/theme.ts` ships as
+    `mode: 'dark'` with the original violet, so a first-time visitor sees the design that was
+    signed off. Retarget that one line to `'system'` if you would rather light-OS visitors land
+    in light mode — the rest of the system already handles it.
 
 ### After deploying
 

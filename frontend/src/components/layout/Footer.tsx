@@ -19,7 +19,12 @@ export function Footer() {
             <div className="flex items-center gap-2.5">
               <BrandMark className="size-8 shrink-0" />
               <div className="flex flex-col leading-tight">
-                <span className="font-display text-[0.9375rem] font-semibold">{profile.name}</span>
+                {/* Full name here: the footer is the site's identity block,
+                    so it matches how the hero and the résumé introduce him.
+                    The navbar keeps the short name for space. */}
+                <span className="font-display text-[0.9375rem] font-semibold">
+                  {profile.fullName}
+                </span>
                 <span className="mono-label text-[0.625rem]">{profile.brand}</span>
               </div>
             </div>
@@ -71,7 +76,7 @@ export function Footer() {
 
         <div className="mt-10 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-fg-subtle">
-            © {currentYear} {profile.name}. {profile.footerNote}
+            © {currentYear} {profile.fullName}. {profile.footerNote}
           </p>
           <a
             href="#top"

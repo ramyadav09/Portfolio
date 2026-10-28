@@ -26,6 +26,41 @@ export interface Availability {
   note?: string
 }
 
+/** City and state, kept apart so either can be omitted or reworded. */
+export interface Location {
+  city: string
+  /** Region between city and country — a state or province. */
+  state?: string
+  /**
+   * Country. Optional, and currently unset, so the hero reads
+   * `Bhubaneswar, Odisha`. Set it to `'India'` and it renders
+   * `Bhubaneswar, Odisha, India` — no component change.
+   */
+  country?: string
+}
+
+/**
+ * One qualification. `null` on the profile omits the whole block from the UI —
+ * an empty "Education" heading is worse than no heading.
+ */
+export interface Education {
+  degree: string
+  institution: string
+  /** A year or range, e.g. `2026` or `2022 — 2026`. */
+  graduationYear: string
+  /** Optional qualifier, e.g. `Expected` or `First class`. */
+  note?: string
+}
+
+/** One role, internship or freelance engagement. */
+export interface ExperienceEntry {
+  role: string
+  organisation: string
+  /** Free text, e.g. `Jun 2025 — Aug 2025`. */
+  period: string
+  summary: string
+}
+
 export interface Profile {
   /**
    * Whether the profile and About copy are still sample content. Projects are
@@ -33,17 +68,28 @@ export interface Profile {
    * unfinished projects after the profile itself is real.
    */
   isSampleContent: boolean
-  /** Display name, also used as the navigation brand. */
+  /**
+   * Full published name — the hero, the footer and the document author.
+   * Nothing derives this from `name`, so the two can differ deliberately.
+   */
+  fullName: string
+  /** Short display name, also used as the navigation brand. */
   name: string
   /** Short brand suffix shown next to the name in the navbar. */
   brand: string
+  /** The role being applied for. Shown as the hero's role pill. */
   role: string
-  location: string | null
+  /**
+   * Headshot path under `public/`, e.g. `/headshot.jpg`. While this is `null`
+   * the hero draws a monogram instead of a photo — never a stock face.
+   */
+  photoUrl: string | null
+  location: Location | null
   /** Hero headline. Keep it short: it is the largest text on the page. */
   headline: string
   /** One-line support under the headline. */
   subheadline: string
-  /** Two or three sentences of introduction, shown in the hero. */
+  /** Lead paragraph of the About section. Kept out of the hero on purpose. */
   intro: string
   email: string | null
   github: MaybeLink
@@ -51,8 +97,21 @@ export interface Profile {
   resume: MaybeLink
   /** Set to null to hide the availability pill entirely. */
   availability: Availability | null
-  /** About section, one paragraph per entry. */
+  /**
+   * About section body, one paragraph per entry, rendered under `intro`.
+   * Keep these about approach and judgement — the stack belongs in `intro` and
+   * in the skills data, not repeated here.
+   */
   about: string[]
+  /**
+   * The kind of work being looked for, as short phrases. Rendered as a list in
+   * About; distinct from `exploring`, which is what is being learned.
+   */
+  careerInterests: string[]
+  /** `null` omits the education block from About entirely. */
+  education: Education | null
+  /** Empty omits the experience block from About entirely. */
+  experience: ExperienceEntry[]
   /** "Currently exploring" list shown at the end of the About section. */
   exploring: string[]
   /** Optional footnote rendered in the footer. */

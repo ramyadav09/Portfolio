@@ -53,8 +53,11 @@ export const projects: Project[] = [
     repo: { label: 'Repository', href: 'https://github.com/ramyadav09/Smart-Find' },
     demo: { label: 'Live demo', href: null },
     preview: {
-      kind: 'placeholder',
-      caption: 'Screenshot pending — capture the item detail view with a match card and its reasons.',
+      kind: 'image',
+      src: '/assets/smart-find.png',
+      alt: 'SmartFind item detail view with match card and reasons',
+      width: 800,
+      height: 500,
     },
     highlights: [
       'Weighted matching: 0.55 semantic similarity plus category, colour, location and date proximity, with a 0.35 floor and a cap of ten matches.',
@@ -243,7 +246,7 @@ export const projects: Project[] = [
   },
   {
     id: 'job-portal',
-    title: 'Job Portal',
+    title: 'Seagol Jobs',
     tagline: 'A job marketplace where a booking queue and a refundable deposit keep both sides honest.',
     summary:
       'A three-surface platform — FastAPI backend, React admin panel and React Native app — where posters book seekers, a FIFO queue absorbs over-subscription, and a commitment deposit is returned on completion but forfeited on a late cancellation or no-show.',
@@ -276,8 +279,11 @@ export const projects: Project[] = [
     repo: { label: 'Private repository', href: null },
     demo: { label: 'Live demo', href: null },
     preview: {
-      kind: 'placeholder',
-      caption: 'Screenshot pending — capture the seeker booking flow and the queue accept window.',
+      kind: 'image',
+      src: '/assets/seagol-jobs.png',
+      alt: 'Seagol Jobs seeker booking flow and queue accept window',
+      width: 800,
+      height: 500,
     },
     highlights: [
       'A FIFO queue that auto-queues seekers once a job is fully booked, giving each a 30-minute window to accept before the slot passes on.',
@@ -459,7 +465,7 @@ export const projects: Project[] = [
     demo: { label: 'Live demo', href: null },
     preview: {
       kind: 'placeholder',
-      caption: 'Screenshot pending — capture the listing search with the map view open.',
+      caption: 'Capture the listing search with the map view open.',
     },
     highlights: [
       'Three roles with different powers — customer, owner and admin — with verification enforced server-side.',
@@ -634,7 +640,7 @@ export const projects: Project[] = [
     demo: { label: 'Live demo', href: null },
     preview: {
       kind: 'placeholder',
-      caption: 'Screenshot pending — capture the findings list with severity filters applied.',
+      caption: 'Capture the findings list with severity filters applied.',
     },
     highlights: [
       'Four specialist agents instead of one general reviewer: bug detection, security review, code quality and test coverage.',
@@ -883,7 +889,7 @@ export const projects: Project[] = [
     demo: { label: 'Live demo', href: null },
     preview: {
       kind: 'placeholder',
-      caption: 'Screenshot pending — capture the builder with the live document preview alongside it.',
+      caption: 'Capture the builder with the live document preview alongside it.',
     },
     highlights: [
       'A five-layer backend with strict downward dependencies: transport → services → domain/AI → ports → adapters.',
@@ -1070,154 +1076,6 @@ export const projects: Project[] = [
     },
   },
   {
-    id: 'yt-bot',
-    title: 'YT-Bot',
-    tagline: 'Ask questions about any YouTube video and get answers grounded in its transcript.',
-    summary:
-      'A retrieval-augmented chatbot that takes a YouTube URL, builds a searchable index from the video transcript, and answers questions from the retrieved passages.',
-    status: 'built',
-    featured: false,
-    isPlaceholder: false,
-    stack: ['Python', 'FastAPI', 'LangChain', 'Mistral AI', 'ChromaDB', 'React', 'Vite', 'Tailwind CSS'],
-    repo: { label: 'Repository', href: 'https://github.com/ramyadav09/YT-Bot' },
-    demo: { label: 'Live demo', href: null },
-    preview: {
-      kind: 'placeholder',
-      caption: 'Screenshot pending — capture the chat view with a video loaded and a grounded answer.',
-    },
-    highlights: [
-      'Retrieval-augmented generation over a video transcript, rather than asking a model to summarise from memory.',
-      'LangChain handles transcript chunking and the retrieval chain; ChromaDB stores and searches the embeddings.',
-      'Mistral AI for the generation step, kept behind LangChain so the model is swappable.',
-      'FastAPI exposes the RAG pipeline as an API, with a separate React + Tailwind chat frontend.',
-      'A single input — paste a YouTube URL — is the whole setup, which keeps the retrieval boundary obvious.',
-    ],
-    contribution:
-      'Built the RAG pipeline (transcript retrieval and chunking, vector indexing in ChromaDB, the LangChain retrieval chain and the Mistral generation step) and the React chat interface.',
-    caseStudy: {
-      disclaimer:
-        'Runs locally from the repository — the backend and frontend are started separately. There is no hosted demo and no measured result recorded.',
-      problem:
-        'A long video is slow to search. General-purpose chat assistants will happily summarise a video they cannot read, which produces confident answers with nothing behind them. The useful question is narrower: what does this specific video actually say about this specific thing?',
-      intendedUsers:
-        'Anyone who needs one answer out of a long talk, lecture or walkthrough without scrubbing through it — and who wants the answer to come from the transcript rather than from the model\'s general knowledge.',
-      solution:
-        'Paste a YouTube URL and the backend fetches the transcript, splits it into overlapping chunks, embeds them and stores them in ChromaDB. A question is embedded, the nearest chunks are retrieved, and only those passages are passed to Mistral through a LangChain retrieval chain. Because generation is grounded in retrieved transcript text, the answer reflects the video rather than a generic summary of its topic.',
-      dataFlow: [
-        {
-          label: '1 · Ingest',
-          detail:
-            'A YouTube URL is submitted to the FastAPI backend and the video\'s transcript is fetched as the source text.',
-        },
-        {
-          label: '2 · Chunk',
-          detail:
-            'LangChain splits the transcript into overlapping chunks, so a passage spanning a chunk boundary is still retrievable.',
-        },
-        {
-          label: '3 · Index',
-          detail:
-            'Each chunk is embedded and written to ChromaDB alongside the original text, which keeps the retrieval corpus inspectable.',
-        },
-        {
-          label: '4 · Retrieve',
-          detail:
-            'A question is embedded and ChromaDB returns the most similar chunks — the only material the model is allowed to answer from.',
-        },
-        {
-          label: '5 · Generate',
-          detail:
-            'The retrieved chunks and the question are assembled into a LangChain retrieval chain and sent to Mistral, which answers from the supplied passages.',
-        },
-        {
-          label: '6 · Respond',
-          detail:
-            'The answer is returned to the React client and rendered in the chat view for the loaded video.',
-        },
-      ],
-      stack: [
-        {
-          label: 'Backend',
-          items: [
-            'FastAPI application exposing the RAG endpoints',
-            'LangChain for chunking and the retrieval chain',
-            'Mistral AI as the generation model, behind LangChain',
-            'ChromaDB as the persistent vector store',
-          ],
-        },
-        {
-          label: 'Frontend',
-          items: [
-            'React with Vite',
-            'Tailwind CSS for the chat interface',
-            'Paste a video URL, then ask questions about it',
-          ],
-        },
-      ],
-      ai: {
-        summary:
-          'A straightforward retrieval pipeline: embed the transcript, retrieve on the question, generate only from what was retrieved. The value is in the grounding — the model never answers from general knowledge about the video\'s topic.',
-        model: 'Mistral AI for generation, invoked through a LangChain retrieval chain so the model can be replaced without rewriting the pipeline.',
-        pipeline: [
-          {
-            label: '01',
-            detail: 'Transcript ingestion — the video\'s text is fetched and treated as the only source of truth.',
-          },
-          {
-            label: '02',
-            detail: 'Chunking — LangChain splits the transcript into overlapping passages sized for retrieval.',
-          },
-          {
-            label: '03',
-            detail: 'Embedding and indexing — chunks are embedded and stored in ChromaDB with their text.',
-          },
-          {
-            label: '04',
-            detail: 'Retrieval — the question is embedded and the nearest chunks are selected.',
-          },
-          {
-            label: '05',
-            detail: 'Grounded generation — retrieved passages plus the question go to Mistral, which answers from them.',
-          },
-        ],
-      },
-      agentic: null,
-      errorHandling: [
-        'A video with no available transcript fails with a clear message rather than an empty answer.',
-        'Without a Mistral API key the backend cannot start, and the README states the prerequisite up front instead of failing obscurely at first request.',
-      ],
-      security: [
-        'The Mistral API key is held in the backend environment and never exposed to the browser.',
-        'Transcript text is treated as untrusted input and delimited before it reaches the prompt.',
-      ],
-      testing: [
-        'Not covered by an automated suite at the time of writing — the repository documents setup and manual verification only.',
-      ],
-      tradeoffs: [
-        {
-          decision: 'ChromaDB instead of a vector store inside an existing database',
-          rationale:
-            'The whole application is a retrieval demo, so a purpose-built local vector store removed setup friction. A transactional database would be the better choice once answers must survive alongside user data.',
-        },
-        {
-          decision: 'LangChain instead of calling the model directly',
-          rationale:
-            'Chunking plus retrieval plus a generation chain is exactly what LangChain already provides, and it keeps the model swappable. The cost is a dependency whose abstractions have to be learned.',
-        },
-        {
-          decision: 'One video per session',
-          rationale:
-            'It keeps the retrieval boundary obvious — you always know what corpus an answer came from. Cross-video search would need document-level scoping the current index does not carry.',
-        },
-      ],
-      lessons: [
-        'Retrieval quality decides the answer, not the prompt — most of the work went into chunking rather than wording.',
-        'Grounding the model in retrieved text removed the confident-but-wrong answers that make an ungrounded chatbot useless for this task.',
-      ],
-      results: [],
-    },
-  },
-  {
     id: 'email-summarizer',
     title: 'Email Summarizer',
     tagline: 'Connect Gmail, summarise the inbox, draft replies — through an OAuth flow that never exposes a password.',
@@ -1241,8 +1099,11 @@ export const projects: Project[] = [
     repo: { label: 'Repository', href: 'https://github.com/ramyadav09/Email-Summarizer' },
     demo: { label: 'Live demo', href: null },
     preview: {
-      kind: 'placeholder',
-      caption: 'Screenshot pending — capture the inbox with a summarised email and a drafted reply.',
+      kind: 'image',
+      src: '/assets/emailsummarizer.png',
+      alt: 'Email Summarizer inbox with summarised email and drafted reply',
+      width: 800,
+      height: 500,
     },
     highlights: [
       'Google OAuth 2.0 rather than password handling — the app never sees Gmail credentials.',

@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { profile } from '../../data/profile'
 import { projects } from '../../data/projects'
 import type { Project } from '../../data/types'
+import { resetDocumentMeta, setDocumentMeta } from '../../lib/documentMeta'
 import { caseStudyHref } from '../../lib/router'
 import { ButtonLink } from '../ui/Button'
 import { Container } from '../ui/Container'
@@ -30,6 +32,25 @@ export function CaseStudyPage({ projectId }: CaseStudyPageProps) {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [projectId])
+
+  /**
+   * The tab and any bookmark should name the case study, not the home page.
+   * `project` comes from module data, so its identity is stable and this only
+   * re-runs when a different case study is shown. Leaving the route restores
+   * the home values through the cleanup.
+   */
+  useEffect(() => {
+    if (project) {
+      setDocumentMeta({
+        title: `${project.title} — case study · ${profile.brand}`,
+        description: project.tagline,
+      })
+    } else {
+      setDocumentMeta({ title: `No case study at this address · ${profile.brand}` })
+    }
+
+    return resetDocumentMeta
+  }, [project])
 
   if (!project) {
     return (

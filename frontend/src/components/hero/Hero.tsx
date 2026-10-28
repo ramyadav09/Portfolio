@@ -1,6 +1,8 @@
-import { ArrowRight, CircleDot, FileText } from 'lucide-react'
+import { ArrowRight, CircleDot, FileText, MapPin } from 'lucide-react'
 import { profile } from '../../data/profile'
+import { formatLocation } from '../../lib/identity'
 import { GithubGlyph, LinkedinGlyph } from '../ui/BrandGlyphs'
+import { Avatar } from '../ui/Avatar'
 import { ButtonLink } from '../ui/Button'
 import { buttonClasses } from '../ui/buttonVariants'
 import { Container } from '../ui/Container'
@@ -9,16 +11,48 @@ import { Pill } from '../ui/Pill'
 import { StaggerGroup, StaggerItem } from '../ui/Stagger'
 import { SystemOverview } from './SystemOverview'
 
+/**
+ * Who this is, what they build, and where to go next — in that order.
+ *
+ * The identity block (portrait, full name, city) leads because a reader who
+ * arrived from a résumé or a LinkedIn message is looking for a person first.
+ * It is deliberately three short pieces: a paragraph of biography here pushed
+ * both calls to action below the fold and repeated what About already says, so
+ * the detail lives there and the hero stays identity, headline, one supporting
+ * line and the two actions.
+ *
+ * The portrait is `Avatar`, which draws a monogram when no headshot is
+ * configured — see `photoUrl` in `src/data/profile.ts`.
+ */
 export function Hero() {
+  const location = formatLocation(profile.location)
+
   return (
     <section id="top" aria-labelledby="hero-heading" className="relative isolate overflow-hidden">
       {/* Blueprint texture: one decorative layer, no motion, no particles. */}
       <div aria-hidden="true" className="grid-texture pointer-events-none absolute inset-0 -z-10" />
 
-      <Container className="pt-14 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
-          <StaggerGroup className="flex flex-col items-start gap-6">
-            <StaggerItem>
+      <Container className="pt-10 pb-16 sm:pt-12 sm:pb-20 lg:pt-14 lg:pb-24">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14">
+          <StaggerGroup className="flex flex-col items-start gap-5">
+            <StaggerItem className="w-full">
+              <div className="flex items-center gap-4">
+                <Avatar name={profile.fullName} photoUrl={profile.photoUrl} />
+                <div className="min-w-0">
+                  <p className="font-display text-[1.125rem] leading-tight font-semibold sm:text-[1.3125rem]">
+                    {profile.fullName}
+                  </p>
+                  {location ? (
+                    <p className="mt-1.5 flex items-center gap-1.5 text-sm text-fg-subtle">
+                      <MapPin aria-hidden="true" className="size-3.5 shrink-0" />
+                      {location}
+                    </p>
+                  ) : null}
+                </div>
+              </div>
+            </StaggerItem>
+
+            <StaggerItem className="w-full">
               <div className="flex flex-wrap items-center gap-2.5">
                 <Pill tone="violet">{profile.role}</Pill>
                 {profile.availability ? (
@@ -28,9 +62,6 @@ export function Hero() {
                       <span className="sr-only"> — {profile.availability.note}</span>
                     ) : null}
                   </Pill>
-                ) : null}
-                {profile.location ? (
-                  <span className="text-sm text-fg-subtle">{profile.location}</span>
                 ) : null}
               </div>
             </StaggerItem>
@@ -46,10 +77,6 @@ export function Hero() {
 
             <StaggerItem className="w-full">
               <p className="max-w-[52ch] text-lg text-fg sm:text-xl">{profile.subheadline}</p>
-            </StaggerItem>
-
-            <StaggerItem className="w-full">
-              <p className="max-w-[64ch] text-[0.9375rem] text-fg-muted">{profile.intro}</p>
             </StaggerItem>
 
             <StaggerItem className="w-full">
