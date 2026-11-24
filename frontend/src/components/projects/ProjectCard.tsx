@@ -48,7 +48,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       aria-labelledby={`project-${project.id}-title`}
       className="panel group flex h-full flex-col overflow-hidden transition-[border-color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong"
     >
-      <div className="relative aspect-[16/10] shrink-0 overflow-hidden border-b border-line">
+      <div className="relative aspect-[16/10] shrink-0 overflow-hidden border-b border-line bg-surface-inset">
         <ProjectPreviewFrame
           preview={project.preview}
           label={project.title}

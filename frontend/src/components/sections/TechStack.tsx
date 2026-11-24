@@ -1,5 +1,6 @@
 import { proficiencyMeta, proficiencyOrder, skillCategories } from '../../data/skills'
 import { getIcon } from '../../lib/icons'
+import { cn } from '../../lib/utils'
 import { Container } from '../ui/Container'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
@@ -24,12 +25,17 @@ export function TechStackSection() {
           />
         </Reveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {skillCategories.map((category, index) => {
             const Icon = getIcon(category.icon)
+            const isLast = index === skillCategories.length - 1
 
             return (
-              <Reveal key={category.id} delay={0.03 * index}>
+              <Reveal
+                key={category.id}
+                delay={0.03 * index}
+                className={isLast ? 'md:col-span-2 lg:col-span-3' : undefined}
+              >
                 <article
                   aria-labelledby={`stack-${category.id}`}
                   onPointerMove={handlePointerMove}
@@ -58,7 +64,7 @@ export function TechStackSection() {
                     </div>
                   </header>
 
-                  <div className="flex flex-col gap-4">
+                  <div className={cn('flex flex-col gap-4', isLast && 'md:grid md:grid-cols-3 md:gap-6')}>
                     {proficiencyOrder.map((level) => {
                       const items = category.items.filter((item) => item.level === level)
                       if (items.length === 0) return null

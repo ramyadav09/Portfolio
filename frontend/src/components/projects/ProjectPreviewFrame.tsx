@@ -31,7 +31,7 @@ export function ProjectPreviewFrame({ preview, label, priority = false, classNam
         loading={priority ? 'eager' : 'lazy'}
         fetchPriority={priority ? 'high' : 'auto'}
         decoding="async"
-        className={cn('size-full object-contain', className)}
+        className={cn('size-full object-contain p-2', className)}
       />
     )
   }

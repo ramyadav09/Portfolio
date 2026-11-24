@@ -53,7 +53,7 @@ export function BottomDock() {
               aria-current={isActive ? 'page' : undefined}
               whileHover={{ y: -4, scale: 1.06 }}
               whileTap={{ y: 0, scale: 0.98 }}
-              transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
               className={cn(
                 'relative flex size-9 items-center justify-center rounded-full transition-colors',
                 isActive
@@ -75,7 +75,7 @@ export function BottomDock() {
           aria-label="Toggle theme mode"
           whileHover={{ y: -4, scale: 1.06 }}
           whileTap={{ y: 0, scale: 0.98 }}
-          transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
           className="flex size-9 items-center justify-center rounded-full text-fg-muted transition-colors hover:bg-surface-inset hover:text-fg"
         >
           <Palette aria-hidden="true" className="size-4" />

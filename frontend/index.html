@@ -10,8 +10,8 @@
       content="Portfolio of a full-stack developer building web applications with Generative AI and agentic workflows. Case studies covering architecture, engineering trade-offs and verified results."
     />
     <meta name="author" content="Ram Kumar Yadav" />
-    <meta name="theme-color" content="#11152A" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#f8fafc" />
+    <meta name="color-scheme" content="light dark" />
 
     <!--
       Theme boot. Runs before first paint so a returning visitor never sees the
@@ -30,7 +30,7 @@
           var mode =
             stored.mode === 'light' || stored.mode === 'dark' || stored.mode === 'system'
               ? stored.mode
-              : 'system'
+              : 'light'
           var resolved =
             mode === 'system'
               ? window.matchMedia('(prefers-color-scheme: dark)').matches
