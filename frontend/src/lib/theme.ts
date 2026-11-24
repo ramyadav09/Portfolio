@@ -92,11 +92,13 @@ export function applyTheme(resolved: ResolvedMode, accent: string, animate = fal
   const paint = () => {
     root.style.setProperty('--accent-source', accent)
     root.dataset.theme = resolved
+    root.classList.toggle('dark', resolved === 'dark')
+    root.classList.toggle('light', resolved === 'light')
 
     // Chrome renders its own UI (scrollbars, form controls) from this, and the
     // mobile address bar is tinted from the meta tag.
     const themeColor = document.querySelector('meta[name="theme-color"]')
-    themeColor?.setAttribute('content', resolved === 'light' ? '#f6f7fb' : '#11152a')
+    themeColor?.setAttribute('content', resolved === 'light' ? '#f8fafc' : '#11152a')
   }
 
   if (!animate || prefersReducedMotion()) {

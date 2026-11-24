@@ -1,16 +1,9 @@
 import { proficiencyMeta, proficiencyOrder, skillCategories } from '../../data/skills'
 import { getIcon } from '../../lib/icons'
-import { cn } from '../../lib/utils'
 import { Container } from '../ui/Container'
 import { Reveal } from '../ui/Reveal'
 import { Section } from '../ui/Section'
 import { SectionHeading } from '../ui/SectionHeading'
-
-const levelDot: Record<string, string> = {
-  primary: 'bg-violet',
-  working: 'bg-mint',
-  exploring: 'bg-caution',
-}
 
 export function TechStackSection() {
   return (
@@ -57,11 +50,7 @@ export function TechStackSection() {
 
                       return (
                         <div key={level} className="flex flex-col gap-2">
-                          <h4 className="flex items-center gap-2">
-                            <span
-                              aria-hidden="true"
-                              className={cn('size-1.5 rounded-full', levelDot[level])}
-                            />
+                          <h4>
                             <span className="mono-label">{proficiencyMeta[level].label}</span>
                           </h4>
 
@@ -89,8 +78,7 @@ export function TechStackSection() {
         <dl className="mt-8 grid gap-4 border-t border-line pt-6 sm:grid-cols-3">
           {proficiencyOrder.map((level) => (
             <div key={level} className="flex flex-col gap-1">
-              <dt className="flex items-center gap-2">
-                <span aria-hidden="true" className={cn('size-1.5 rounded-full', levelDot[level])} />
+              <dt>
                 <span className="mono-label">{proficiencyMeta[level].label}</span>
               </dt>
               <dd className="text-sm text-fg-muted">{proficiencyMeta[level].description}</dd>

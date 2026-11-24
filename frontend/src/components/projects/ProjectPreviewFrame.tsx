@@ -59,14 +59,14 @@ export function ProjectPreviewFrame({ preview, label, priority = false, classNam
           className="size-10 opacity-60"
           focusable="false"
         >
-          <g stroke="#5b4a9c" strokeWidth="1.5" strokeLinecap="round">
+          <g stroke="var(--color-line)" strokeWidth="1.5" strokeLinecap="round">
             <path d="M16 8.6 9.4 22.6" />
             <path d="M16 8.6 22.6 22.6" />
             <path d="M9.4 22.6h13.2" />
           </g>
-          <circle cx="16" cy="8.6" r="3" fill="#8de8c0" />
-          <circle cx="9.4" cy="22.6" r="3" fill="#a77bff" />
-          <circle cx="22.6" cy="22.6" r="3" fill="#a77bff" />
+          <circle cx="16" cy="8.6" r="3" fill="var(--color-mint)" />
+          <circle cx="9.4" cy="22.6" r="3" fill="var(--color-violet)" />
+          <circle cx="22.6" cy="22.6" r="3" fill="var(--color-violet)" />
         </svg>
 
         <p className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-2.5 py-1 text-xs text-fg-subtle">

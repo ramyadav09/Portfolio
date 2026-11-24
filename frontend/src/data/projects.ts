@@ -130,7 +130,7 @@ export const projects: Project[] = [
           label: 'Backend',
           items: [
             'FastAPI as a deliberately modular monolith',
-            'Layered: endpoints → services → repositories → SQLAlchemy models',
+            'Layered: endpoints, services, repositories, and SQLAlchemy models',
             'Pydantic v2 request/response schemas',
             'Alembic migrations, applied automatically on container start',
             'Consistent error envelope across every endpoint',
@@ -210,7 +210,7 @@ export const projects: Project[] = [
       testing: [
         '67 backend tests spanning unit and API/integration, run with pytest against a test database',
         '8 frontend component tests with Vitest and React Testing Library',
-        'A Playwright end-to-end flow covering the report → match → claim path',
+        'A Playwright end-to-end flow covering the report, match, and claim path',
         'Strict TypeScript typecheck as part of the frontend build',
       ],
       tradeoffs: [
@@ -892,7 +892,7 @@ export const projects: Project[] = [
       caption: 'Capture the builder with the live document preview alongside it.',
     },
     highlights: [
-      'A five-layer backend with strict downward dependencies: transport → services → domain/AI → ports → adapters.',
+      'A five-layer backend with strict downward dependencies: transport, services, domain/AI, ports, and adapters.',
       'The active AI provider is a database row read at call time, not a hardcoded branch — NVIDIA, OpenAI and Gemini sit behind one interface.',
       'A test fails the build if any local file write appears in application code, forcing all uploads through the storage adapter.',
       'A hallucination-guard test suite covers the AI output path rather than trusting the prompt.',
@@ -948,7 +948,7 @@ export const projects: Project[] = [
           label: 'Backend',
           items: [
             'FastAPI with routers kept to HTTP concerns only',
-            'Five layers: transport → services → domain/AI → ports → adapters',
+            'Five layers: transport, services, domain/AI, ports, and adapters',
             'Pydantic v2 schemas; pydantic-settings for configuration',
             'SQLAlchemy 2 async with Alembic migrations',
             'PyJWT and bcrypt for auth',

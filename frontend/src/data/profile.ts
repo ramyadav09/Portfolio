@@ -25,7 +25,7 @@ export const profile: Profile = {
   /** Short form, kept for the navbar where the full name would crowd the mark. */
   name: 'Ram',
   brand: 'Intelligence Workspace',
-  role: 'Full-Stack Developer · GenAI & Agentic AI',
+  role: 'Full-stack & Agentic AI engineer',
 
   /**
    * The headshot, imported rather than referenced by path so Vite fingerprints
@@ -48,7 +48,7 @@ export const profile: Profile = {
 
   headline: 'I build software that thinks, connects, and works.',
   subheadline:
-    'An entry-level developer building full-stack applications, GenAI experiences and agentic systems that solve real problems.',
+    'Building full-stack apps, GenAI experiences, and agentic systems that solve real problems.',
 
   /**
    * Lead paragraph of the About section — deliberately not shown in the hero,

@@ -54,7 +54,7 @@ export function Hero() {
 
             <StaggerItem className="w-full">
               <div className="flex flex-wrap items-center gap-2.5">
-                <Pill tone="violet">{profile.role}</Pill>
+                <span className="text-sm font-medium text-fg-muted">{profile.role}</span>
                 {profile.availability ? (
                   <Pill tone="mint" icon={<CircleDot aria-hidden="true" className="size-3" />}>
                     {profile.availability.label}

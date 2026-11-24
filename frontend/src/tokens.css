@@ -1,15 +1,13 @@
 @theme static {
-  --color-paper: #11152a;
-  --color-paper-2: #191e37;
-  --color-paper-3: #0b0e1c;
-  --color-ink: #f4f5fc;
-  --color-ink-2: #b8bed2;
-  --color-muted: #8b93ad;
-  --color-rule: #262c48;
-  --color-rule-2: #3b4470;
-  --color-accent: #a77bff;
-  --color-accent-ink: #0b0e1c;
-  --color-focus: #8de8c0;
+  --color-paper: var(--color-canvas);
+  --color-paper-2: var(--color-surface);
+  --color-paper-3: var(--color-canvas-deep);
+  --color-muted: var(--color-fg-subtle);
+  --color-rule: var(--color-line);
+  --color-rule-2: var(--color-line-strong);
+  --color-accent: var(--color-violet);
+  --color-accent-ink: var(--color-on-accent);
+  --color-focus: var(--color-mint);
   --color-error: oklch(52% 0.19 27);
   --color-success: oklch(50% 0.12 150);
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
@@ -22,17 +20,17 @@
 }
 
 :root {
-  --color-paper: #11152a;
-  --color-paper-2: #191e37;
-  --color-paper-3: #0b0e1c;
-  --color-ink: #f4f5fc;
-  --color-ink-2: #b8bed2;
-  --color-muted: #8b93ad;
-  --color-rule: #262c48;
-  --color-rule-2: #3b4470;
-  --color-accent: #a77bff;
-  --color-accent-ink: #0b0e1c;
-  --color-focus: #8de8c0;
+  --color-paper: var(--color-canvas);
+  --color-paper-2: var(--color-surface);
+  --color-paper-3: var(--color-canvas-deep);
+  --color-ink: var(--color-canvas);
+  --color-ink-deep: var(--color-canvas-deep);
+  --color-muted: var(--color-fg-subtle);
+  --color-rule: var(--color-line);
+  --color-rule-2: var(--color-line-strong);
+  --color-accent: var(--color-violet);
+  --color-accent-ink: var(--color-on-accent);
+  --color-focus: var(--color-mint);
   --color-error: oklch(52% 0.19 27);
   --color-success: oklch(50% 0.12 150);
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
@@ -85,4 +83,105 @@
   --z-modal: 400;
   --z-toast: 500;
   --z-tooltip: 600;
+}
+
+/* ===========================================================================
+   Theme layer
+   Single source of truth for both Dark and Light modes.
+   Driven by data-theme="dark" | "light" on <html>.
+   =========================================================================== */
+:root,
+[data-theme='dark'],
+.dark {
+  --accent-source: #a77bff;
+  --accent-band-dark-lo: 0.66;
+  --accent-band-dark-hi: 0.78;
+  --accent-chroma-cap: 0.19;
+  color-scheme: dark;
+
+  --color-canvas: #11152a;
+  --color-canvas-deep: #0b0e1c;
+  --color-surface: #191e37;
+  --color-surface-raised: #1f2441;
+  --color-surface-inset: #151a34;
+
+  --color-fg: #f4f5fc;
+  --color-fg-muted: #b8bed2;
+  --color-fg-subtle: #8b93ad;
+
+  --color-line: #262c48;
+  --color-line-strong: #3b4470;
+  --color-on-accent: #0b0e1c;
+  --color-caution: #ffcf8f;
+  --color-focus: var(--color-mint);
+  --color-positive: var(--color-mint);
+
+  --color-violet: oklch(from var(--accent-source) clamp(var(--accent-band-dark-lo), l, var(--accent-band-dark-hi)) min(c, var(--accent-chroma-cap)) h);
+  --color-violet-bright: oklch(from var(--accent-source) clamp(0.72, calc(l + 0.095), 0.9) calc(min(c, var(--accent-chroma-cap)) * 0.6889) calc(h + 2.584));
+  --color-violet-deep: oklch(from var(--accent-source) clamp(0.42, calc(l - 0.1686), 0.66) calc(min(c, var(--accent-chroma-cap)) * 0.8748) calc(h - 4.287));
+  --color-mint: oklch(from var(--accent-source) 0.862773 calc(min(c, var(--accent-chroma-cap)) * 0.5531) calc(h - 132.131));
+  --color-mint-deep: oklch(from var(--accent-source) 0.708405 calc(min(c, var(--accent-chroma-cap)) * 0.6545) calc(h - 132.538));
+  --color-info: oklch(from var(--accent-source) 0.825419 calc(min(c, var(--accent-chroma-cap)) * 0.4579) calc(h - 32.815));
+
+  --color-surface-tint: var(--color-surface-tint-dark);
+  --color-grid-line: var(--color-grid-line-dark);
+  --shadow-panel:
+    0 16px 20px -12px rgb(4 6 16 / 0.5), inset 0 1px 0 0 rgb(255 255 255 / 0.04);
+}
+
+[data-theme='light'],
+.light {
+  --accent-source: #1D4ED8;
+  --accent-band-light-lo: 0.4;
+  --accent-band-light-hi: 0.5;
+  --accent-chroma-cap: 0.19;
+  color-scheme: light;
+
+  --color-canvas: oklch(98.4% 0.003 247.9);
+  --color-canvas-deep: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-surface-raised: oklch(98.4% 0.003 247.9);
+  --color-surface-inset: #f1f5f9;
+
+  --color-fg: oklch(20.8% 0.035 264.4);
+  --color-fg-muted: #334155;
+  --color-fg-subtle: oklch(55.2% 0.037 257.4);
+
+  --color-line: #e2e8f0;
+  --color-line-strong: #cbd5e1;
+  --color-on-accent: #ffffff;
+  --color-caution: #8a5200;
+  --color-focus: var(--color-mint);
+  --color-positive: var(--color-mint);
+
+  --color-violet: oklch(from var(--accent-source) clamp(var(--accent-band-light-lo), l, var(--accent-band-light-hi)) min(c, var(--accent-chroma-cap)) h);
+  --color-violet-bright: oklch(from var(--accent-source) clamp(0.36, calc(l - 0.1), 0.5) calc(min(c, var(--accent-chroma-cap)) * 0.6889) calc(h + 2.584));
+  --color-violet-deep: oklch(from var(--accent-source) clamp(0.3, calc(l - 0.19), 0.44) calc(min(c, var(--accent-chroma-cap)) * 0.8748) calc(h - 4.287));
+  --color-mint: oklch(from var(--accent-source) clamp(0.4, calc(l - 0.25), 0.5) calc(min(c, var(--accent-chroma-cap)) * 0.5531) calc(h - 132.131));
+  --color-mint-deep: oklch(from var(--accent-source) clamp(0.36, calc(l - 0.33), 0.46) calc(min(c, var(--accent-chroma-cap)) * 0.6545) calc(h - 132.538));
+  --color-info: oklch(from var(--accent-source) clamp(0.38, calc(l - 0.27), 0.48) calc(min(c, var(--accent-chroma-cap)) * 0.4579) calc(h - 32.815));
+
+  --color-surface-tint: var(--color-surface-tint-light);
+  --color-grid-line: var(--color-grid-line-light);
+  --shadow-panel:
+    0 16px 20px -12px rgb(24 30 58 / 0.08), inset 0 1px 0 0 rgb(255 255 255 / 0.9);
+}
+
+@supports not (color: oklch(from red l c h)) {
+  :root, [data-theme='dark'], .dark {
+    --color-violet: #a77bff;
+    --color-violet-bright: #c3a4ff;
+    --color-violet-deep: #6d4fbd;
+    --color-mint: #8de8c0;
+    --color-mint-deep: #46b98c;
+    --color-info: #a9c6ff;
+  }
+  [data-theme='light'], .light {
+    --color-violet: #1D4ED8;
+    --color-violet-bright: #2563EB;
+    --color-violet-deep: #1E40AF;
+    --color-mint: #0D9488;
+    --color-mint-deep: #0F766E;
+    --color-info: #2563EB;
+  }
 }

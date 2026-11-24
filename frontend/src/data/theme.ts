@@ -16,6 +16,7 @@ export interface AccentPreset {
 }
 
 export const ACCENT_PRESETS: readonly AccentPreset[] = [
+  { name: 'Cobalt', value: '#1D4ED8' },
   { name: 'Violet', value: '#a77bff' },
   { name: 'Indigo', value: '#7c86ff' },
   { name: 'Blue', value: '#3b9bff' },

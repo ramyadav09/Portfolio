@@ -31,20 +31,24 @@
             stored.mode === 'light' || stored.mode === 'dark' || stored.mode === 'system'
               ? stored.mode
               : 'dark'
-          var accent = /^#[0-9a-f]{6}$/i.test(stored.accent) ? stored.accent : '#a77bff'
           var resolved =
             mode === 'system'
               ? window.matchMedia('(prefers-color-scheme: dark)').matches
                 ? 'dark'
                 : 'light'
               : mode
+          var accent = /^#[0-9a-f]{6}$/i.test(stored.accent)
+            ? stored.accent
+            : (resolved === 'light' ? '#1D4ED8' : '#a77bff')
 
           var root = document.documentElement
           root.style.setProperty('--accent-source', accent)
           root.setAttribute('data-theme', resolved)
+          root.classList.toggle('dark', resolved === 'dark')
+          root.classList.toggle('light', resolved === 'light')
 
           var meta = document.querySelector('meta[name="theme-color"]')
-          if (meta) meta.setAttribute('content', resolved === 'light' ? '#f6f7fb' : '#11152a')
+          if (meta) meta.setAttribute('content', resolved === 'light' ? '#f8fafc' : '#11152a')
         } catch (error) {
           /* Blocked storage or a malformed value: the CSS defaults are correct. */
         }

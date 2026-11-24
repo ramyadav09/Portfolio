@@ -19,18 +19,18 @@ export function BrandMark({ className }: { className?: string }) {
         width="30.6"
         height="30.6"
         rx="8.5"
-        fill="#11152A"
-        stroke="#3b4470"
+        fill="var(--color-surface-inset)"
+        stroke="var(--color-line-strong)"
         strokeWidth="1.2"
       />
-      <g stroke="#5b4a9c" strokeWidth="1.5" strokeLinecap="round">
+      <g stroke="var(--color-line)" strokeWidth="1.5" strokeLinecap="round">
         <path d="M16 8.6 9.4 22.6" />
         <path d="M16 8.6 22.6 22.6" />
         <path d="M9.4 22.6h13.2" />
       </g>
-      <circle cx="16" cy="8.6" r="3" fill="#8de8c0" />
-      <circle cx="9.4" cy="22.6" r="3" fill="#a77bff" />
-      <circle cx="22.6" cy="22.6" r="3" fill="#a77bff" />
+      <circle cx="16" cy="8.6" r="3" fill="var(--color-mint)" />
+      <circle cx="9.4" cy="22.6" r="3" fill="var(--color-violet)" />
+      <circle cx="22.6" cy="22.6" r="3" fill="var(--color-violet)" />
     </svg>
   )
 }

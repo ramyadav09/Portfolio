@@ -2,8 +2,8 @@ import type { ReactNode } from 'react'
 import { cn } from '../../lib/utils'
 
 interface SectionHeadingProps {
-  /** Small uppercase eyebrow above the title. */
-  eyebrow: string
+  /** Optional eyebrow (omitted per Hallmark Floor rule 54). */
+  eyebrow?: string
   title: string
   /** Supporting sentence under the title. */
   lead?: ReactNode
@@ -15,7 +15,6 @@ interface SectionHeadingProps {
 }
 
 export function SectionHeading({
-  eyebrow,
   title,
   lead,
   titleId,
@@ -33,7 +32,6 @@ export function SectionHeading({
         className,
       )}
     >
-      <p className="mono-label text-violet-bright/85">{eyebrow}</p>
       <h2
         id={titleId}
         className="max-w-[24ch] text-[clamp(1.75rem,4.4vw,2.6rem)] font-semibold"
