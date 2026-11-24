@@ -95,10 +95,32 @@ export function applyTheme(resolved: ResolvedMode, accent: string, animate = fal
     root.classList.toggle('dark', resolved === 'dark')
     root.classList.toggle('light', resolved === 'light')
 
+    if (accent.toLowerCase() === '#1d4ed8') {
+      root.style.removeProperty('--accent')
+      root.style.removeProperty('--accent-soft')
+      root.style.removeProperty('--accent-ink')
+    } else {
+      if (resolved === 'dark') {
+        root.style.setProperty(
+          '--accent',
+          `oklch(from var(--accent-source) clamp(var(--accent-band-dark-lo), l, var(--accent-band-dark-hi)) min(c, var(--accent-chroma-cap)) h)`,
+        )
+        root.style.setProperty('--accent-soft', `color-mix(in srgb, var(--accent) 14%, transparent)`)
+        root.style.setProperty('--accent-ink', '#0B1120')
+      } else {
+        root.style.setProperty(
+          '--accent',
+          `oklch(from var(--accent-source) clamp(var(--accent-band-light-lo), l, var(--accent-band-light-hi)) min(c, var(--accent-chroma-cap)) h)`,
+        )
+        root.style.setProperty('--accent-soft', `color-mix(in srgb, var(--accent) 12%, #FFFFFF)`)
+        root.style.setProperty('--accent-ink', '#FFFFFF')
+      }
+    }
+
     // Chrome renders its own UI (scrollbars, form controls) from this, and the
     // mobile address bar is tinted from the meta tag.
     const themeColor = document.querySelector('meta[name="theme-color"]')
-    themeColor?.setAttribute('content', resolved === 'light' ? '#f8fafc' : '#11152a')
+    themeColor?.setAttribute('content', resolved === 'light' ? '#F8FAFC' : '#0B1120')
   }
 
   if (!animate || prefersReducedMotion()) {

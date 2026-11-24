@@ -1,5 +1,5 @@
 /* Hallmark · shape: kept · genre: modern-minimal · theme: brand · redesign: full
- * paper: #11152a · accent: #1D4ED8 · display: Space Grotesk · body: Inter · hero: kept · nav: kept · footer: kept · signature: architecture and verified case studies
+ * paper: #0B1120 · accent: #1D4ED8 · display: Space Grotesk · body: Inter · hero: kept · nav: kept · footer: kept · signature: architecture and verified case studies
  * axes: dark/grotesk-sans/chromatic-cobalt · posture: restrained · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P9 H8 E9 S8 R9 V9 · weakest: copy em-dashes and micro-labels, resolved */
 @import "tailwindcss";
@@ -20,6 +20,14 @@
   --color-surface: var(--color-surface);
   --color-surface-raised: var(--color-surface-raised);
   --color-surface-inset: var(--color-surface-inset);
+
+  /* --- token aliases --- */
+  --color-bg: var(--bg);
+  --color-surface-alt: var(--surface-alt);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
 
   /* --- accents --- */
   --color-violet: var(--color-violet);

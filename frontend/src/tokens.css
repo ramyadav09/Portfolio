@@ -2,11 +2,11 @@
   --color-paper: var(--color-canvas);
   --color-paper-2: var(--color-surface);
   --color-paper-3: var(--color-canvas-deep);
-  --color-muted: var(--color-fg-subtle);
-  --color-rule: var(--color-line);
+  --color-muted: var(--muted);
+  --color-rule: var(--border);
   --color-rule-2: var(--color-line-strong);
-  --color-accent: var(--color-violet);
-  --color-accent-ink: var(--color-on-accent);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
   --color-focus: var(--color-mint);
   --color-error: oklch(52% 0.19 27);
   --color-success: oklch(50% 0.12 150);
@@ -23,13 +23,13 @@
   --color-paper: var(--color-canvas);
   --color-paper-2: var(--color-surface);
   --color-paper-3: var(--color-canvas-deep);
-  --color-ink: var(--color-canvas);
-  --color-ink-deep: var(--color-canvas-deep);
-  --color-muted: var(--color-fg-subtle);
-  --color-rule: var(--color-line);
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--bg);
+  --color-muted: var(--muted);
+  --color-rule: var(--border);
   --color-rule-2: var(--color-line-strong);
-  --color-accent: var(--color-violet);
-  --color-accent-ink: var(--color-on-accent);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
   --color-focus: var(--color-mint);
   --color-error: oklch(52% 0.19 27);
   --color-success: oklch(50% 0.12 150);
@@ -93,32 +93,43 @@
 :root,
 [data-theme='dark'],
 .dark {
+  /* Obsidian Cobalt palette tokens */
+  --bg: #0B1120;
+  --surface: #111827;
+  --surface-alt: rgb(30 41 59);
+  --ink: rgb(248 250 252);
+  --muted: #94A3B8;
+  --border: rgb(30 41 59);
+  --accent: #60A5FA;
+  --accent-soft: rgba(96, 165, 250, 0.14);
+  --accent-ink: #0B1120;
+
   --accent-source: #1D4ED8;
   --accent-band-dark-lo: 0.66;
   --accent-band-dark-hi: 0.78;
   --accent-chroma-cap: 0.19;
   color-scheme: dark;
 
-  --color-canvas: #11152a;
-  --color-canvas-deep: #0b0e1c;
-  --color-surface: #191e37;
-  --color-surface-raised: #1f2441;
-  --color-surface-inset: #151a34;
+  --color-canvas: var(--bg);
+  --color-canvas-deep: #070B14;
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-alt);
+  --color-surface-inset: var(--surface-alt);
 
-  --color-fg: #f4f5fc;
-  --color-fg-muted: #b8bed2;
-  --color-fg-subtle: #8b93ad;
+  --color-fg: var(--ink);
+  --color-fg-muted: var(--muted);
+  --color-fg-subtle: rgb(100 116 139);
 
-  --color-line: #262c48;
-  --color-line-strong: #3b4470;
-  --color-on-accent: #0b0e1c;
+  --color-line: var(--border);
+  --color-line-strong: #334155;
+  --color-on-accent: var(--accent-ink);
   --color-caution: #ffcf8f;
   --color-focus: var(--color-mint);
   --color-positive: var(--color-mint);
 
-  --color-violet: oklch(from var(--accent-source) clamp(var(--accent-band-dark-lo), l, var(--accent-band-dark-hi)) min(c, var(--accent-chroma-cap)) h);
-  --color-violet-bright: oklch(from var(--accent-source) clamp(0.72, calc(l + 0.095), 0.9) calc(min(c, var(--accent-chroma-cap)) * 0.6889) calc(h + 2.584));
-  --color-violet-deep: oklch(from var(--accent-source) clamp(0.42, calc(l - 0.1686), 0.66) calc(min(c, var(--accent-chroma-cap)) * 0.8748) calc(h - 4.287));
+  --color-violet: var(--accent);
+  --color-violet-bright: oklch(from var(--accent) clamp(0.72, calc(l + 0.095), 0.9) calc(min(c, var(--accent-chroma-cap)) * 0.6889) calc(h + 2.584));
+  --color-violet-deep: oklch(from var(--accent) clamp(0.42, calc(l - 0.1686), 0.66) calc(min(c, var(--accent-chroma-cap)) * 0.8748) calc(h - 4.287));
   --color-mint: oklch(from var(--accent-source) 0.862773 calc(min(c, var(--accent-chroma-cap)) * 0.5531) calc(h - 132.131));
   --color-mint-deep: oklch(from var(--accent-source) 0.708405 calc(min(c, var(--accent-chroma-cap)) * 0.6545) calc(h - 132.538));
   --color-info: oklch(from var(--accent-source) 0.825419 calc(min(c, var(--accent-chroma-cap)) * 0.4579) calc(h - 32.815));
@@ -131,30 +142,41 @@
 
 [data-theme='light'],
 .light {
+  /* Cobalt Signal palette tokens */
+  --bg: rgb(248 250 252);
+  --surface: #FFFFFF;
+  --surface-alt: #F1F5F9;
+  --ink: rgb(15 23 42);
+  --muted: #475569;
+  --border: #E2E8F0;
+  --accent: #1D4ED8;
+  --accent-soft: #EFF6FF;
+  --accent-ink: #FFFFFF;
+
   --accent-source: #1D4ED8;
   --accent-band-light-lo: 0.4;
   --accent-band-light-hi: 0.5;
   --accent-chroma-cap: 0.19;
   color-scheme: light;
 
-  --color-canvas: oklch(98.4% 0.003 247.9);
-  --color-canvas-deep: #f1f5f9;
-  --color-surface: #ffffff;
-  --color-surface-raised: oklch(98.4% 0.003 247.9);
-  --color-surface-inset: #f1f5f9;
+  --color-canvas: var(--bg);
+  --color-canvas-deep: var(--surface-alt);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--bg);
+  --color-surface-inset: var(--surface-alt);
 
-  --color-fg: oklch(20.8% 0.035 264.4);
-  --color-fg-muted: oklch(45.5% 0.04 257);
-  --color-fg-subtle: oklch(55.2% 0.037 257.4);
+  --color-fg: var(--ink);
+  --color-fg-muted: var(--muted);
+  --color-fg-subtle: rgb(100 116 139);
 
-  --color-line: #e2e8f0;
-  --color-line-strong: #cbd5e1;
-  --color-on-accent: #ffffff;
+  --color-line: var(--border);
+  --color-line-strong: #CBD5E1;
+  --color-on-accent: var(--accent-ink);
   --color-caution: #8a5200;
   --color-focus: var(--color-mint);
   --color-positive: var(--color-mint);
 
-  --color-violet: oklch(from var(--accent-source) clamp(var(--accent-band-light-lo), l, var(--accent-band-light-hi)) min(c, var(--accent-chroma-cap)) h);
+  --color-violet: var(--accent);
   --color-violet-bright: oklch(from var(--accent-source) clamp(0.36, calc(l - 0.1), 0.5) calc(min(c, var(--accent-chroma-cap)) * 0.6889) calc(h + 2.584));
   --color-violet-deep: oklch(from var(--accent-source) clamp(0.3, calc(l - 0.19), 0.44) calc(min(c, var(--accent-chroma-cap)) * 0.8748) calc(h - 4.287));
   --color-mint: oklch(from var(--accent-source) clamp(0.4, calc(l - 0.25), 0.5) calc(min(c, var(--accent-chroma-cap)) * 0.5531) calc(h - 132.131));
@@ -169,14 +191,20 @@
 
 @supports not (color: oklch(from red l c h)) {
   :root, [data-theme='dark'], .dark {
-    --color-violet: #357ee8;
-    --color-violet-bright: #60a5fa;
-    --color-violet-deep: #1d4ed8;
+    --accent: #60a5fa;
+    --accent-soft: rgba(96, 165, 250, 0.14);
+    --accent-ink: #0B1120;
+    --color-violet: #60a5fa;
+    --color-violet-bright: #93c5fd;
+    --color-violet-deep: rgb(59 130 246);
     --color-mint: #38bdf8;
     --color-mint-deep: #0284c7;
-    --color-info: #357ee8;
+    --color-info: #60a5fa;
   }
   [data-theme='light'], .light {
+    --accent: #1D4ED8;
+    --accent-soft: #EFF6FF;
+    --accent-ink: #FFFFFF;
     --color-violet: #1D4ED8;
     --color-violet-bright: #2563EB;
     --color-violet-deep: #1E40AF;

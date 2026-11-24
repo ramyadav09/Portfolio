@@ -250,7 +250,7 @@ export const projects: Project[] = [
     tagline: 'A job marketplace where a booking queue and a refundable deposit keep both sides honest.',
     summary:
       'A three-surface platform — FastAPI backend, React admin panel and React Native app — where posters book seekers, a FIFO queue absorbs over-subscription, and a commitment deposit is returned on completion but forfeited on a late cancellation or no-show.',
-    status: 'in-progress',
+    status: 'live',
     featured: false,
     isPlaceholder: false,
     stack: [
@@ -277,7 +277,7 @@ export const projects: Project[] = [
       'TanStack Query',
     ],
     repo: { label: 'Private repository', href: null },
-    demo: { label: 'Live demo', href: null },
+    demo: { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.seagol.jobsapp' },
     preview: {
       kind: 'image',
       src: '/assets/seagol-jobs.png',
@@ -297,7 +297,7 @@ export const projects: Project[] = [
       'Backend and client work across the monorepo: async SQLAlchemy models and Alembic migrations, the booking, wallet, queue and penalty services, the admin and support APIs, and the React and React Native clients that consume them. This was a shared build — narrow this to the modules you owned.',
     caseStudy: {
       disclaimer:
-        'Private repository, so no link is shown — the source is not public. Actively in development rather than launched, and no measured outcome has been recorded, so the results section is intentionally empty. Confirm the exact launch status before publishing.',
+        'The backend and web monorepo source is private. The mobile app is live and available on Google Play.',
       problem:
         'Informal work — a day of labour, a delivery run, a small repair — is arranged over phone calls and messages, with nothing binding either side. The poster has no guarantee anyone will turn up; the worker has no guarantee of being paid or of being told early that the job fell through. Nothing in that arrangement is recorded, so every disagreement is one person\'s word against another\'s.',
       intendedUsers:

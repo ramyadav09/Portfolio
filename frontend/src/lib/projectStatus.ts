@@ -15,6 +15,6 @@ export const projectStatusMeta: Record<ProjectStatus, { label: string; tone: Pil
   concept: { label: 'Concept', tone: 'muted' },
   'in-progress': { label: 'In progress', tone: 'caution' },
   built: { label: 'Built', tone: 'neutral' },
-  live: { label: 'Live', tone: 'neutral' },
+  live: { label: 'Live', tone: 'mint' },
   archived: { label: 'Archived', tone: 'muted' },
 }

@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ExternalLink } from 'lucide-react'
 import { motion } from 'motion/react'
 import type { Project } from '../../data/types'
 import { projectStatusMeta } from '../../lib/projectStatus'
@@ -96,7 +96,22 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             <ArrowRight aria-hidden="true" className="size-4" />
           </ButtonLink>
 
-          {project.repo.href ? (
+          {project.demo.href ? (
+            <ButtonLink
+              href={project.demo.href}
+              variant="ghost"
+              size="sm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <ExternalLink className="size-4" />
+              {project.demo.label}
+              <span className="sr-only">
+                {' '}
+                for {project.title} (opens in a new tab)
+              </span>
+            </ButtonLink>
+          ) : project.repo.href ? (
             <ButtonLink
               href={project.repo.href}
               variant="ghost"
