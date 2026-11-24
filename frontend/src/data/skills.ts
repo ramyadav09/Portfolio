@@ -38,7 +38,9 @@ export const skillCategories: SkillCategory[] = [
     icon: 'layout',
     items: [
       { name: 'React', level: 'primary' },
+      { name: 'TypeScript', level: 'primary' },
       { name: 'JavaScript', level: 'primary' },
+      { name: 'React Native', level: 'working' },
       { name: 'HTML', level: 'working' },
       { name: 'CSS', level: 'working' },
       { name: 'Tailwind CSS', level: 'working' },

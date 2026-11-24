@@ -15,7 +15,7 @@ const concepts = [
     step: '01',
     verb: 'Build',
     subject: 'Full-stack engineering',
-    detail: 'Interfaces, APIs and data models that survive past the first demo.',
+    detail: 'Interfaces, APIs, and data models that survive past the first demo.',
     icon: Layers,
   },
   {
@@ -23,7 +23,7 @@ const concepts = [
     step: '02',
     verb: 'Integrate',
     subject: 'Generative AI',
-    detail: 'Retrieval, grounding and evaluation wired into real product flows.',
+    detail: 'Retrieval, grounding, and evaluation wired into real product flows.',
     icon: BrainCircuit,
   },
   {
@@ -31,13 +31,13 @@ const concepts = [
     step: '03',
     verb: 'Orchestrate',
     subject: 'Agentic workflows',
-    detail: 'Tools, durable state and human checkpoints wrapped around a model.',
+    detail: 'Tools, durable state, and human checkpoints wrapped around a model.',
     icon: Workflow,
   },
 ] as const
 
 export function SystemOverview() {
-  const [activeId, setActiveId] = useState<string>('build')
+  const [activeId, setActiveId] = useState<string | null>(null)
 
   return (
     <section aria-labelledby="system-overview-heading" className="panel p-5 sm:p-6">
@@ -67,7 +67,7 @@ export function SystemOverview() {
                 key={concept.id}
                 whileHover={{ x: 2 }}
                 transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                onClick={() => setActiveId(concept.id)}
+                onClick={() => setActiveId((prev) => (prev === concept.id ? null : concept.id))}
                 className={cn(
                   'relative flex cursor-pointer gap-4 rounded-lg p-2 transition-colors duration-[var(--duration-fast)]',
                   isActive ? 'bg-surface-raised/80' : 'hover:bg-surface-raised/40',

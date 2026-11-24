@@ -57,7 +57,7 @@ export function AboutSection() {
   return (
     <Section id="about" labelledBy="about-heading" className="border-t border-line/60">
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-14">
+        <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-14">
           <Reveal>
             <SectionHeading
               eyebrow="About"
@@ -107,7 +107,7 @@ export function AboutSection() {
           </Reveal>
 
           <Reveal delay={0.05}>
-            <div className="panel flex h-full flex-col gap-5 p-5 sm:p-6">
+            <div className="panel flex flex-col gap-5 p-5 sm:p-6">
               {education ? (
                 <PanelBlock title="Education" icon={GraduationCap} accent="text-violet-bright">
                   <p className="font-display text-[0.9375rem] font-semibold text-fg">
@@ -151,11 +151,11 @@ export function AboutSection() {
                 </ul>
               </PanelBlock>
 
-              <div className="mt-auto border-t border-line pt-5">
+              <div className="border-t border-line pt-5">
                 <h3 className="mono-label">Find me</h3>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <LinkChip
-                    label="Email"
+                    label={profile.email ?? 'Email'}
                     href={profile.email ? `mailto:${profile.email}` : null}
                     icon={Mail}
                     size="sm"

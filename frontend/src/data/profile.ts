@@ -71,7 +71,7 @@ export const profile: Profile = {
 
   /** Paragraphs under `intro`. Anything repeating that stack summary is omitted. */
   about: [
-    'I care about clean, readable and maintainable code, and I learn best by building real things: most of what I know came from hitting a wall in a project and having to work out why.',
+    'I care about clean, readable, and maintainable code, and I learn best by building real things: most of what I know came from hitting a wall in a project and having to work out why.',
     'I care about the unglamorous parts: validation, honest error states, and code that is still easy to reason about months later. That is usually the difference between a demo and something someone can actually use.',
   ],
 
@@ -81,8 +81,8 @@ export const profile: Profile = {
    */
   careerInterests: [
     'Full-stack engineering, entry level, with AI features built in rather than bolted on',
-    'Applied Generative AI: retrieval, grounding and evaluation inside real product flows',
-    'Agentic systems with tools, durable state and human checkpoints',
+    'Applied Generative AI: retrieval, grounding, and evaluation inside real product flows',
+    'Agentic systems with tools, durable state, and human checkpoints',
   ],
 
   /**
@@ -115,5 +115,5 @@ export const profile: Profile = {
     'Background jobs and long-running AI work that outlives the request that started it',
   ],
 
-  footerNote: 'Designed and built with React, Vite, TypeScript and Tailwind CSS.',
+  footerNote: 'Designed and built with React, Vite, TypeScript, and Tailwind CSS.',
 }

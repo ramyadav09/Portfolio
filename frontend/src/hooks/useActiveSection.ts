@@ -32,18 +32,19 @@ export function useActiveSection(ids: readonly string[]): string | null {
         return
       }
 
-      const readingLine = window.innerHeight * 0.25
+      // Reading line at ~42% of the viewport ensures sections trigger as soon as
+      // the user enters them, while keeping the indicator smooth and stable.
+      const readingLine = window.innerHeight * 0.42
 
       let next: string | null = null
       for (const section of sections) {
         if (section.getBoundingClientRect().top <= readingLine) next = section.id
       }
 
-      // A short final section may never cross the reading line, so pin the last
-      // one once the page is scrolled to the end.
+      // Pin the final section when scrolled near the end of the page.
       const atBottom =
-        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
-      if (atBottom) next = sections[sections.length - 1].id
+        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 60
+      if (atBottom && sections.length > 0) next = sections[sections.length - 1].id
 
       setActiveId(next)
     }

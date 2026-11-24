@@ -12,12 +12,12 @@ const primaryStages = architectureStages.filter((stage) => stage.id !== 'ai')
 const aiStage = architectureStages.find((stage) => stage.id === 'ai')
 const AiIcon = aiStage ? getIcon(aiStage.icon) : null
 
-/** Accent per boundary: text colour and the rule that marks the stage. */
+/** Accent per boundary: active accent token and surface border. */
 const stageAccent: Record<string, { text: string; rule: string }> = {
   client: { text: 'text-violet', rule: 'border-violet/40' },
-  api: { text: 'text-info', rule: 'border-info/40' },
-  data: { text: 'text-mint', rule: 'border-mint/40' },
-  ai: { text: 'text-info', rule: 'border-info/45' },
+  api: { text: 'text-violet', rule: 'border-violet/40' },
+  data: { text: 'text-violet', rule: 'border-violet/40' },
+  ai: { text: 'text-violet', rule: 'border-violet/40' },
 }
 
 export function ArchitectureSection() {
@@ -28,7 +28,7 @@ export function ArchitectureSection() {
           <SectionHeading
             eyebrow="How I build"
             title="One request, four deliberate boundaries."
-            lead="The same shape covers most of my full-stack work: an interface that never talks to a database directly, a service layer that validates and authorises before anything happens, persistence as the single source of truth, and AI services reached only through that same controlled path."
+            lead="The same shape covers most of my full-stack work: an interface that never talks to a database directly, a service layer that validates and authorizes before anything happens, persistence as the single source of truth, and AI services reached only through that same controlled path."
             titleId="how-i-build-heading"
           >
             <Pill tone="muted">Illustrative architecture</Pill>
@@ -129,16 +129,16 @@ export function ArchitectureSection() {
                     d="M8 0 V24"
                     stroke="currentColor"
                     strokeWidth="1.5"
-                    className="signal-path text-info"
+                    className="signal-path text-violet"
                   />
-                  <circle cx="8" cy="26" r="2" fill="currentColor" className="text-info" />
+                  <circle cx="8" cy="26" r="2" fill="currentColor" className="text-violet" />
                 </svg>
               </div>
 
-              <div className="panel-flat flex flex-col gap-3.5 border-l-2 border-dashed border-info/45 p-5 sm:p-6">
+              <div className="panel-flat flex flex-col gap-3.5 border-l-2 border-dashed border-violet/40 p-5 sm:p-6">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5">
                   <span className="flex size-8 shrink-0 items-center justify-center rounded-md border border-line bg-surface-inset">
-                    <AiIcon aria-hidden="true" className="size-4 text-info" />
+                    <AiIcon aria-hidden="true" className="size-4 text-violet" />
                   </span>
                   <div>
                     <h3 className="font-display text-base font-semibold">{aiStage.title}</h3>

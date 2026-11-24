@@ -13,7 +13,7 @@ const currentYear = new Date().getFullYear()
 export function Footer() {
   return (
     <footer className="border-t border-line">
-      <Container className="py-12 sm:py-14">
+      <Container className="pt-12 pb-28 sm:pt-14 sm:pb-32">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2.5">

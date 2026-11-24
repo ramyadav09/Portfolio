@@ -1078,9 +1078,9 @@ export const projects: Project[] = [
   {
     id: 'email-summarizer',
     title: 'Email Summarizer',
-    tagline: 'Connect Gmail, summarise the inbox, draft replies — through an OAuth flow that never exposes a password.',
+    tagline: 'Connect Gmail, summarize the inbox, and draft thread replies safely with OAuth and AI.',
     summary:
-      'A full-stack app that authenticates with Google, reads Gmail messages, summarises them with Mistral via LangChain, drafts a reply and sends it back within the same thread.',
+      'A full-stack app that authenticates with Google, reads Gmail messages, summarizes them with Mistral via LangChain, drafts a reply, and sends it back within the same thread.',
     status: 'built',
     featured: false,
     isPlaceholder: false,
@@ -1101,7 +1101,7 @@ export const projects: Project[] = [
     preview: {
       kind: 'image',
       src: '/assets/emailsummarizer.png',
-      alt: 'Email Summarizer inbox with summarised email and drafted reply',
+      alt: 'Email Summarizer inbox with summarized email and drafted reply',
       width: 800,
       height: 500,
     },
@@ -1113,7 +1113,7 @@ export const projects: Project[] = [
       'Token persisted across reloads, with Redux Toolkit holding client state.',
     ],
     contribution:
-      'Built the FastAPI backend (Gmail integration, OAuth flow, SQLAlchemy persistence and the LangChain summarisation and reply-generation services) and the React/Redux frontend covering login and the inbox.',
+      'Built the FastAPI backend (Gmail integration, OAuth flow, SQLAlchemy persistence, and the LangChain summarization and reply-generation services) and the React/Redux frontend covering login and the inbox.',
     caseStudy: {
       disclaimer:
         'Runs locally from the repository and requires your own Google Cloud OAuth credentials and a Mistral API key. Nothing is hosted, and no measured result has been recorded.',
@@ -1122,7 +1122,7 @@ export const projects: Project[] = [
       intendedUsers:
         'Anyone triaging a inbox where most messages need a short, functional response — the summaries are decision aids, and the drafted reply is a starting point rather than a finished message.',
       solution:
-        'Sign in with Google, and the backend reads Gmail over the Gmail API using OAuth tokens — no password is ever handled. Messages are filtered by date range and read state, then summarised through Mistral via LangChain. Summaries are cached in the database against the message, so a second visit is a database read rather than another model call. A reply can be drafted from the message and sent within the same thread. The frontend keeps the session and inbox state in Redux Toolkit, with the token persisted so a reload does not force re-authentication.',
+        'Sign in with Google, and the backend reads Gmail over the Gmail API using OAuth tokens — no password is ever handled. Messages are filtered by date range and read state, then summarized through Mistral via LangChain. Summaries are cached in the database against the message, so a second visit is a database read rather than another model call. A reply can be drafted from the message and sent within the same thread. The frontend keeps the session and inbox state in Redux Toolkit, with the token persisted so a reload does not force re-authentication.',
       dataFlow: [
         {
           label: '1 · Authenticate',
@@ -1135,7 +1135,7 @@ export const projects: Project[] = [
             'Messages are requested from the Gmail API with date-range and read/unread filters applied, so the client is not pulling an entire mailbox.',
         },
         {
-          label: '3 · Summarise',
+          label: '3 · Summarize',
           detail:
             'A message is sent through the LangChain chain to Mistral. The result is stored in the database against the message id.',
         },
@@ -1178,7 +1178,7 @@ export const projects: Project[] = [
         {
           label: 'AI',
           items: [
-            'LangChain orchestrating the summarise and reply-generation prompts',
+            'LangChain orchestrating the summarize and reply-generation prompts',
             'Mistral AI as the generation model',
             'Database caching so a summary is computed once per message',
           ],
@@ -1186,8 +1186,8 @@ export const projects: Project[] = [
       ],
       ai: {
         summary:
-          'Two focused generation tasks — summarise a message, draft a reply — rather than a general assistant over the mailbox. Caching the summary against the message id is what makes the feature practical, because an inbox is revisited constantly.',
-        model: 'Mistral AI, invoked through LangChain so the summarisation and reply prompts stay separate from the model choice.',
+          'Two focused generation tasks — summarize a message, draft a reply — rather than a general assistant over the mailbox. Caching the summary against the message id is what makes the feature practical, because an inbox is revisited constantly.',
+        model: 'Mistral AI, invoked through LangChain so the summarization and reply prompts stay separate from the model choice.',
         pipeline: [
           {
             label: '01',
@@ -1199,7 +1199,7 @@ export const projects: Project[] = [
           },
           {
             label: '03',
-            detail: 'Summarise — on a miss, the message is passed through the LangChain chain to Mistral.',
+            detail: 'Summarize — on a miss, the message is passed through the LangChain chain to Mistral.',
           },
           {
             label: '04',
@@ -1240,7 +1240,7 @@ export const projects: Project[] = [
         {
           decision: 'Two narrow AI tasks instead of a general mailbox assistant',
           rationale:
-            'Summarise and draft are well-defined and easy to judge. A general assistant would have widened the prompt surface without making either task better.',
+            'Summarize and draft are well-defined and easy to judge. A general assistant would have widened the prompt surface without making either task better.',
         },
         {
           decision: 'Token held in localStorage for persistence',

@@ -28,7 +28,7 @@ export const architectureStages: ArchitectureStage[] = [
     icon: 'server',
     items: [
       'Validated request boundaries',
-      'Authorisation before handler logic',
+      'Authorization before handler logic',
       'Typed, versioned response contracts',
       'Async work pushed to a queue',
     ],
@@ -61,4 +61,4 @@ export const architectureStages: ArchitectureStage[] = [
 
 /** Shown under the diagram so the drawing is never mistaken for a live system. */
 export const architectureNote =
-  'Illustrative reference architecture, not a diagram of production telemetry. A request enters at the interface, is validated and authorised by the service layer, reads or writes persistence, and reaches AI services only through the same controlled path.'
+  'Illustrative reference architecture, not a diagram of production telemetry. A request enters at the interface, is validated and authorized by the service layer, reads or writes persistence, and reaches AI services only through the same controlled path.'
