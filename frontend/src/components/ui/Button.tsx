@@ -1,4 +1,5 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react'
+import { resolvePlayStoreUrl } from '../../lib/utils'
 import { buttonClasses, type ButtonStyleProps } from './buttonVariants'
 
 export type { ButtonSize, ButtonVariant } from './buttonVariants'
@@ -12,6 +13,7 @@ export function Button({ variant, size, className, type = 'button', ...rest }: B
 type ButtonLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> &
   ButtonStyleProps & { href: string }
 
-export function ButtonLink({ variant, size, className, ...rest }: ButtonLinkProps) {
-  return <a className={buttonClasses({ variant, size }, className)} {...rest} />
+export function ButtonLink({ variant, size, className, href, ...rest }: ButtonLinkProps) {
+  const targetHref = resolvePlayStoreUrl(href) ?? href
+  return <a href={targetHref} className={buttonClasses({ variant, size }, className)} {...rest} />
 }

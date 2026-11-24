@@ -1,5 +1,5 @@
 import { ArrowUpRight, Link2Off } from 'lucide-react'
-import { cn } from '../../lib/utils'
+import { cn, resolvePlayStoreUrl } from '../../lib/utils'
 import type { IconComponent } from './BrandGlyphs'
 
 interface LinkChipProps {
@@ -51,11 +51,12 @@ export function LinkChip({
     )
   }
 
-  const isExternal = /^https?:/i.test(href)
+  const targetHref = resolvePlayStoreUrl(href) ?? href
+  const isExternal = /^https?:/i.test(targetHref) || /^market:/i.test(targetHref)
 
   return (
     <a
-      href={href}
+      href={targetHref}
       className={cn(
         shape,
         dimensions,
