@@ -106,6 +106,15 @@ export function applyTheme(resolved: ResolvedMode, accent: string, animate = fal
     return
   }
 
+  if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+    // View Transitions API: native cross-fade with fallback
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(document as any).startViewTransition(() => {
+      paint()
+    })
+    return
+  }
+
   root.classList.add('theme-switching')
   // Flush styles so the transition is registered *before* the values change;
   // without this the class and the change land in the same frame and nothing

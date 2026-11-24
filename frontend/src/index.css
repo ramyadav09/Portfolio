@@ -185,6 +185,19 @@
         box-shadow var(--duration-base) var(--ease-out-soft) !important;
     }
   }
+
+  /* View transitions for theme switching */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--duration-base);
+    animation-timing-function: var(--ease-out-soft);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+    }
+  }
 }
 
 @layer components {
@@ -272,6 +285,23 @@
       var(--color-line-strong) 82%,
       transparent
     );
+  }
+
+  /* Traced architecture signal pulse */
+  @keyframes signal-dash {
+    to {
+      stroke-dashoffset: -16;
+    }
+  }
+
+  .signal-path {
+    stroke-dasharray: 4 4;
+    animation: signal-dash 1.8s linear infinite;
+  }
+
+  .signal-path:hover,
+  :focus-within .signal-path {
+    animation-play-state: paused;
   }
 }
 

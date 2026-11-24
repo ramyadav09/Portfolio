@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import { motion } from 'motion/react'
 import type { Project } from '../../data/types'
 import { projectStatusMeta } from '../../lib/projectStatus'
 import { caseStudyHref } from '../../lib/router'
@@ -9,6 +10,7 @@ import { ProjectPreviewFrame } from './ProjectPreviewFrame'
 
 interface ProjectCardProps {
   project: Project
+  index?: number
 }
 
 /** How many technologies fit on one line before the line is summarised. */
@@ -30,7 +32,7 @@ const STACK_PREVIEW_COUNT = 4
  * A repository that is not public is simply absent here rather than drawn as a
  * dead control; the case study says why in its disclaimer.
  */
-export function ProjectCard({ project }: ProjectCardProps) {
+export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const status = projectStatusMeta[project.status]
   const href = caseStudyHref(project.id)
 
@@ -38,15 +40,19 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const hiddenStackItems = project.stack.length - stackPreview.length
 
   return (
-    <article
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.35, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
       aria-labelledby={`project-${project.id}-title`}
       className="panel group flex h-full flex-col overflow-hidden transition-[border-color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong"
     >
-      <div className="relative aspect-[16/10] shrink-0 border-b border-line">
+      <div className="relative aspect-[16/10] shrink-0 overflow-hidden border-b border-line">
         <ProjectPreviewFrame
           preview={project.preview}
           label={project.title}
-          className="absolute inset-0"
+          className="absolute inset-0 transition-transform duration-[var(--duration-fast)] ease-[var(--ease-out-soft)] group-hover:scale-[1.03]"
         />
       </div>
 
@@ -108,6 +114,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
           ) : null}
         </div>
       </div>
-    </article>
+    </motion.article>
   )
 }

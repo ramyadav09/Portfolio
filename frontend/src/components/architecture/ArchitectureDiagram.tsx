@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronRight, GitBranch } from 'lucide-react'
+import { GitBranch } from 'lucide-react'
 import { architectureNote, architectureStages } from '../../data/architecture'
 import { getIcon } from '../../lib/icons'
 import { cn } from '../../lib/utils'
@@ -46,12 +46,49 @@ export function ArchitectureSection() {
                   {index > 0 ? (
                     <span
                       aria-hidden="true"
-                      className="flex shrink-0 flex-col items-center justify-center py-1.5 lg:flex-row lg:px-1.5 lg:py-0"
+                      className="flex shrink-0 flex-col items-center justify-center py-2 lg:flex-row lg:px-2 lg:py-0"
                     >
-                      <span className="h-2.5 w-px bg-line-strong lg:h-px lg:w-3" />
-                      <ChevronDown className="size-3.5 text-line-strong lg:hidden" />
-                      <ChevronRight className="hidden size-3.5 text-line-strong lg:block" />
-                      <span className="h-2.5 w-px bg-line-strong lg:h-px lg:w-3" />
+                      {/* Mobile vertical pulse path */}
+                      <svg
+                        viewBox="0 0 16 32"
+                        className="h-8 w-4 text-line-strong lg:hidden"
+                        fill="none"
+                      >
+                        <path
+                          d="M8 0 V24"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="signal-path text-violet"
+                        />
+                        <path
+                          d="M4 20 L8 26 L12 20"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+
+                      {/* Desktop horizontal pulse path */}
+                      <svg
+                        viewBox="0 0 36 16"
+                        className="hidden h-4 w-9 text-line-strong lg:block"
+                        fill="none"
+                      >
+                        <path
+                          d="M0 8 H28"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="signal-path text-violet"
+                        />
+                        <path
+                          d="M24 4 L30 8 L24 12"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </span>
                   ) : null}
 
@@ -86,10 +123,17 @@ export function ArchitectureSection() {
 
           {aiStage && AiIcon ? (
             <>
-              <span
-                aria-hidden="true"
-                className="mx-auto block h-6 w-0 border-l border-dashed border-line-strong"
-              />
+              <div aria-hidden="true" className="mx-auto flex h-8 items-center justify-center">
+                <svg viewBox="0 0 16 32" className="h-8 w-4 text-line-strong" fill="none">
+                  <path
+                    d="M8 0 V24"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="signal-path text-info"
+                  />
+                  <circle cx="8" cy="26" r="2" fill="currentColor" className="text-info" />
+                </svg>
+              </div>
 
               <div className="panel-flat flex flex-col gap-3.5 border-l-2 border-dashed border-info/45 p-5 sm:p-6">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2.5">

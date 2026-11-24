@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { motion } from 'motion/react'
 import { profile } from '../../data/profile'
 import { projects } from '../../data/projects'
 import type { Project } from '../../data/types'
@@ -78,7 +79,12 @@ export function CaseStudyPage({ projectId }: CaseStudyPageProps) {
   const next = hasSiblings ? projects[(index + 1) % projects.length] : null
 
   return (
-    <div className="py-10 sm:py-14">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+      className="py-10 sm:py-14"
+    >
       <Container>
         <ButtonLink href="#work" variant="ghost" size="sm" className="-ml-2">
           <ArrowLeft aria-hidden="true" className="size-4" />
@@ -104,7 +110,7 @@ export function CaseStudyPage({ projectId }: CaseStudyPageProps) {
           </nav>
         ) : null}
       </Container>
-    </div>
+    </motion.div>
   )
 }
 

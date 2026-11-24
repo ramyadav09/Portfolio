@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { ArrowRight, FileText, MapPin } from 'lucide-react'
 import { profile } from '../../data/profile'
 import { formatLocation } from '../../lib/identity'
@@ -8,7 +9,6 @@ import { buttonClasses } from '../ui/buttonVariants'
 import { Container } from '../ui/Container'
 import { LinkChip } from '../ui/LinkChip'
 import { Pill } from '../ui/Pill'
-import { StaggerGroup, StaggerItem } from '../ui/Stagger'
 import { SystemOverview } from './SystemOverview'
 
 /**
@@ -34,8 +34,13 @@ export function Hero() {
 
       <Container className="pt-10 pb-16 sm:pt-12 sm:pb-20 lg:pt-14 lg:pb-24">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14">
-          <StaggerGroup className="flex flex-col items-start gap-5">
-            <StaggerItem className="w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col items-start gap-5"
+          >
+            <div className="w-full">
               <div className="flex items-center gap-4">
                 <Avatar name={profile.fullName} photoUrl={profile.photoUrl} />
                 <div className="min-w-0">
@@ -50,9 +55,9 @@ export function Hero() {
                   ) : null}
                 </div>
               </div>
-            </StaggerItem>
+            </div>
 
-            <StaggerItem className="w-full">
+            <div className="w-full">
               <div className="flex flex-wrap items-center gap-2.5">
                 <span className="text-sm font-medium text-fg-muted">{profile.role}</span>
                 {profile.availability ? (
@@ -64,22 +69,22 @@ export function Hero() {
                   </Pill>
                 ) : null}
               </div>
-            </StaggerItem>
+            </div>
 
-            <StaggerItem className="w-full">
+            <div className="w-full">
               <h1
                 id="hero-heading"
                 className="max-w-[20ch] text-[clamp(2.25rem,6.4vw,3.9rem)] font-semibold text-fg"
               >
                 {profile.headline}
               </h1>
-            </StaggerItem>
+            </div>
 
-            <StaggerItem className="w-full">
+            <div className="w-full">
               <p className="max-w-[52ch] text-lg text-fg sm:text-xl">{profile.subheadline}</p>
-            </StaggerItem>
+            </div>
 
-            <StaggerItem className="w-full">
+            <div className="w-full">
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <ButtonLink href="#work" size="lg">
                   Explore my work
@@ -106,9 +111,9 @@ export function Hero() {
                   </span>
                 )}
               </div>
-            </StaggerItem>
+            </div>
 
-            <StaggerItem className="w-full">
+            <div className="w-full">
               <div className="flex flex-wrap items-center gap-2 pt-2">
                 <span className="mono-label mr-1">Elsewhere</span>
                 <LinkChip label="GitHub" href={profile.github.href} icon={GithubGlyph} size="sm" />
@@ -119,14 +124,17 @@ export function Hero() {
                   size="sm"
                 />
               </div>
-            </StaggerItem>
-          </StaggerGroup>
+            </div>
+          </motion.div>
 
-          <StaggerGroup className="lg:pl-2">
-            <StaggerItem>
-              <SystemOverview />
-            </StaggerItem>
-          </StaggerGroup>
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.09, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:pl-2"
+          >
+            <SystemOverview />
+          </motion.div>
         </div>
       </Container>
     </section>

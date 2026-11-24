@@ -89,10 +89,11 @@ export function ThemeMenu() {
             id={PANEL_ID}
             ref={panelRef}
             key={PANEL_ID}
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={BASE}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.92 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            style={{ transformOrigin: 'top right' }}
             className="panel absolute top-full right-0 z-50 mt-2 w-[min(21rem,100%)] p-4"
           >
             <fieldset>

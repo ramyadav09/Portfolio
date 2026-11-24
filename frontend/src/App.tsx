@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
 import type { MouseEvent } from 'react'
+import { MotionConfig } from 'motion/react'
 import { ArchitectureSection } from './components/architecture/ArchitectureDiagram'
 import { Hero } from './components/hero/Hero'
+import { BottomDock } from './components/layout/BottomDock'
 import { ContentStatusNotice } from './components/layout/ContentStatusNotice'
 import { Footer } from './components/layout/Footer'
 import { Navbar } from './components/layout/Navbar'
@@ -57,7 +59,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <a
         href="#main"
         onClick={skipToContent}
@@ -85,8 +87,9 @@ export default function App() {
           )}
         </main>
 
+        <BottomDock />
         <Footer />
       </div>
-    </>
+    </MotionConfig>
   )
 }

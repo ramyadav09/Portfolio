@@ -124,9 +124,9 @@ export function Navbar() {
                       {item.label}
                       {isActive ? (
                         <motion.span
-                          layoutId="nav-active"
-                          className="absolute inset-x-2.5 -bottom-px h-px bg-violet"
-                          transition={BASE}
+                          layoutId="activeNav"
+                          className="absolute inset-x-2.5 -bottom-px h-0.5 bg-violet"
+                          transition={{ type: 'spring', bounce: 0.15, duration: 0.3 }}
                         />
                       ) : null}
                     </a>

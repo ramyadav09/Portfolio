@@ -6,6 +6,12 @@ import { Section } from '../ui/Section'
 import { SectionHeading } from '../ui/SectionHeading'
 
 export function TechStackSection() {
+  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`)
+    e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`)
+  }
+
   return (
     <Section id="stack" labelledBy="stack-heading" className="border-t border-line/60">
       <Container>
@@ -26,8 +32,17 @@ export function TechStackSection() {
               <Reveal key={category.id} delay={0.03 * index}>
                 <article
                   aria-labelledby={`stack-${category.id}`}
-                  className="panel-flat flex h-full flex-col gap-5 p-5"
+                  onPointerMove={handlePointerMove}
+                  className="panel-flat group relative flex h-full flex-col gap-5 overflow-hidden p-5"
                 >
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -inset-px rounded-[inherit] opacity-0 transition-opacity duration-[var(--duration-fast)] group-hover:opacity-100"
+                    style={{
+                      background:
+                        'radial-gradient(280px circle at var(--mx, -200px) var(--my, -200px), color-mix(in oklab, var(--color-violet) 12%, transparent), transparent 70%)',
+                    }}
+                  />
                   <header className="flex items-start gap-3">
                     <span className="flex size-9 shrink-0 items-center justify-center rounded-md border border-line bg-surface-inset">
                       <Icon aria-hidden="true" className="size-4 text-violet" />

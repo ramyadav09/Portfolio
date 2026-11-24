@@ -40,9 +40,9 @@ export function ProjectsSection() {
               otherwise widen the item past its column and push the page into
               horizontal overflow at narrow widths. */}
           <ul className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {orderedProjects.map((project) => (
+            {orderedProjects.map((project, index) => (
               <li key={project.id} className="h-full min-w-0">
-                <ProjectCard project={project} />
+                <ProjectCard project={project} index={index} />
               </li>
             ))}
           </ul>

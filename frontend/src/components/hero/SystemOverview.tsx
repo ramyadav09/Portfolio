@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { BrainCircuit, Info, Layers, Workflow } from 'lucide-react'
+import { motion } from 'motion/react'
+import { cn } from '../../lib/utils'
 import { Pill } from '../ui/Pill'
-import { StaggerGroup, StaggerItem } from '../ui/Stagger'
 
 /**
  * The three ideas the portfolio is organised around. This is a map of how the
@@ -35,6 +37,8 @@ const concepts = [
 ] as const
 
 export function SystemOverview() {
+  const [activeId, setActiveId] = useState<string>('build')
+
   return (
     <section aria-labelledby="system-overview-heading" className="panel p-5 sm:p-6">
       <div className="flex items-center justify-between gap-3 border-b border-line pb-4">
@@ -48,37 +52,54 @@ export function SystemOverview() {
         </Pill>
       </div>
 
-      <StaggerGroup className="relative mt-5">
+      <div className="relative mt-5">
         {/* The rail is the connective tissue between the three ideas. */}
         <span
           aria-hidden="true"
           className="absolute top-3 bottom-4 left-[1.0625rem] w-px bg-line-strong"
         />
 
-        <ul className="flex flex-col gap-5">
-          {concepts.map((concept) => (
-            <StaggerItem key={concept.id} as="li" className="relative flex gap-4">
-              <span
-                className="relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full border border-violet/30 bg-violet/10 text-violet"
+        <ul className="flex flex-col gap-3">
+          {concepts.map((concept) => {
+            const isActive = activeId === concept.id
+            return (
+              <motion.li
+                key={concept.id}
+                whileHover={{ x: 2 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                onClick={() => setActiveId(concept.id)}
+                className={cn(
+                  'relative flex cursor-pointer gap-4 rounded-lg p-2 transition-colors duration-[var(--duration-fast)]',
+                  isActive ? 'bg-surface-raised/80' : 'hover:bg-surface-raised/40',
+                )}
               >
-                <concept.icon aria-hidden="true" className="size-4" />
-              </span>
+                <span
+                  className={cn(
+                    'relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-[var(--duration-fast)]',
+                    isActive
+                      ? 'border-violet bg-violet/20 text-violet ring-2 ring-violet/30'
+                      : 'border-violet/30 bg-violet/10 text-violet',
+                  )}
+                >
+                  <concept.icon aria-hidden="true" className="size-4" />
+                </span>
 
-              <div className="min-w-0 pt-0.5">
-                <p className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
-                  <span className="font-mono text-[0.6875rem] text-fg-subtle">{concept.step}</span>
-                  {/* Label, not a heading: these are list items in one panel. */}
-                  <span className="font-display text-[1.0625rem] font-semibold text-fg">
-                    {concept.verb}
-                  </span>
-                  <span className="text-sm text-fg-muted">{concept.subject}</span>
-                </p>
-                <p className="mt-1 text-sm text-fg-muted">{concept.detail}</p>
-              </div>
-            </StaggerItem>
-          ))}
+                <div className="min-w-0 pt-0.5">
+                  <p className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+                    <span className="font-mono text-[0.6875rem] text-fg-subtle">{concept.step}</span>
+                    {/* Label, not a heading: these are list items in one panel. */}
+                    <span className="font-display text-[1.0625rem] font-semibold text-fg">
+                      {concept.verb}
+                    </span>
+                    <span className="text-sm text-fg-muted">{concept.subject}</span>
+                  </p>
+                  <p className="mt-1 text-sm text-fg-muted">{concept.detail}</p>
+                </div>
+              </motion.li>
+            )
+          })}
         </ul>
-      </StaggerGroup>
+      </div>
 
       <p className="mt-6 border-t border-line pt-4 text-xs text-fg-subtle">
         A description of how the work fits together, not live telemetry.
