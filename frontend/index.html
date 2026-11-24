@@ -30,7 +30,7 @@
           var mode =
             stored.mode === 'light' || stored.mode === 'dark' || stored.mode === 'system'
               ? stored.mode
-              : 'dark'
+              : 'system'
           var resolved =
             mode === 'system'
               ? window.matchMedia('(prefers-color-scheme: dark)').matches

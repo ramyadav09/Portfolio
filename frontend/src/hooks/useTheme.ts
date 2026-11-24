@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react'
-import { DEFAULT_THEME, type ThemeChoice, type ThemeMode } from '../data/theme'
+import type { ThemeChoice, ThemeMode } from '../data/theme'
 import { DARK_QUERY, applyTheme, readStoredTheme, resolveMode, storeTheme } from '../lib/theme'
 
 /**
@@ -32,12 +32,24 @@ const getServerPrefersDark = () => true
  * re-applies what the boot script already did — is excluded from the cross-fade.
  */
 export function useTheme() {
-  const [choice, setChoice] = useState<ThemeChoice>(() => readStoredTheme() ?? DEFAULT_THEME)
   const prefersDark = useSyncExternalStore(
     subscribeToSystemPreference,
     getSystemPrefersDark,
     getServerPrefersDark,
   )
+
+  const [choice, setChoice] = useState<ThemeChoice>(() => {
+    const stored = readStoredTheme()
+    if (stored) return stored
+    const isDark =
+      typeof window !== 'undefined' && window.matchMedia
+        ? window.matchMedia(DARK_QUERY).matches
+        : true
+    return {
+      mode: 'system',
+      accent: isDark ? '#a77bff' : '#1D4ED8',
+    }
+  })
   const isFirstRun = useRef(true)
 
   const resolved = resolveMode(choice.mode, prefersDark)
@@ -59,7 +71,16 @@ export function useTheme() {
     setChoice((previous) => ({ ...previous, accent }))
   }, [])
 
-  const reset = useCallback(() => setChoice(DEFAULT_THEME), [])
+  const reset = useCallback(() => {
+    const isDark =
+      typeof window !== 'undefined' && window.matchMedia
+        ? window.matchMedia(DARK_QUERY).matches
+        : true
+    setChoice({
+      mode: 'system',
+      accent: isDark ? '#a77bff' : '#1D4ED8',
+    })
+  }, [])
 
   return { choice, resolved, setMode, setAccent, reset }
 }

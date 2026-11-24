@@ -125,7 +125,7 @@ export function ThemeMenu() {
                       {isActive ? (
                         <Check
                           aria-hidden="true"
-                          className="size-4 text-[light-dark(white,var(--color-on-accent))]"
+                          className="size-4 text-[var(--color-on-accent)]"
                         />
                       ) : null}
                     </motion.button>

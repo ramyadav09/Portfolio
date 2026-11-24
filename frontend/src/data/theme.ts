@@ -44,10 +44,7 @@ export interface ThemeChoice {
 export type ResolvedMode = 'light' | 'dark'
 
 export const DEFAULT_THEME: ThemeChoice = {
-  // Dark by default rather than `system`: the design was signed off dark, and
-  // most operating systems default to light, so `system` would silently change
-  // the first impression for most visitors. Light and system are one click away.
-  mode: 'dark',
+  mode: 'system',
   accent: ACCENT_PRESETS[0].value,
 }
 
