@@ -405,14 +405,14 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
         </div>
       ) : null}
 
-      <div className="mt-4">
-        <SubPanel
-          id={`${project.id}-results`}
-          title="Verified results"
-          icon={BarChart3}
-          accent="text-mint"
-        >
-          {study.results.length > 0 ? (
+      {study.results.length > 0 ? (
+        <div className="mt-4">
+          <SubPanel
+            id={`${project.id}-results`}
+            title="Verified results"
+            icon={BarChart3}
+            accent="text-mint"
+          >
             <dl className="grid gap-5 sm:grid-cols-3">
               {study.results.map((metric) => (
                 <div key={metric.label}>
@@ -422,15 +422,9 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
                 </div>
               ))}
             </dl>
-          ) : (
-            <p className="max-w-[74ch] text-sm text-fg-subtle">
-              No measured results recorded. Numbers belong here only once they have actually been
-              measured: add them to <code className="font-mono text-[0.8rem]">caseStudy.results</code> in{' '}
-              <code className="font-mono text-[0.8rem]">src/data/projects.ts</code>.
-            </p>
-          )}
-        </SubPanel>
-      </div>
+          </SubPanel>
+        </div>
+      ) : null}
     </>
   )
 

@@ -134,7 +134,7 @@
 
   /* Anchored sections clear the sticky header when jumped to. */
   [id] {
-    scroll-margin-top: calc(var(--header-height) + 1.25rem);
+    scroll-margin-top: var(--header-height);
   }
 
   /* Ambient lighting: one fixed layer, no per-section effects. Tuned down in

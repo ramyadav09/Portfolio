@@ -32,7 +32,7 @@ export function Hero() {
       {/* Blueprint texture: one decorative layer, no motion, no particles. */}
       <div aria-hidden="true" className="grid-texture pointer-events-none absolute inset-0 -z-10" />
 
-      <Container className="pt-10 pb-16 sm:pt-12 sm:pb-20 lg:pt-14 lg:pb-24">
+      <Container className="pt-8 pb-10 sm:pt-10 sm:pb-12 lg:pt-12 lg:pb-14">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14">
           <motion.div
             initial={{ opacity: 0, y: 14 }}

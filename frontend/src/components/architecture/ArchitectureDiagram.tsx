@@ -22,8 +22,8 @@ const stageAccent: Record<string, { text: string; rule: string }> = {
 
 export function ArchitectureSection() {
   return (
-    <Section id="how-i-build" labelledBy="how-i-build-heading" className="border-t border-line/60">
-      <Container>
+    <Section labelledBy="how-i-build-heading" className="border-t border-line/60">
+      <Container id="how-i-build" className="scroll-mt-16">
         <Reveal>
           <SectionHeading
             eyebrow="How I build"

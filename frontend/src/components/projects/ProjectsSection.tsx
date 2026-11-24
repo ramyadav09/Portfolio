@@ -23,8 +23,8 @@ const orderedProjects = featuredProject
 
 export function ProjectsSection() {
   return (
-    <Section id="work" labelledBy="work-heading">
-      <Container>
+    <Section labelledBy="work-heading">
+      <Container id="work" className="scroll-mt-16">
         <Reveal>
           <SectionHeading
             eyebrow="Selected work"

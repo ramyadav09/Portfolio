@@ -14,8 +14,8 @@ export function TechStackSection() {
   }
 
   return (
-    <Section id="stack" labelledBy="stack-heading" className="border-t border-line/60">
-      <Container>
+    <Section labelledBy="stack-heading" className="border-t border-line/60">
+      <Container id="stack" className="scroll-mt-16">
         <Reveal>
           <SectionHeading
             eyebrow="Technical toolkit"

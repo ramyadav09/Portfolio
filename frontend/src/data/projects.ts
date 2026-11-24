@@ -465,7 +465,7 @@ export const projects: Project[] = [
     demo: { label: 'Live demo', href: null },
     preview: {
       kind: 'placeholder',
-      caption: 'Capture the listing search with the map view open.',
+      caption: 'Interactive map and verified listings view.',
     },
     highlights: [
       'Three roles with different powers — customer, owner and admin — with verification enforced server-side.',
@@ -640,7 +640,7 @@ export const projects: Project[] = [
     demo: { label: 'Live demo', href: null },
     preview: {
       kind: 'placeholder',
-      caption: 'Capture the findings list with severity filters applied.',
+      caption: 'Multi-agent code analysis with severity breakdown.',
     },
     highlights: [
       'Four specialist agents instead of one general reviewer: bug detection, security review, code quality and test coverage.',
@@ -889,7 +889,7 @@ export const projects: Project[] = [
     demo: { label: 'Live demo', href: null },
     preview: {
       kind: 'placeholder',
-      caption: 'Capture the builder with the live document preview alongside it.',
+      caption: 'Live document builder with real-time AI suggestions.',
     },
     highlights: [
       'A five-layer backend with strict downward dependencies: transport, services, domain/AI, ports, and adapters.',

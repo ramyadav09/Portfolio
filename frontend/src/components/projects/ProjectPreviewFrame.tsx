@@ -39,7 +39,7 @@ export function ProjectPreviewFrame({ preview, label, priority = false, classNam
   return (
     <div
       role="img"
-      aria-label={`${label ? `${label}: ` : ''}screenshot pending. ${preview.caption}`}
+      aria-label={`${label ? `${label}: ` : ''}preview coming soon. ${preview.caption}`}
       className={cn(
         'relative flex size-full items-center justify-center overflow-hidden',
         'bg-surface-inset',
@@ -71,7 +71,7 @@ export function ProjectPreviewFrame({ preview, label, priority = false, classNam
 
         <p className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-2.5 py-1 text-xs text-fg-subtle">
           <ImageIcon aria-hidden="true" className="size-3" />
-          Screenshot pending
+          Preview coming soon
         </p>
 
         <p className="max-w-[34ch] text-xs text-fg-muted">{preview.caption}</p>

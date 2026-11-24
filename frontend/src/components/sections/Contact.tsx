@@ -13,8 +13,8 @@ export function ContactSection() {
   const location = formatLocation(profile.location)
 
   return (
-    <Section id="contact" labelledBy="contact-heading" className="border-t border-line/60">
-      <Container>
+    <Section labelledBy="contact-heading" className="border-t border-line/60">
+      <Container id="contact" className="scroll-mt-16">
         <Reveal>
           <div className="panel p-6 sm:p-9">
             <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-12">
@@ -54,7 +54,6 @@ export function ContactSection() {
                   <div className="flex flex-wrap gap-2">
                     <LinkChip label="GitHub" href={profile.github.href} icon={GithubGlyph} />
                     <LinkChip label="LinkedIn" href={profile.linkedin.href} icon={LinkedinGlyph} />
-                    <LinkChip label="Résumé" href={profile.resume.href} icon={FileText} />
                   </div>
                 </div>
 
