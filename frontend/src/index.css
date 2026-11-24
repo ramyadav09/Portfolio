@@ -1,6 +1,6 @@
 /* Hallmark · shape: kept · genre: modern-minimal · theme: brand · redesign: full
- * paper: #11152a · accent: #a77bff · display: Space Grotesk · body: Inter · hero: kept · nav: kept · footer: kept · signature: architecture and verified case studies
- * axes: dark/grotesk-sans/chromatic-violet · posture: restrained · contrast: pass · fold: pass · v2.0.0 */
+ * paper: #11152a · accent: #1D4ED8 · display: Space Grotesk · body: Inter · hero: kept · nav: kept · footer: kept · signature: architecture and verified case studies
+ * axes: dark/grotesk-sans/chromatic-cobalt · posture: restrained · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P9 H8 E9 S8 R9 V9 · weakest: copy em-dashes and micro-labels, resolved */
 @import "tailwindcss";
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
@@ -50,9 +50,9 @@
   --color-on-accent: var(--color-on-accent);
 
   /* --- typography --- */
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   /* --- radii --- */
   --radius-xs: 0.25rem;
@@ -194,7 +194,7 @@
     position: relative;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
-    background-color: color-mix(in oklab, var(--color-surface) 90%, var(--color-canvas));
+    background-color: var(--color-surface);
     background-image: linear-gradient(
       180deg,
       var(--color-surface-tint),

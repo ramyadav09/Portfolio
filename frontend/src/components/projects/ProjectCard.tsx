@@ -40,7 +40,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article
       aria-labelledby={`project-${project.id}-title`}
-      className="panel group flex h-full flex-col overflow-hidden transition-[border-color,box-shadow,transform] duration-[var(--duration-base)] ease-[var(--ease-out-soft)] hover:-translate-y-px hover:border-violet/40 hover:shadow-[var(--shadow-glow)]"
+      className="panel group flex h-full flex-col overflow-hidden transition-[border-color,transform] duration-[var(--duration-fast)] ease-[var(--ease-out-soft)] hover:-translate-y-0.5 hover:border-line-strong"
     >
       <div className="relative aspect-[16/10] shrink-0 border-b border-line">
         <ProjectPreviewFrame
@@ -64,7 +64,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </a>
         </h3>
 
-        <p className="line-clamp-2 text-sm text-violet-bright/90">{project.tagline}</p>
+        <p className="line-clamp-2 text-sm text-fg-muted">{project.tagline}</p>
 
         {/* One line of real evidence, sliced rather than wrapped so it cannot
             make two cards in a row different heights. `title` carries the rest

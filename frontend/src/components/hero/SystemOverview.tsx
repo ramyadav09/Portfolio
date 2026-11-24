@@ -66,7 +66,7 @@ export function SystemOverview() {
 
               <div className="min-w-0 pt-0.5">
                 <p className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
-                  <span className="mono-label text-[0.625rem]">{concept.step}</span>
+                  <span className="font-mono text-[0.6875rem] text-fg-subtle">{concept.step}</span>
                   {/* Label, not a heading: these are list items in one panel. */}
                   <span className="font-display text-[1.0625rem] font-semibold text-fg">
                     {concept.verb}

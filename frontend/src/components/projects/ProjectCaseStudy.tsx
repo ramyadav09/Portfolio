@@ -126,7 +126,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
             {project.title}
             <span className="sr-only"> (case study)</span>
           </h1>
-          <p className="max-w-[72ch] text-[0.9375rem] text-violet-bright/90">{project.tagline}</p>
+          <p className="max-w-[72ch] text-[0.9375rem] text-fg-muted">{project.tagline}</p>
         </div>
 
         <div className="flex flex-wrap gap-2">

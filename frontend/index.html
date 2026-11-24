@@ -39,7 +39,7 @@
               : mode
           var accent = /^#[0-9a-f]{6}$/i.test(stored.accent)
             ? stored.accent
-            : (resolved === 'light' ? '#1D4ED8' : '#a77bff')
+            : '#1D4ED8'
 
           var root = document.documentElement
           root.style.setProperty('--accent-source', accent)

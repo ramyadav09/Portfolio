@@ -10,9 +10,9 @@
   --color-focus: var(--color-mint);
   --color-error: oklch(52% 0.19 27);
   --color-success: oklch(50% 0.12 150);
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-outlier: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-outlier: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --radius-card: 1rem;
   --radius-pill: 9999px;
   --rule-hair: 1px;
@@ -33,9 +33,9 @@
   --color-focus: var(--color-mint);
   --color-error: oklch(52% 0.19 27);
   --color-success: oklch(50% 0.12 150);
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-outlier: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-outlier: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --radius-card: 1rem;
   --radius-pill: 9999px;
   --rule-hair: 1px;
@@ -93,7 +93,7 @@
 :root,
 [data-theme='dark'],
 .dark {
-  --accent-source: #a77bff;
+  --accent-source: #1D4ED8;
   --accent-band-dark-lo: 0.66;
   --accent-band-dark-hi: 0.78;
   --accent-chroma-cap: 0.19;
@@ -144,7 +144,7 @@
   --color-surface-inset: #f1f5f9;
 
   --color-fg: oklch(20.8% 0.035 264.4);
-  --color-fg-muted: #334155;
+  --color-fg-muted: oklch(45.5% 0.04 257);
   --color-fg-subtle: oklch(55.2% 0.037 257.4);
 
   --color-line: #e2e8f0;
@@ -169,12 +169,12 @@
 
 @supports not (color: oklch(from red l c h)) {
   :root, [data-theme='dark'], .dark {
-    --color-violet: #a77bff;
-    --color-violet-bright: #c3a4ff;
-    --color-violet-deep: #6d4fbd;
-    --color-mint: #8de8c0;
-    --color-mint-deep: #46b98c;
-    --color-info: #a9c6ff;
+    --color-violet: #357ee8;
+    --color-violet-bright: #60a5fa;
+    --color-violet-deep: #1d4ed8;
+    --color-mint: #38bdf8;
+    --color-mint-deep: #0284c7;
+    --color-info: #357ee8;
   }
   [data-theme='light'], .light {
     --color-violet: #1D4ED8;

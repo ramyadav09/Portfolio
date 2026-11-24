@@ -14,7 +14,7 @@ import type { ProjectStatus } from '../data/types'
 export const projectStatusMeta: Record<ProjectStatus, { label: string; tone: PillTone }> = {
   concept: { label: 'Concept', tone: 'muted' },
   'in-progress': { label: 'In progress', tone: 'caution' },
-  built: { label: 'Built', tone: 'violet' },
-  live: { label: 'Live', tone: 'mint' },
-  archived: { label: 'Archived', tone: 'neutral' },
+  built: { label: 'Built', tone: 'neutral' },
+  live: { label: 'Live', tone: 'neutral' },
+  archived: { label: 'Archived', tone: 'muted' },
 }

@@ -44,7 +44,7 @@ export interface ThemeChoice {
 export type ResolvedMode = 'light' | 'dark'
 
 export const DEFAULT_THEME: ThemeChoice = {
-  mode: 'system',
+  mode: 'light',
   accent: ACCENT_PRESETS[0].value,
 }
 

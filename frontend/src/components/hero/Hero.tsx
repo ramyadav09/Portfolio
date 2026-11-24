@@ -1,4 +1,4 @@
-import { ArrowRight, CircleDot, FileText, MapPin } from 'lucide-react'
+import { ArrowRight, FileText, MapPin } from 'lucide-react'
 import { profile } from '../../data/profile'
 import { formatLocation } from '../../lib/identity'
 import { GithubGlyph, LinkedinGlyph } from '../ui/BrandGlyphs'
@@ -56,7 +56,7 @@ export function Hero() {
               <div className="flex flex-wrap items-center gap-2.5">
                 <span className="text-sm font-medium text-fg-muted">{profile.role}</span>
                 {profile.availability ? (
-                  <Pill tone="mint" icon={<CircleDot aria-hidden="true" className="size-3" />}>
+                  <Pill tone="neutral">
                     {profile.availability.label}
                     {profile.availability.note ? (
                       <span className="sr-only">, {profile.availability.note}</span>

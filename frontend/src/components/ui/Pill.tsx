@@ -4,11 +4,12 @@ import { cn } from '../../lib/utils'
 export type PillTone = 'neutral' | 'violet' | 'mint' | 'caution' | 'muted'
 
 const toneClasses: Record<PillTone, string> = {
-  neutral: 'border-line-strong bg-surface-raised/80 text-fg-muted',
-  violet: 'border-violet/45 bg-violet/12 text-violet-bright',
-  mint: 'border-mint/45 bg-mint/12 text-mint',
-  caution: 'border-caution/45 bg-caution/12 text-caution',
-  muted: 'border-dashed border-line-strong bg-transparent text-fg-subtle',
+  neutral: 'border-line bg-surface-inset text-fg-muted',
+  violet: 'border-violet/30 bg-violet/10 text-violet',
+  mint: 'border-mint/30 bg-mint/10 text-mint',
+  caution:
+    'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800/40 dark:bg-amber-950/30 dark:text-amber-300',
+  muted: 'border-line/70 bg-surface-inset/60 text-fg-subtle',
 }
 
 interface PillProps {

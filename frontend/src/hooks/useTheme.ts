@@ -41,13 +41,9 @@ export function useTheme() {
   const [choice, setChoice] = useState<ThemeChoice>(() => {
     const stored = readStoredTheme()
     if (stored) return stored
-    const isDark =
-      typeof window !== 'undefined' && window.matchMedia
-        ? window.matchMedia(DARK_QUERY).matches
-        : true
     return {
-      mode: 'system',
-      accent: isDark ? '#a77bff' : '#1D4ED8',
+      mode: 'light',
+      accent: '#1D4ED8',
     }
   })
   const isFirstRun = useRef(true)
@@ -72,13 +68,9 @@ export function useTheme() {
   }, [])
 
   const reset = useCallback(() => {
-    const isDark =
-      typeof window !== 'undefined' && window.matchMedia
-        ? window.matchMedia(DARK_QUERY).matches
-        : true
     setChoice({
-      mode: 'system',
-      accent: isDark ? '#a77bff' : '#1D4ED8',
+      mode: 'light',
+      accent: '#1D4ED8',
     })
   }, [])
 
