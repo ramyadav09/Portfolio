@@ -13,8 +13,8 @@ export function ContactSection() {
   const location = formatLocation(profile.location)
 
   return (
-    <Section labelledBy="contact-heading" className="border-t border-line/60">
-      <Container id="contact" className="scroll-mt-16">
+    <Section id="contact" labelledBy="contact-heading" className="border-t border-line/60">
+      <Container>
         <Reveal>
           <div className="panel p-6 sm:p-9">
             <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:gap-12">

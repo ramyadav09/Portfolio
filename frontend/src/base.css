@@ -2,7 +2,6 @@
 html, body { overflow-x: clip; }
 html {
   scrollbar-color: var(--color-muted) var(--color-canvas);
-  scroll-padding-top: var(--space-3xl);
   background-color: var(--color-canvas);
   color: var(--color-fg);
 }

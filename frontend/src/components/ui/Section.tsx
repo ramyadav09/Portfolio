@@ -10,7 +10,11 @@ interface SectionProps {
 
 export function Section({ id, labelledBy, children, className }: SectionProps) {
   return (
-    <section id={id} aria-labelledby={labelledBy} className={cn('py-12 md:py-16', className)}>
+    <section
+      id={id}
+      aria-labelledby={labelledBy}
+      className={cn('pt-6 pb-12 md:pt-8 md:pb-14', className)}
+    >
       {children}
     </section>
   )

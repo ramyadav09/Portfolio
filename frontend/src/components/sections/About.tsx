@@ -55,8 +55,8 @@ export function AboutSection() {
   const { education, experience } = profile
 
   return (
-    <Section labelledBy="about-heading" className="border-t border-line/60">
-      <Container id="about" className="scroll-mt-16">
+    <Section id="about" labelledBy="about-heading" className="border-t border-line/60">
+      <Container>
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-14">
           <Reveal>
             <SectionHeading

@@ -89,6 +89,7 @@
     background-color: var(--color-canvas);
     color: var(--color-fg);
     scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
     -webkit-text-size-adjust: 100%;
   }
 
@@ -132,9 +133,9 @@
     color: var(--color-fg);
   }
 
-  /* Anchored sections clear the sticky header when jumped to. */
+  /* Anchored sections clear the sticky header via html scroll-padding-top */
   [id] {
-    scroll-margin-top: var(--header-height);
+    scroll-margin-top: 0;
   }
 
   /* Ambient lighting: one fixed layer, no per-section effects. Tuned down in
