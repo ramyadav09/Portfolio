@@ -46,7 +46,7 @@ export function ContactSection() {
 
             <p className="mt-6 max-w-[74ch] text-sm text-fg-subtle">
               There is deliberately no contact form here. A form that cannot deliver a message is
-              worse than no form at all, and this site has no server to send one from — so the
+              worse than no form at all, and this site has no server to send one from: so the
               links above are the real route in.
             </p>
           </div>

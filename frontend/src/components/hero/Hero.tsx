@@ -59,7 +59,7 @@ export function Hero() {
                   <Pill tone="mint" icon={<CircleDot aria-hidden="true" className="size-3" />}>
                     {profile.availability.label}
                     {profile.availability.note ? (
-                      <span className="sr-only"> — {profile.availability.note}</span>
+                      <span className="sr-only">, {profile.availability.note}</span>
                     ) : null}
                   </Pill>
                 ) : null}
@@ -69,7 +69,7 @@ export function Hero() {
             <StaggerItem className="w-full">
               <h1
                 id="hero-heading"
-                className="max-w-[20ch] bg-gradient-to-br from-fg via-fg to-violet-bright bg-clip-text text-[clamp(2.25rem,6.4vw,3.9rem)] font-semibold text-transparent"
+                className="max-w-[20ch] text-[clamp(2.25rem,6.4vw,3.9rem)] font-semibold text-fg"
               >
                 {profile.headline}
               </h1>
@@ -102,7 +102,7 @@ export function Hero() {
                   >
                     <FileText aria-hidden="true" className="size-4" />
                     View résumé
-                    <span className="sr-only"> — résumé not available yet</span>
+                    <span className="sr-only"> (résumé not available yet)</span>
                   </span>
                 )}
               </div>

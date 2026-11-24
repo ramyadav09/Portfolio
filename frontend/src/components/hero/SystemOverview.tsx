@@ -94,7 +94,7 @@ export function SystemOverview() {
       </StaggerGroup>
 
       <p className="mt-6 border-t border-line pt-4 text-xs text-fg-subtle">
-        A description of how the work fits together — not live telemetry.
+        A description of how the work fits together, not live telemetry.
       </p>
     </section>
   )

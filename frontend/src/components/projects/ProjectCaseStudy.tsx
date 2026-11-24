@@ -124,7 +124,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
             className="text-[clamp(1.45rem,3vw,2rem)] font-semibold"
           >
             {project.title}
-            <span className="sr-only"> — case study</span>
+            <span className="sr-only"> (case study)</span>
           </h1>
           <p className="max-w-[72ch] text-[0.9375rem] text-violet-bright/90">{project.tagline}</p>
         </div>
@@ -250,7 +250,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <p className="text-fg-muted">
-                    <span className="font-medium text-fg">{step.label} — </span>
+                    <span className="font-medium text-fg">{step.label}: </span>
                     {step.detail}
                   </p>
                 </li>
@@ -425,7 +425,7 @@ export function ProjectCaseStudy({ project }: { project: Project }) {
           ) : (
             <p className="max-w-[74ch] text-sm text-fg-subtle">
               No measured results recorded. Numbers belong here only once they have actually been
-              measured — add them to <code className="font-mono text-[0.8rem]">caseStudy.results</code> in{' '}
+              measured: add them to <code className="font-mono text-[0.8rem]">caseStudy.results</code> in{' '}
               <code className="font-mono text-[0.8rem]">src/data/projects.ts</code>.
             </p>
           )}

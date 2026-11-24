@@ -1,0 +1,21 @@
+{
+  "scanned": "2026-11-24T23:12:00+05:30",
+  "findings": {
+    "fonts": "Space Grotesk + Inter (Google Fonts, index.html L61, src/index.css L52-53)",
+    "palette": "Custom OKLCH-based theme layer over dark ink/surface with violet/mint accents (src/index.css)",
+    "motion": "motion 14 (package.json L16, src/lib/motion.ts)",
+    "spacing": "Tailwind v4 (@theme in src/index.css, rem-based scale)",
+    "framework": "React 19 + Vite 8 + TypeScript (package.json)"
+  },
+  "preserve": [
+    "project case studies and profile data",
+    "client hash-routing and deep link logic",
+    "interactive handlers and anchor wiring",
+    "theme switching capabilities"
+  ],
+  "introduce": [
+    "Hallmark CSS stamp and token block normalization",
+    "Floor typography & copy cleanup (em-dashes, tracked uppercase micro-labels)",
+    "Eight-state button/interactive resilience (:active, :focus-visible)"
+  ]
+}

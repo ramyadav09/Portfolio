@@ -46,7 +46,7 @@ export function LinkChip({
         {Icon ? <Icon aria-hidden="true" className="size-4 shrink-0 opacity-70" /> : null}
         {label}
         <Link2Off aria-hidden="true" className="size-3.5 shrink-0 opacity-60" />
-        <span className="sr-only"> — link not available yet</span>
+        <span className="sr-only"> (link not available yet)</span>
       </span>
     )
   }

@@ -6,6 +6,7 @@ interface ProjectPreviewFrameProps {
   preview: ProjectPreview
   /** Project title, used so the placeholder announces which project it stands for. */
   label?: string
+  priority?: boolean
   className?: string
 }
 
@@ -19,7 +20,7 @@ interface ProjectPreviewFrameProps {
  * a dashed "missing" box reads as an unfinished build rather than as a project
  * that simply has not been photographed yet.
  */
-export function ProjectPreviewFrame({ preview, label, className }: ProjectPreviewFrameProps) {
+export function ProjectPreviewFrame({ preview, label, priority = false, className }: ProjectPreviewFrameProps) {
   if (preview.kind === 'image') {
     return (
       <img
@@ -27,9 +28,10 @@ export function ProjectPreviewFrame({ preview, label, className }: ProjectPrevie
         alt={preview.alt}
         width={preview.width}
         height={preview.height}
-        loading="lazy"
+        loading={priority ? 'eager' : 'lazy'}
+        fetchPriority={priority ? 'high' : 'auto'}
         decoding="async"
-        className={cn('size-full object-cover object-top', className)}
+        className={cn('size-full object-contain', className)}
       />
     )
   }
@@ -67,7 +69,7 @@ export function ProjectPreviewFrame({ preview, label, className }: ProjectPrevie
           <circle cx="22.6" cy="22.6" r="3" fill="#a77bff" />
         </svg>
 
-        <p className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-2.5 py-1 font-mono text-[0.625rem] tracking-[0.12em] text-fg-subtle uppercase">
+        <p className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/80 px-2.5 py-1 text-xs text-fg-subtle">
           <ImageIcon aria-hidden="true" className="size-3" />
           Screenshot pending
         </p>

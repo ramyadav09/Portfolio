@@ -33,7 +33,7 @@ export function ContentStatusNotice() {
     <div className="border-b border-caution/30 bg-caution/8">
       <Container className="py-2.5">
         <p className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-xs text-fg-muted">
-          <span className="inline-flex items-center gap-1.5 font-mono text-[0.6875rem] tracking-[0.12em] text-caution uppercase">
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-caution">
             <TriangleAlert aria-hidden="true" className="size-3.5" />
             Sample content
           </span>

@@ -191,7 +191,7 @@ export function AboutSection() {
                   >
                     <FileText aria-hidden="true" className="size-4" />
                     View résumé
-                    <span className="sr-only"> — résumé not available yet</span>
+                    <span className="sr-only"> (résumé not available yet)</span>
                   </span>
                 )}
               </div>

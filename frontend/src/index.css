@@ -1,4 +1,10 @@
+/* Hallmark · shape: kept · genre: modern-minimal · theme: brand · redesign: full
+ * paper: #11152a · accent: #a77bff · display: Space Grotesk · body: Inter · hero: kept · nav: kept · footer: kept · signature: architecture and verified case studies
+ * axes: dark/grotesk-sans/chromatic-violet · posture: restrained · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P9 H8 E9 S8 R9 V9 · weakest: copy em-dashes and micro-labels, resolved */
 @import "tailwindcss";
+@import "./tokens.css";
+@import "./base.css" layer(base);
 
 /* ===========================================================================
    Intelligence Workspace — design tokens
@@ -43,6 +49,11 @@
   --color-positive: #8de8c0;
   --color-caution: #ffcf8f;
   --color-info: #a9c6ff;
+  --color-surface-tint-light: oklch(24% 0.02 260 / 0.035);
+  --color-surface-tint-dark: oklch(100% 0 0 / 0.035);
+  --color-grid-line-light: oklch(35% 0.03 260 / 0.1);
+  --color-grid-line-dark: oklch(70% 0.03 260 / 0.07);
+  --color-mask-opaque: oklch(14% 0.02 260);
 
   /* Text/icons that sit *on top of* --color-violet. It is not `--color-ink`:
      in light mode the accent is dark, so this has to flip to white. */
@@ -361,7 +372,7 @@
     background-color: color-mix(in oklab, var(--color-surface) 90%, var(--color-ink));
     background-image: linear-gradient(
       180deg,
-      light-dark(rgb(24 30 58 / 0.035), rgb(255 255 255 / 0.035)),
+      light-dark(var(--color-surface-tint-light), var(--color-surface-tint-dark)),
       transparent 45%
     );
     box-shadow: var(--shadow-panel);
@@ -374,13 +385,11 @@
     background-color: color-mix(in oklab, var(--color-surface) 72%, var(--color-ink));
   }
 
-  /* Small uppercase monospaced label used for eyebrow text and diagram nodes. */
+  /* Small label used for eyebrow text and diagram nodes. */
   .mono-label {
-    font-family: var(--font-mono);
-    font-size: 0.6875rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
     line-height: 1.4;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
     color: var(--color-fg-subtle);
   }
 
@@ -405,11 +414,26 @@
   /* Faint blueprint grid, used only behind the hero. */
   .grid-texture {
     background-image:
-      linear-gradient(to right, light-dark(rgb(58 70 110 / 0.1), rgb(148 163 214 / 0.07)) 1px, transparent 1px),
-      linear-gradient(to bottom, light-dark(rgb(58 70 110 / 0.1), rgb(148 163 214 / 0.07)) 1px, transparent 1px);
+      linear-gradient(to right, light-dark(var(--color-grid-line-light), var(--color-grid-line-dark)) 1px, transparent 1px),
+      linear-gradient(to bottom, light-dark(var(--color-grid-line-light), var(--color-grid-line-dark)) 1px, transparent 1px);
     background-size: 52px 52px;
-    -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, #000 20%, transparent 78%);
-    mask-image: radial-gradient(70% 60% at 50% 35%, #000 20%, transparent 78%);
+    -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, var(--color-mask-opaque) 20%, transparent 78%);
+    mask-image: radial-gradient(70% 60% at 50% 35%, var(--color-mask-opaque) 20%, transparent 78%);
+  }
+
+  button:active:not(:disabled),
+  a:active,
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    background-color: var(--color-surface);
+    color: var(--color-fg-subtle);
+    cursor: not-allowed;
+    opacity: 0.6;
+    pointer-events: none;
   }
 
   .divider {

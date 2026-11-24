@@ -78,7 +78,7 @@ export function Navbar() {
       className={cn(
         'sticky top-0 z-50 border-b transition-colors',
         'duration-[var(--duration-base)] ease-[var(--ease-out-soft)]',
-        scrolled ? 'border-line bg-ink/85 backdrop-blur-md' : 'border-transparent bg-transparent',
+        scrolled ? 'border-line bg-ink' : 'border-transparent bg-transparent',
       )}
     >
       <Container>
@@ -101,7 +101,7 @@ export function Navbar() {
               </span>
               <span className="mono-label truncate text-[0.625rem]">{profile.brand}</span>
             </span>
-            <span className="sr-only">— back to top</span>
+            <span className="sr-only">(back to top)</span>
           </a>
 
           <nav aria-label="Sections" className="ml-auto hidden lg:block">
